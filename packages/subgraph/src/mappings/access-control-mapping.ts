@@ -1,6 +1,6 @@
 import { Bytes } from "@graphprotocol/graph-ts";
 
-import { RoleGranted } from "../generated/HashtagAccessControls/HashtagAccessControls";
+import { RoleGranted } from "../generated/ETSAccessControls/ETSAccessControls";
 import { safeLoadPublisher } from "../utils/helpers";
 
 // const ADMIN_ROLE = Bytes.fromHexString("0x0000000000000000000000000000000000000000000000000000000000000000");

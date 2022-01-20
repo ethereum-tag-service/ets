@@ -1,4 +1,4 @@
-type Hashtag @entity {
+type Tag @entity {
   id: ID!
   name: String!
   displayHashtag: String!
@@ -17,7 +17,7 @@ type Hashtag @entity {
   creatorRevenue: BigInt!
 }
 
-type Tag @entity {
+type Tagging_Record @entity {
   id: ID!
   hashtagId: String!
   nftContract: Bytes!
