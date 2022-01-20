@@ -86,7 +86,7 @@ class Deployer {
     const emptyConfig = {
       address: "0x0000000000000000000000000000000000000000",
       legacyAddresses: [],
-      deploymentBlock: "0x0",
+      deploymentBlock: "",
     };
 
     const contracts = {};
@@ -95,7 +95,7 @@ class Deployer {
         ...emptyConfig,
         address: value.address,
         implementation: value.implementation,
-        deploymentBlock: value.transaction && ethers.BigNumber.from(value.transaction.blockNumber).toHexString(),
+        deploymentBlock: value.transaction.blockNumber,
       };
     }
 

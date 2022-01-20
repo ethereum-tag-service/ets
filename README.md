@@ -83,7 +83,7 @@ The UI package (`/packages/ui`) is a stub React component library shared by the 
 
 ### Subgraph
 
-To develop using a local subgraph, you'll need to have [Docker](https://www.docker.com/products/docker-desktop) installed. Be sure you have already run `yarn hardhart` and `yarn hardhat:deploy` so your contracts are deployed to the local Hardhat network before running the following commands.
+To develop using a local subgraph, you'll need to have [Docker](https://www.docker.com/products/docker-desktop) installed. Be sure you have already run `yarn hardhat` and `yarn hardhat:deploy` so your contracts are deployed to the local Hardhat network before running the following commands.
 
 First, open up a new terminal and spin up a local Docker graph node container. It will automatically clean up any old data:
 
@@ -91,7 +91,13 @@ First, open up a new terminal and spin up a local Docker graph node container. I
 yarn docker:start
 ```
 
-In another terminal, create your local subgraph (only required to run once):
+In another terminal, generate your local subgraph.yaml (uses a script to parse hardhat config into a template):
+
+```bash
+yarn graph:prepare-local
+```
+
+Next, create your local subgraph (only required to run once):
 
 ```bash
 yarn graph:create-local

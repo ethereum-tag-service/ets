@@ -8,7 +8,7 @@ dataSources:
     source:
       address: "{{contracts.ETSTag.address}}"
       abi: ETSTag
-      startBlock: {{contracts.ETSTag.transaction.blockNumber}}
+      startBlock: {{contracts.ETSTag.deploymentBlock}}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -28,7 +28,7 @@ dataSources:
     source:
       address: "{{contracts.ETS.address}}"
       abi: ETS
-      startBlock: {{contracts.ETS.transaction.blockNumber}}
+      startBlock: {{contracts.ETS.deploymentBlock}}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -50,7 +50,7 @@ dataSources:
     source:
       address: "{{contracts.ETSAccessControls.address}}"
       abi: ETSAccessControls
-      startBlock: {{contracts.ETSAccessControls.transaction.blockNumber}}
+      startBlock: {{contracts.ETSAccessControls.deploymentBlock}}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5

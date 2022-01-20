@@ -36,6 +36,8 @@
     "docker:start": "yarn workspace @ets/subgraph run-graph-node",
     "docker:remove": "yarn workspace @ets/subgraph remove-graph-node",
     "docker:clean": "yarn workspace @ets/subgraph clean-graph-node",
+    "graph:prepare-local": "yarn workspace @ets/subgraph prepare-local",
+    "graph:prepare-mumbai": "yarn workspace @ets/subgraph prepare-mumbai",
     "graph:create-local": "yarn workspace @ets/subgraph create-local",
     "graph:remove-local": "yarn workspace @ets/subgraph remove-local",
     "graph:ship-local": "yarn workspace @ets/subgraph ship-local",

@@ -6,8 +6,8 @@
     "prerun-graph-node": "yarn clean-graph-node",
     "run-graph-node": "cd graph-node && docker-compose up",
     "remove-graph-node": "cd graph-node && docker-compose down",
-    "prepare-local": "mustache ../hardhat/.deployments/31337.json ../subgraph/templates/subgraph.yaml > ../subgraph/subgraph.yaml",
-    "prepare-mumbai": "mustache ../hardhat/.deployments/80001.json ../subgraph/templates/subgraph.yaml > ../subgraph/subgraph.yaml",
+    "prepare-local": "node scripts/generate-yaml.js --deployment localhost",
+    "prepare-mumbai": "node scripts/generate-yaml.js --deployment mumbai",
     "codegen": "graph codegen --output-dir src/generated",
     "graph-build": "graph build",
     "create-local": "graph create --node http://localhost:8020/ ets/ets-local",
@@ -22,6 +22,7 @@
     "@graphprotocol/graph-ts": "^0.22.1"
   },
   "devDependencies": {
-    "mustache": "^3.1.0"
+    "fs-extra": "^10.0.0",
+    "handlebars": "^4.7.7"
   }
 }
