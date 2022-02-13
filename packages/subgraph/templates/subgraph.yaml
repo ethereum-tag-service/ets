@@ -42,8 +42,8 @@ dataSources:
           file: ./abi/ETSTag.json
       eventHandlers:
         - event: TargetTagged(uint256)
-          handler: handleHashtagRegistered
-      file: ./src/mappings/ets.ts
+          handler: handleTagRegistered
+      file: ./src/mappings/tagging-record-registry.ts
   - kind: ethereum/contract
     name: ETSAccessControls
     network: {{network}}

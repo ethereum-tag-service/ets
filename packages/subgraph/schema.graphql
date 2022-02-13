@@ -1,9 +1,9 @@
 type Tag @entity {
   id: ID!
   name: String!
-  displayHashtag: String!
-  hashtag: String!
-  hashtagWithoutHash: String!
+  displayTag: String!
+  tag: String!
+  tagWithoutHash: String!
   owner: Bytes!
   creator: Bytes!
   publisher: Bytes!
@@ -19,16 +19,16 @@ type Tag @entity {
 
 type Tagging_Record @entity {
   id: ID!
-  hashtagId: String!
+  tagId: String!
   nftContract: Bytes!
   nftId: String!
   nftChainId: BigInt!
   tagger: Bytes!
   timestamp: BigInt!
   publisher: Bytes!
-  hashtagDisplayHashtag: String!
-  hashtag: String!
-  hashtagWithoutHash: String!
+  displayTag: String!
+  tag: String!
+  tagWithoutHash: String!
   nftContractName: String
   nftTokenUri: String
   nftName: String
