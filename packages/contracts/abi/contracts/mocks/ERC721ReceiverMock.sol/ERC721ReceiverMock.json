@@ -1,0 +1,5 @@
+[
+  "constructor(bytes4,uint8)",
+  "event Received(address,address,uint256,bytes,uint256)",
+  "function onERC721Received(address,address,uint256,bytes) returns (bytes4)"
+]

@@ -1,0 +1,11 @@
+[
+  "constructor(address)",
+  "event CancelOracleRequest(bytes32 indexed)",
+  "event OracleRequest(bytes32 indexed,address,bytes32,uint256,address,bytes4,uint256,uint256,bytes)",
+  "function EXPIRY_TIME() view returns (uint256)",
+  "function cancelOracleRequest(bytes32,uint256,bytes4,uint256)",
+  "function fulfillOracleRequest(bytes32,bytes32) returns (bool)",
+  "function getChainlinkToken() view returns (address)",
+  "function onTokenTransfer(address,uint256,bytes)",
+  "function oracleRequest(address,uint256,bytes32,address,bytes4,uint256,uint256,bytes)"
+]

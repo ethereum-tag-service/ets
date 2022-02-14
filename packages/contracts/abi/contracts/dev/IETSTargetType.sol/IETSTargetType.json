@@ -1,0 +1,6 @@
+[
+  "event TargetTypePaused(string,bool)",
+  "function pauseTargetType()",
+  "function targetTypePaused() view returns (bool)",
+  "function validateTargetURI(string) view returns (bool)"
+]

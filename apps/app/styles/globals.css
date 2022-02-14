@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  #__next {
+      @apply flex flex-col min-h-screen;
+  }
+
+  html,
+  body {
+      @apply h-full;
+  }
+
+  body {
+    @apply flex flex-col min-h-screen antialiased bg-white;
+  }
+}
+
+@layer components {
+  .text-outlined {
+    -webkit-text-stroke: 1px #0f172a;
+    color: white;
+  }
+}

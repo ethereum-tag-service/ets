@@ -1,0 +1,3 @@
+{
+  "extends": "@ets/tsconfig/defender.json"
+}

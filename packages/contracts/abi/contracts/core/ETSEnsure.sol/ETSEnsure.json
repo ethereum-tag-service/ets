@@ -1,0 +1,16 @@
+[
+  "event AdminChanged(address,address)",
+  "event BeaconUpgraded(address indexed)",
+  "event RequestEnsureTarget(uint256)",
+  "event Upgraded(address indexed)",
+  "function NAME() view returns (string)",
+  "function VERSION() view returns (string)",
+  "function accessControls() view returns (address)",
+  "function ets() view returns (address)",
+  "function fulfillEnsureTarget(uint256,string,uint256)",
+  "function initialize(address,address)",
+  "function platform() view returns (address)",
+  "function requestEnsureTarget(uint256)",
+  "function upgradeTo(address)",
+  "function upgradeToAndCall(address,bytes) payable"
+]

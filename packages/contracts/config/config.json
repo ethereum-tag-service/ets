@@ -1,0 +1,74 @@
+{
+  "1": {
+    "contracts": {}
+  },
+  "4": {
+    "name": "rinkeby",
+    "contracts": {}
+  },
+  "137": {
+    "name": "polygon",
+    "contracts": {}
+  },
+  "31337": {
+    "name": "localhost",
+    "contracts": {
+      "ETSAccessControls": {
+        "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+        "implementation": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+        "deploymentBlock": 9,
+        "upgradeBlock": null
+      },
+      "ETSTag": {
+        "address": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+        "implementation": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+        "deploymentBlock": 12,
+        "upgradeBlock": null
+      },
+      "ETS": {
+        "address": "0x0165878A594ca255338adfa4d48449f69242Eb8F",
+        "implementation": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+        "deploymentBlock": 13,
+        "upgradeBlock": null
+      },
+      "ETSEnsure": {
+        "address": "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
+        "implementation": "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
+        "deploymentBlock": "0xa",
+        "upgradeBlock": null
+      }
+    }
+  },
+  "80001": {
+    "name": "mumbai",
+    "contracts": {
+      "ETSAccessControls": {
+        "address": "0x3b730100763b729a979Ec318ff68a1a533C143AA",
+        "implementation": "0x5AaA1Ab9F2616E280407dD36beAdF19A3D02B697",
+        "deploymentBlock": "0x17805a7",
+        "upgradeBlock": null
+      },
+      "ETSTag": {
+        "address": "0x8A4416d512b8e49458bB19acD458d0c8323e4DE3",
+        "implementation": "0xa24BE44db1fbcabf52f6f7d397aE70123805D4F9",
+        "deploymentBlock": "0x17805ac",
+        "upgradeBlock": null
+      },
+      "ETS": {
+        "address": "0x9eF10ACe338F8A9241b2C41D58aF1F6b8A0dc40C",
+        "implementation": "0x70cD4eDB009F430BF77F11386cDD70eE66e7489C",
+        "deploymentBlock": "0x17805b5",
+        "upgradeBlock": "0x17a7165"
+      },
+      "ETSEnsure": {
+        "address": "0x7C7E69f0e3d02072f7970e209424111A7De45fbD",
+        "implementation": "0x3dAF07a80C4BFa1A566d77847B87D84EBa629DD8",
+        "deploymentBlock": "0x179f9b3",
+        "upgradeBlock": null
+      }
+    }
+  },
+  "default": {
+    "name": "hardhat"
+  }
+}

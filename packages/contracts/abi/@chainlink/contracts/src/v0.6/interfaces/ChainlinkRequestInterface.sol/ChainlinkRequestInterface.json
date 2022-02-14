@@ -1,0 +1,4 @@
+[
+  "function cancelOracleRequest(bytes32,uint256,bytes4,uint256)",
+  "function oracleRequest(address,uint256,bytes32,address,bytes4,uint256,uint256,bytes)"
+]

@@ -1,0 +1,12 @@
+[
+  "function approve(address,uint256) returns (bool)",
+  "function totalSupply() view returns (uint256)",
+  "function transferFrom(address,address,uint256) returns (bool)",
+  "function transferAndCall(address,uint256,bytes) returns (bool)",
+  "function balanceOf(address) view returns (uint256)",
+  "function transfer(address,uint256) returns (bool)",
+  "function allowance(address,address) view returns (uint256)",
+  "event Transfer(address indexed,address indexed,uint256,bytes)",
+  "event Approval(address indexed,address indexed,uint256)",
+  "event Transfer(address indexed,address indexed,uint256)"
+]

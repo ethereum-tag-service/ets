@@ -1,0 +1,18 @@
+{
+  "connect-wallet": "Conectar Cartera",
+  "creator": "Creator",
+  "matic-earned": "MATIC earned",
+  "newest-tags": "Newest tags",
+  "popular-tags": "Popular tags",
+  "publisher": "Publisher",
+  "recently-tagged": "Recently tagged",
+  "tagged-count": "{{count, number}} tagged",
+  "tag-count": {
+    "0": "{{count, number}} tags",
+    "one": "{{count, number}} tag",
+    "other": "{{count, number}} tags"
+  },
+  "top-creators": "Top creators",
+  "top-publishers": "Top publishers",
+  "top-taggers": "Top taggers"
+}

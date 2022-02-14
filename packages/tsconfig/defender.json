@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Defender",
+  "extends": "./base.json",
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true,
+    "target": "es2017",
+    "allowJs": true,
+    "outDir": "dist",
+    "module": "es6",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "esModuleInterop": true
+  }
+}
