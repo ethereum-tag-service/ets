@@ -33,11 +33,10 @@ node_modules
 packages/**/data
 
 # Hardhat files
-packages/hardhat/*.txt
-packages/hardhat/cache*
-packages/hardhat/artifacts*
-# packages/hardhat/.deployments/*
-packages/hardhat/.openzeppelin/*
+packages/contracts/*.txt
+packages/contracts/cache*
+packages/contracts/artifacts*
+packages/contracts/.openzeppelin/*
 
 # subgraph
 packages/subgraph/subgraph.yaml

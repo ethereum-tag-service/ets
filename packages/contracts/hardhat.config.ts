@@ -1,6 +1,6 @@
 import 'hardhat-deploy';
 import 'hardhat-ethernal';
-import '@typechain/hardhat';
+// import '@typechain/hardhat';
 import 'hardhat-abi-exporter';
 import '@nomiclabs/hardhat-web3';
 import '@nomiclabs/hardhat-ethers';
@@ -81,9 +81,9 @@ const config: HardhatUserConfig = {
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY,
   },
-  typechain: {
-    outDir: '../app/types',
-  },
+  // typechain: {
+  //   outDir: '../app/types',
+  // },
   solidity: {
     compilers: [
       {

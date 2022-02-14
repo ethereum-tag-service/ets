@@ -7,7 +7,7 @@ This repository uses Turborepo and [Yarn](https://classic.yarnpkg.com/lang/en/) 
 - Website: [ets.xyz](https://ets.xyz)
 - App: [app.ets.xyz](https://app.ets.xyz)
 - Docs: [ets.xyz/docs](https://ets.xyz/docs)
-- Twitter: [@etsproject](https://twitter.com/etsproject)
+- Twitter: [@etsxyz](https://twitter.com/etsxyz)
 - Discord: ETS (soon)
 
 ## Contracts
