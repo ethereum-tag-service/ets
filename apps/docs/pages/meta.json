@@ -1,0 +1,20 @@
+{
+  "index": {
+    "title": "Introduction",
+    "type": "nav",
+    "hidden": true
+  },
+  "docs": {
+    "title": "Docs",
+    "type": "nav"
+  },
+  "faqs": {
+    "title": "FAQs",
+    "type": "nav"
+  },
+  "token": {
+    "title": "Token",
+    "type": "nav"
+  }
+
+}
