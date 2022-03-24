@@ -1,28 +1,19 @@
 import type { NextPage } from 'next';
-import { RecentlyTagged } from '../components/RecentlyTagged';
-import { NewestTags } from '../components/NewestTags';
-import { TopCreators } from '../components/TopCreators';
-import { TopPublishers } from '../components/TopPublishers';
-import { TopTaggers } from '../components/TopTaggers';
-import { PopularTags } from '../components/PopularTags';
-// import Image from 'next/image';
-
-// import Greeter from '../src/artifacts/contracts/Greeter.sol/Greeter.json';
-// use it like this:
-// const contract = new ethers.Contract(process.env.NEXT_PUBLIC_GREETER_ADDRESS, Greeter.abi, provider)
-
-// import { Button } from "@ets/ui"; // example of how to pull in UI
+import Head from 'next/head';
 
 const Home: NextPage = () => {
   return (
-    <div className="max-w-6xl gap-12 mx-auto mt-12 space-y-8 md:space-y-0 md:grid sm:w-full md:grid-cols-2">
-      <RecentlyTagged />
-      <NewestTags />
-      <TopCreators />
-      <TopPublishers />
-      <TopTaggers />
-      <PopularTags />
-    </div>
+    <>
+      <Head>
+        <title>Ethereum Tag Service</title>
+      </Head>
+
+      <div className="flex items-center justify-center h-screen">
+        <svg className="w-32 h-32" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+          <path className="text-slate-900" fill="currentColor" d="M0 50 50 0H0v50zm100 50V50l-50 50h50zM50 0l50 50V0H50zM19.9 84.9c0 2.8-2.2 5-5 5s-5-2.2-5-5 2.2-5 5-5 5 2.3 5 5z"/>
+        </svg>
+      </div>
+    </>
   );
 }
 
