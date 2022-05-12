@@ -196,7 +196,6 @@ importers:
       hardhat-abi-exporter: ^2.4.0
       hardhat-deploy: ^0.9.28
       hardhat-ethernal: 0.7.1
-      lodash: ^4.17.15
       lodash.merge: ^4.6.2
       node-watch: ^0.7.2
       prettier: ^2.5.1
@@ -235,7 +234,6 @@ importers:
       hardhat-abi-exporter: 2.8.0_hardhat@2.9.3
       hardhat-deploy: 0.9.29_hardhat@2.9.3
       hardhat-ethernal: 0.7.1_606eb5f86b96aea71a343e80b1b02646
-      lodash: 4.17.21
       lodash.merge: 4.6.2
       node-watch: 0.7.3
       prettier: 2.6.0

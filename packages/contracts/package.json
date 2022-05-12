@@ -36,7 +36,6 @@
     "hardhat-abi-exporter": "^2.4.0",
     "hardhat-deploy": "^0.9.28",
     "hardhat-ethernal": "0.7.1",
-    "lodash": "^4.17.15",
     "lodash.merge": "^4.6.2",
     "node-watch": "^0.7.2",
     "prettier": "^2.5.1",
@@ -52,8 +51,5 @@
     "@openzeppelin/contracts": "^4.4.1",
     "@openzeppelin/contracts-upgradeable": "^4.4.1",
     "@primitivefi/hardhat-dodoc": "^0.2.3"
-  },
-  "peerDependencies": {
-    "lodash": "^4.17.15"
   }
 }
