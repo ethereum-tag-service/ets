@@ -20,6 +20,12 @@ const withNextra = require('nextra')({
         permanent: false,
         basePath: false
       },
+      {
+        source: '/',
+        destination: 'https://etsxyz.substack.com/',
+        permanent: false,
+        basePath: false
+      },
     ]
   },
 };
