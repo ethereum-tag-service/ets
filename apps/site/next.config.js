@@ -15,8 +15,8 @@ const withNextra = require('nextra')({
   async redirects() {
     return [
       {
-        source: '/explorer',
-        destination: 'https://stage.app.ets.xyz/',
+        source: '/',
+        destination: 'https://etsxyz.substack.com/',
         permanent: false,
         basePath: false
       },
