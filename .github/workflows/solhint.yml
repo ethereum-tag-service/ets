@@ -1,13 +1,29 @@
-name: Solhint Runner
+name: Run Solhint on Contracts
 
 on:
   workflow_dispatch:
+  push:
   pull_request:
-    paths:
-      - 'packages/contracts-core/**'
 
 jobs:
+  # JOB to run change detection
+  changes:
+    runs-on: ubuntu-latest
+    # Set job outputs to values from filter step
+    outputs:
+      contracts: ${{ steps.filter.outputs.contracts }}
+    steps:
+    # For pull requests it's not necessary to checkout the code
+    - uses: actions/checkout@v2
+    - uses: dorny/paths-filter@v2
+      id: filter
+      with:
+        filters: |
+          contracts:
+            - 'packages/contracts-core/contracts/**'
   cache-and-install:
+    needs: changes
+    if: ${{ needs.changes.outputs.contracts == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
