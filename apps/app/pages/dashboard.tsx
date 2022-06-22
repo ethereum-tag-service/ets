@@ -6,13 +6,6 @@ import { TopPublishers } from '../components/TopPublishers';
 import { TopTaggers } from '../components/TopTaggers';
 import { PopularTags } from '../components/PopularTags';
 import { Stats } from '../components/Stats';
-// import Image from 'next/image';
-
-// import Greeter from '../src/artifacts/contracts/Greeter.sol/Greeter.json';
-// use it like this:
-// const contract = new ethers.Contract(process.env.NEXT_PUBLIC_GREETER_ADDRESS, Greeter.abi, provider)
-
-// import { Button } from "@ets/ui"; // example of how to pull in UI
 
 const Home: NextPage = () => {
   return (
