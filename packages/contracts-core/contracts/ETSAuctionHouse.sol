@@ -129,7 +129,13 @@ contract ETSAuctionHouse is IETSAuctionHouse, PausableUpgradeable, ReentrancyGua
         _unpause();
     }
 
-    function setReservePrice(uint256 _reservePrice) public onlyAdmin {
+    function setReservePrice(uint256 _reservePrice)
+    
+     public 
+     
+     onlyAdmin 
+     
+     {
         reservePrice = _reservePrice;
         emit AuctionReservePriceSet(_reservePrice);
     }
