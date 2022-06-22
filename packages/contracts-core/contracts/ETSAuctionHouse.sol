@@ -138,8 +138,6 @@ contract ETSAuctionHouse is IETSAuctionHouse, PausableUpgradeable, ReentrancyGua
     
     public 
     
-
-    
     
     onlyAdmin 
     
