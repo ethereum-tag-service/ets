@@ -1,6 +1,6 @@
 # JavaScript client quickstart
 
-This guide walks through adding a [Publisher](./key-concepts.md#publisher) to ETS (required), creating a [CTAG](./key-concepts.md#tag-ctag), creating & modifying a [Tagging Record](./key-concepts.md#tagging-record) with set of custom [Hardhat Tasks](https://hardhat.org/) that use [Ethers.js](https://docs.ethers.io/v5/) to interact with the protocol.
+This guide walks through gettng a [Publisher](./key-concepts.md#publisher) ID, creating [CTAGs](./key-concepts.md#tag-ctag), creating & modifying [Tagging Records](./key-concepts.md#tagging-record) using a set of custom [Hardhat Tasks](https://hardhat.org/) for interacting with the protocol.
 
 If you are interested in contract-to-contract interaction, please see the [Contract-to-contract quickstart](./docs/contract-to-contract-quickstart.md).
 
