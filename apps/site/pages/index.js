@@ -2,6 +2,31 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 
+/**
+ * @description Generates HTML content that introduces Ethereum Tag Service, including
+ * an SVG icon, heading, and subheadings. It also provides a brief explanation of
+ * ETS's unique approach to tagging.
+ * 
+ * @returns { HTML element of type `div } a React component that displays information
+ * about the Ethereum Tag Service.
+ * 
+ * 	* The `<div>` element with the className "flex items-center justify-center h-screen
+ * px-6" creates a container for the rest of the content on the page.
+ * 	* The `<Head>` element is used to set metadata for the webpage, including the
+ * title, meta name="description", and favicon link.
+ * 	* The `<main>` element contains the majority of the content on the page, including
+ * a header with a h1 tag, a paragraph of text explaining Ethereum Tag Service, and
+ * three buttons with links to different resources.
+ * 	* The `Head` and `main` elements are both contained within the same `<div>`
+ * element, indicating that they are part of the main content area of the page.
+ * 	* The CSS classes used in the markup (e.g. "flex", "items-center", "justify-center",
+ * "h-screen", "px-6") provide layout and styling for the page elements.
+ * 
+ * 	In terms of the output, it is a React component function that returns an HTML
+ * structure composed of various elements, including headers, paragraphs, buttons,
+ * and links. The returned output has a container div with a set of CSS classes applied
+ * to it, which define its layout and styling.
+ */
 export default function Home() {
   return (
     <div className="flex items-center justify-center h-screen px-6">
@@ -44,6 +69,11 @@ export default function Home() {
         <p>All tagging records create a public tag graph that can be queried by any client in any dimension defined by the core ETS tagging record schema.</p>
 
         <div className="flex justify-center space-x-4 pt-5 pb-20">
+          <a href="https://youtu.be/M7s5fth13uA" target="_blank" rel="noreferrer">
+            <button className="bg-transparent text-sm hover:bg-pink-500 text-pink-700 hover:text-white py-2 px-4 border border-pink-500 hover:border-transparent rounded">
+              Quick Intro
+            </button>
+          </a>
           <a href="https://app.ets.xyz" target="_blank" rel="noreferrer">
             <button className="bg-transparent text-sm hover:bg-pink-500 text-pink-700 hover:text-white py-2 px-4 border border-pink-500 hover:border-transparent rounded">
               Explorer
@@ -54,9 +84,9 @@ export default function Home() {
               Github
             </button>
           </a>
-          <a href="https://discord.gg/dDWenbVEEQ" target='_blank' rel="noreferrer">
+          <a href="https://blog.ets.xyz" target='_blank' rel="noreferrer">
             <button className="bg-transparent text-sm hover:bg-pink-500 text-pink-700 hover:text-white py-2 px-4 border border-pink-500 hover:border-transparent rounded">
-              Discord
+              Blog
             </button>
           </a>
         </div>
