@@ -1,28 +1,35 @@
-import { useState, useMemo } from "react";
+import { useMemo, useState } from "react";
 import type { NextPage } from "next";
-import Head from "next/head";
-import { useRouter } from "next/router";
 import useTranslation from "next-translate/useTranslation";
-import { globalSettings } from "@app/config/globalSettings";
 import { timestampToString } from "@app/utils";
 import { toEth } from "@app/utils";
 import useNumberFormatter from "@app/hooks/useNumberFormatter";
 import { useCreators } from "@app/hooks/useCreators";
 import Layout from "@app/layouts/default";
-import { Table } from "@app/components/Table";
-import { Button } from "@app/components/Button";
 import { Truncate } from "@app/components/Truncate";
+import { TanstackTable } from "@app/components/TanstackTable";
+import Link from "next/link";
+import { createColumnHelper } from "@tanstack/react-table";
+import { CopyAndPaste } from "@app/components/CopyAndPaste";
 
 const pageSize = 20;
 
+/**
+ * @description Creates a React component for displaying data from a Tanstack table,
+ * using the `useTranslation`, `useNumberFormatter`, and `useCreators` hooks to fetch
+ * data from an API. The component sets up a Layout, creates columns with accessor
+ * functions, and renders the table with pagination functionality.
+ * 
+ * @returns { Component } a Tanstack Table component displaying creators' information
+ * with custom columns and data fetched from an API.
+ */
 const Creators: NextPage = () => {
-  const [skip, setSkip] = useState(0);
-  const { query } = useRouter();
   const { t } = useTranslation("common");
+  const [pageIndex, setPageIndex] = useState(0);
   const { number } = useNumberFormatter();
-  const { creators, nextCreators, mutate } = useCreators({
+  const { creators, nextCreators } = useCreators({
     pageSize,
-    skip,
+    skip: pageIndex * pageSize,
     config: {
       revalidateOnFocus: false,
       revalidateOnMount: true,
@@ -33,98 +40,101 @@ const Creators: NextPage = () => {
     },
   });
 
-  const pageSizeSet = pageSize === undefined ? globalSettings["DEFAULT_PAGESIZE"] : pageSize;
+  const columnHelper = createColumnHelper();
 
-  const nextPage = () => {
-    setSkip(skip + pageSizeSet);
-    mutate();
-  };
-
-  const prevPage = () => {
-    setSkip(skip - pageSizeSet);
-    mutate();
-  };
-
-  const showPrevNext = () => {
-    return (nextCreators && nextCreators.length > 0) || (skip && skip !== 0) ? true : false;
-  };
-
-  const columns = useMemo(() => [t("creator"), t("first-seen"), t("tags-created"), t("revenue")], [t]);
-
-  const pageTitle = `Tag ${t("creators")}`;
-  const browserTitle = `${pageTitle} | ETS`;
+  const columns = useMemo<any[]>(
+    () => [
+      columnHelper.accessor("id", {
+        header: t("creator"),
+        /**
+         * @description Returns an HTML component that displays the creator's name and provides
+         * links for viewing the creator's profile and copying the creator's value.
+         * 
+         * @param { object } info - data from a database row, which is then used to generate
+         * high-quality documentation for the code.
+         * 
+         * @returns { HTML content` or an interactive element when evaluated as an expression,
+         * according to the given code snippet provided in the problem statement } a HTML
+         * component containing a link and a copy-and-paste button for the given value.
+         * 
+         * 	* `creator`: The creator object that represents the person whose profile is being
+         * displayed.
+         * 	* `href`: A hyperlink to the creator's profile page.
+         * 	* `className`: The class name of the hyperlink element.
+         * 	* `value`: The value of the cell, which in this case is a string representing the
+         * creator's full name.
+         */
+        cell: (info) => {
+          const creator = info.row.original as any;
+          return (
+            <>
+              <Link href={`/creators/${creator.id}`} className="link link-primary">
+                {Truncate(info.getValue())}
+              </Link>
+              <CopyAndPaste value={info.getValue()} />
+            </>
+          );
+        },
+      }),
+      columnHelper.accessor("firstSeen", {
+        header: t("first-seen"),
+        cell: (info) => timestampToString(parseInt(info.getValue())),
+      }),
+      columnHelper.accessor("tagsCreated", {
+        header: t("tags-created"),
+        cell: (info) => number(parseInt(info.getValue())),
+      }),
+      columnHelper.accessor("revenue", {
+        header: t("revenue"),
+        cell: (info) => `${toEth(info.getValue(), 4)} MATIC`,
+      }),
+    ],
+    [t, number],
+  );
 
   return (
     <Layout>
-      <div className="col-span-12">
-        <Table loading={!creators} rows={pageSize}>
-          <Table.Head>
-            <Table.Tr>{columns && columns.map((column) => <Table.Th key={column}>{column}</Table.Th>)}</Table.Tr>
-          </Table.Head>
-          <Table.Body>
-            {creators &&
-              creators.map((creator: any) => (
-                <Table.Tr key={creator.id}>
-                  <Table.Cell value={Truncate(creator.id)} url={`/creators/${creator.id}`} copyAndPaste />
-                  <Table.Cell value={creators && timestampToString(parseInt(creators[0].firstSeen))} />
-                  <Table.Cell value={number(parseInt(creator.tagsCreated))} />
-                  <Table.Cell
-                    value={`${toEth(
-                      creator.createdTagsAuctionRevenue + creator.createdTagsTaggingFeeRevenue,
-                      4,
-                    )} MATIC`}
-                  />
-                </Table.Tr>
-              ))}
-          </Table.Body>
-          {showPrevNext() && (
-            <Table.Footer>
-              <tr>
-                <td className="flex justify-between">
-                  <Button disabled={skip === 0} onClick={() => prevPage()}>
-                    <svg className="relative inline-flex w-6 h-6 mr-2 -ml-1" fill="none" viewBox="0 0 24 24">
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M10.25 6.75L4.75 12L10.25 17.25"
-                      ></path>
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19.25 12H5"
-                      ></path>
-                    </svg>
-                    {t("prev")}
-                  </Button>
-                  <Button disabled={nextCreators && nextCreators.length === 0} onClick={() => nextPage()}>
-                    {t("next")}
-                    <svg className="relative inline-flex w-6 h-6 ml-2 -mr-1" fill="none" viewBox="0 0 24 24">
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M13.75 6.75L19.25 12L13.75 17.25"
-                      ></path>
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19 12H4.75"
-                      ></path>
-                    </svg>
-                  </Button>
-                </td>
-              </tr>
-            </Table.Footer>
-          )}
-        </Table>
-      </div>
+      {/**
+       * @description Provides a table with information about creators, including their
+       * names and numbers of works.
+       * 
+       * @param { array } columns - column data for display in the table, and its value is
+       * used to determine the columns displayed in the table.
+       * 
+       * @param { object } data - creators array that is displayed on the table.
+       * 
+       * @param { boolean } loading - whether the creators array is fully populated or not.
+       * 
+       * @param { number } rowsPerPage - number of creators to display on each page.
+       * 
+       * @param { boolean } hasNextPage - presence or absence of additional creators beyond
+       * those currently displayed, indicating whether there are more creators to be loaded
+       * from the API when the user navigates forward.
+       * 
+       * @param { integer } pageIndex - 0-based index of the current page being displayed,
+       * allowing the component to display only the relevant rows of data.
+       * 
+       * @param { number } setPageIndex - current page index that can be updated to change
+       * the display of creators in the table.
+       * 
+       * @param { function reference. } rowLink - hyperlink to the creator profile when
+       * clicked, which is passed as a function `(creator: any) => `/creators/${creator.id}`
+       * 
+       * 	* `(creator: any)`: This is the value of the current row's creator object, which
+       * contains information about the creator of a particular item.
+       * 	* `/creators/${creator.id}`: This is the URL that can be used to navigate to the
+       * details page for the creator with the specified `id`.
+       */}
+      <TanstackTable
+        columns={columns}
+        data={creators}
+        loading={!creators?.length}
+        rowsPerPage={pageSize}
+        hasNextPage={!!nextCreators?.length}
+        pageIndex={pageIndex}
+        setPageIndex={setPageIndex}
+        rowLink={(creator: any) => `/creators/${creator.id}`}
+      />
     </Layout>
   );
 };

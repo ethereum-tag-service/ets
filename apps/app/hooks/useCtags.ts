@@ -6,6 +6,29 @@ type FetchTagsResponse = {
   tags: TagType[];
 };
 
+/**
+ * @description Provides data and next tags data based on filters applied to the
+ * database and performs pagination based on skip and pageSize parameters.
+ * 
+ * @param { number } .pageSize - number of tags to return per page in the API response.
+ * 
+ * @param { number } .skip - number of tags to skip from the start when retrieving
+ * tags, allowing users to control the position of the retrieved data.
+ * 
+ * @param { string } .orderBy - name of a field to use as an ascending or descending
+ * sort key for the tags, which can be one of `timestamp`, `machineName`, `display`,
+ * or any custom value specified by the user.
+ * 
+ * @param { string } .orderDirection - direction of the sort order for the tags, with
+ * possible values being `asc` or `desc`.
+ * 
+ * @param { any } .filter - tag filtering options that can be applied to the tags query.
+ * 
+ * @param { SWRConfiguration } .config - SWRConfiguration object that customizes the
+ * configuration for the SWReact hook used to fetch the tags data.
+ * 
+ * @returns { object } an object containing `tags`, `nextTags`, `isLoading`, and `isError`.
+ */
 export function useCtags({
   pageSize = 20,
   skip = 0,
@@ -102,7 +125,7 @@ export function useCtags({
 
   return {
     tags: data?.tags,
-    nextTags: nextTagsData?.nextTags,
+    nextTags: nextTagsData?.tags,
     isLoading: (!error && !data?.tags) || (!nextTagsData && !error),
     isError: error?.statusText,
     mutate,

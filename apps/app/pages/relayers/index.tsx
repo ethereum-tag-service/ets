@@ -1,26 +1,34 @@
-import React, { useEffect, useState, useMemo } from "react";
-import type { NextPage } from "next";
 import useTranslation from "next-translate/useTranslation";
-import { globalSettings } from "@app/config/globalSettings";
-import useNumberFormatter from "@app/hooks/useNumberFormatter";
 import { useRelayers } from "@app/hooks/useRelayers";
 import { RelayerProvider } from "@app/context/RelayerContext";
 import Layout from "@app/layouts/default";
 import { TimeAgo } from "@app/components/TimeAgo";
-import { Table } from "@app/components/Table";
 import { Modal } from "@app/components/Modal";
 import { Truncate } from "@app/components/Truncate";
 import { ConnectButtonETS } from "@app/components/ConnectButtonETS";
-import { useAccount } from "wagmi"; // Import useAccount hook
+import { useAccount } from "wagmi";
 import TransactionFlowWrapper from "@app/components/transaction/TransactionFlowWrapper";
 import { TransactionType } from "@app/types/transaction";
 import { v4 as uuidv4 } from "uuid";
+import { useMemo, useState, useEffect } from "react";
+import { NextPage } from "next";
+import { createColumnHelper } from "@tanstack/react-table";
+import { TanstackTable } from "@app/components/TanstackTable";
+import Link from "next/link";
 
 const pageSize = 20;
 
+/**
+ * @description Creates a table component for displaying relayers data using
+ * `TanstackTable` component and provides functionality for creating new relayer using
+ * `TransactionFlowWrapper`.
+ * 
+ * @returns { array } a React component that renders a Tanstack table displaying
+ * relayer information.
+ */
 const Relayers: NextPage = () => {
-  const [skip, setSkip] = useState(0);
   const { t } = useTranslation("common");
+  const [pageIndex, setPageIndex] = useState(0);
   const { isConnected } = useAccount();
   const [transactionId, setTransactionId] = useState<string>("");
   const [isClient, setIsClient] = useState(false);
@@ -30,10 +38,9 @@ const Relayers: NextPage = () => {
     setTransactionId(uuidv4());
   }, []);
 
-  const { number } = useNumberFormatter();
-  const { relayers, nextRelayers, mutate } = useRelayers({
+  const { relayers, nextRelayers } = useRelayers({
     pageSize,
-    skip,
+    skip: pageIndex * pageSize,
     config: {
       revalidateOnFocus: false,
       revalidateOnMount: true,
@@ -44,24 +51,50 @@ const Relayers: NextPage = () => {
     },
   });
 
-  const pageSizeSet = pageSize === undefined ? globalSettings["DEFAULT_PAGESIZE"] : pageSize;
+  const columnHelper = createColumnHelper(); // Create Tanstack column helper
 
-  const nextPage = () => {
-    setSkip(skip + pageSizeSet);
-    mutate();
-  };
-
-  const prevPage = () => {
-    setSkip(skip - pageSizeSet);
-    mutate();
-  };
-
-  const showPrevNext = () => {
-    return (nextRelayers && nextRelayers.length > 0) || (skip && skip !== 0) ? true : false;
-  };
-
-  const columns = useMemo(
-    () => [t("name"), t("created"), t("owner"), t("tagging-records"), t("tags"), t("status")],
+  const columns = useMemo<any[]>(
+    () => [
+      columnHelper.accessor("name", {
+        header: t("name"),
+        /**
+         * @description Generates a link to the details page of a specified relayer in the data.
+         * 
+         * @param { object } info - row of data from the database, which contains the `id`
+         * and other attributes of the object to be linked.
+         * 
+         * @returns { Component } a clickable link displaying the value of the `id` column.
+         */
+        cell: (info) => {
+          const relayer = info.row.original as any;
+          return (
+            <Link href={`/relayers/${relayer.id}`} className="link link-primary">
+              {info.getValue()}
+            </Link>
+          );
+        },
+      }),
+      columnHelper.accessor("firstSeen", {
+        header: t("created"),
+        cell: (info) => <TimeAgo date={parseInt(info.getValue()) * 1000} />,
+      }),
+      columnHelper.accessor("owner", {
+        header: t("owner"),
+        cell: (info) => Truncate(info.getValue(), 14, "middle"),
+      }),
+      columnHelper.accessor("taggingRecordsPublished", {
+        header: t("tagging-records"),
+        cell: (info) => info.getValue(),
+      }),
+      columnHelper.accessor("tagsPublished", {
+        header: t("tags"),
+        cell: (info) => info.getValue(),
+      }),
+      columnHelper.accessor("pausedByOwner", {
+        header: t("status"),
+        cell: (info) => (info.getValue() ? t("disabled") : t("enabled")),
+      }),
+    ],
     [t],
   );
 
@@ -77,83 +110,15 @@ const Relayers: NextPage = () => {
             </Modal>
           )}
         </div>
-        <div className="col-span-12">
-          <Table loading={!relayers} rows={pageSize}>
-            <Table.Head>
-              <Table.Tr>{columns && columns.map((column) => <Table.Th key={column}>{column}</Table.Th>)}</Table.Tr>
-            </Table.Head>
-            <Table.Body>
-              {relayers &&
-                relayers.map((relayer: any) => (
-                  <Table.Tr key={relayer.id}>
-                    <Table.Cell value={relayer.name} url={`/relayers/${relayer.id}`} />
-                    <Table.CellWithChildren>
-                      <div className="overflow-hidden text-ellipsis whitespace-nowrap">
-                        <TimeAgo date={relayer.firstSeen * 1000} />
-                      </div>
-                    </Table.CellWithChildren>
-                    <Table.Cell value={Truncate(relayer.owner, 14, "middle")} />
-                    <Table.Cell value={number(parseInt(relayer.taggingRecordsPublished))} />
-                    <Table.Cell value={number(parseInt(relayer.tagsPublished))} />
-                    <Table.Cell
-                      value={
-                        (relayers && relayers[0].pausedByOwner) || (relayers && relayers[0].lockedByProtocol)
-                          ? t("disabled")
-                          : t("enabled")
-                      }
-                    />
-                  </Table.Tr>
-                ))}
-            </Table.Body>
-
-            {/* {showPrevNext() && (
-            <Table.Footer>
-              <tr>
-                <td className="flex justify-between">
-                  <Button disabled={skip === 0} onClick={() => prevPage()}>
-                    <svg className="relative inline-flex w-6 h-6 mr-2 -ml-1" fill="none" viewBox="0 0 24 24">
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M10.25 6.75L4.75 12L10.25 17.25"
-                      ></path>
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19.25 12H5"
-                      ></path>
-                    </svg>
-                    {t("prev")}
-                  </Button>
-                  <Button disabled={nextRelayers && nextRelayers.length === 0} onClick={() => nextPage()}>
-                    {t("next")}
-                    <svg className="relative inline-flex w-6 h-6 ml-2 -mr-1" fill="none" viewBox="0 0 24 24">
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M13.75 6.75L19.25 12L13.75 17.25"
-                      ></path>
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19 12H4.75"
-                      ></path>
-                    </svg>
-                  </Button>
-                </td>
-              </tr>
-            </Table.Footer>
-          )} */}
-          </Table>
-        </div>
+        <TanstackTable
+          columns={columns}
+          data={relayers}
+          loading={!relayers?.length}
+          rowsPerPage={pageSize}
+          hasNextPage={!!nextRelayers?.length}
+          pageIndex={pageIndex}
+          setPageIndex={setPageIndex}
+        />
       </RelayerProvider>
     </Layout>
   );

@@ -15,6 +15,17 @@ import { CopyAndPaste } from "@app/components/CopyAndPaste";
 import { Truncate } from "@app/components/Truncate";
 import { Panel } from "@app/components/Panel";
 
+/**
+ * @description * Renders a list of relayers, with each relay being represented by a
+ * card showing essential information.
+ * * Provides buttons to view the tagging records for each relayer or download all
+ * the records as a CSV file.
+ * * Includes filters to narrow down the list of relayers and the tagging records
+ * displayed based on their own criteria.
+ * 
+ * @returns { object } a layout component that displays information about a Relayer's
+ * performance, including tags applied and published, revenue, and ownership.
+ */
 const Relayer: NextPage = () => {
   const { query } = useRouter();
   const { relayer } = query;
@@ -38,11 +49,7 @@ const Relayer: NextPage = () => {
     },
   });
 
-  const {
-    tags = [],
-    nextTags,
-    mutate,
-  } = useCtags({
+  const { tags = [] } = useCtags({
     filter: { relayer_: { id: relayer } },
     config: {
       revalidateOnFocus: false,
@@ -152,19 +159,40 @@ const Relayer: NextPage = () => {
         />
       </div>
       <div className="col-span-12">
+        {/**
+         * @description Lists information regarding a particular tag, including the creator
+         * and owner ID truncated to 14 characters in the middle, the date it was created
+         * using TimeAgo library, and a link to view all records that have been tagged with
+         * this specific tag.
+         * 
+         * @param { string } title - tag of a relayer and is displayed as a header for the
+         * column containing that information in the grid.
+         * 
+         * @param { array } tags - list of tags associated with a specific record.
+         * 
+         * @param { boolean } rowLink - `false` value which disables row linking for the grid
+         * displayed on the right side of the row, meaning that clicking on a row will not
+         * take the user to a separate page containing further information about that row.
+         * 
+         * @param { object } columnsConfig - configuration of columns for the grid display,
+         * defining the titles, fields, and formatting for each column based on the provided
+         * data.
+         */}
         <Tags
-          listId="relayerTags"
           title={t("relayer-tags", {
             relayer: relayers && relayers[0].name,
           })}
           tags={tags}
           rowLink={false}
           columnsConfig={[
-            { title: "tag", field: "tag", formatter: (_, tag) => <Tag tag={tag} /> },
-            { title: "created", field: "timestamp", formatter: (value, tag) => <TimeAgo date={value * 1000} /> },
-            { title: t("creator"), field: "creator.id", formatter: (value) => Truncate(value, 14, "middle") },
-            { title: t("owner"), field: "owner.id", formatter: (value) => Truncate(value, 14, "middle") },
-
+            { title: "tag", field: "tag", formatter: (_: any, tag: any) => <Tag tag={tag} /> },
+            {
+              title: "created",
+              field: "timestamp",
+              formatter: (value: any) => <TimeAgo date={value * 1000} />,
+            },
+            { title: t("creator"), field: "creator.id", formatter: (value: any) => Truncate(value, 14, "middle") },
+            { title: t("owner"), field: "owner.id", formatter: (value: any) => Truncate(value, 14, "middle") },
             { title: "tagging records", field: "tagAppliedInTaggingRecord" },
           ]}
         />

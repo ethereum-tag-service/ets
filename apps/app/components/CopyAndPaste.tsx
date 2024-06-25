@@ -1,12 +1,34 @@
 import useTranslation from "next-translate/useTranslation";
 import useCopyToClipboard from "../hooks/useCopyToClipboard";
 
+/**
+ * @description Creates a button that, when clicked, triggers the `copy` action and
+ * displays either "Copied!" or "Click to copy" based on whether the value has been
+ * copied successfully or not.
+ * 
+ * @param { string } .value - 24-hour time format of the hour for display purposes,
+ * without affecting the functionality of the copy button.
+ * 
+ * @returns { HTMLButtonElement } a button with an icon indicating whether the value
+ * has been copied or not, along with a text label for the translation key "copy".
+ * 
+ * 	* `isCopied`: A boolean value that indicates whether the content has been
+ * successfully copied to the clipboard or not.
+ * 	* `copy`: The content that has been copied to the clipboard, which is a string
+ * in this case.
+ */
 const CopyAndPaste = ({ value }: { value: string }) => {
   const [isCopied, copy] = useCopyToClipboard();
   const { t } = useTranslation("common");
 
   return (
-    <button onClick={() => copy(value)} className="link link-primary">
+    <button
+      onClick={(event) => {
+        event.stopPropagation();
+        copy(value);
+      }}
+      className="link link-primary"
+    >
       {isCopied ? (
         <svg className="inline-flex w-5 h-5 text-green-600" fill="none" viewBox="0 0 24 24">
           <path

@@ -15,6 +15,12 @@ import { CopyAndPaste } from "@app/components/CopyAndPaste";
 import { Truncate } from "@app/components/Truncate";
 import { Panel } from "@app/components/Panel";
 
+/**
+ * @description Fetches owner tags from Matic using `useOwners` and `usCags`, displays
+ * the owner information, and renders a Tags component to display owner tags.
+ * 
+ * @returns { number } a layout with a grid container that displays various owner information.
+ */
 const Owner: NextPage = () => {
   const { query } = useRouter();
   const { owner } = query;
@@ -36,11 +42,7 @@ const Owner: NextPage = () => {
     },
   });
 
-  const {
-    tags = [],
-    nextTags,
-    mutate,
-  } = useCtags({
+  const { tags = [] } = useCtags({
     filter: { owner_: { id: owner } },
     config: {
       revalidateOnFocus: false,
@@ -113,14 +115,34 @@ const Owner: NextPage = () => {
           </div>
         </div>
         <div>
+          {/**
+           * @description Generates high-quality documentation for given code, using the provided
+           * tags to create an informative and organized documentation page.
+           * 
+           * @param { string } title - tag owner(s) and displays their name with an optional
+           * middle part when exceeding a fixed length, as indicated by the `middle` argument.
+           * 
+           * @param { array } tags - tag associated with the code snippet.
+           * 
+           * @param { boolean } rowLink - whether or not the row should have a link for navigating
+           * to a related record within the application, and it defaults to `false`.
+           * 
+           * @param { object } columnsConfig - 3 columns displayed for the list of owners,
+           * including one with the owner's ID truncated to 13 characters in the middle and
+           * accompanied by a tag icon, as well as two other columns showing the creation
+           * timestamp and a count of tagging records.
+           */}
           <Tags
-            listId="ownerTags"
             title={t("owner-tags") + " " + (owners && Truncate(owners[0].id, 13, "middle"))}
             tags={tags}
             rowLink={false}
             columnsConfig={[
-              { title: "tag", field: "tag", formatter: (_, tag) => <Tag tag={tag} /> },
-              { title: "created", field: "timestamp", formatter: (value, tag) => <TimeAgo date={value * 1000} /> },
+              { title: "tag", field: "tag", formatter: (_: any, tag: any) => <Tag tag={tag} /> },
+              {
+                title: "created",
+                field: "timestamp",
+                formatter: (value: any, _: any) => <TimeAgo date={value * 1000} />,
+              },
               { title: "tagging records", field: "tagAppliedInTaggingRecord" },
             ]}
           />
