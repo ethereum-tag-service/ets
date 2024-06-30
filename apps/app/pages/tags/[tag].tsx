@@ -9,12 +9,56 @@ import Layout from "@app/layouts/default";
 import { timestampToString } from "@app/utils";
 import { toEth } from "@app/utils";
 
+import { AuctionProvider } from "@app/context/AuctionContext";
+import WithinTagAuctionDisplay from "@app/components/auction/WithinTagAuctionDisplay";
+
 import { TaggingRecords } from "@app/components/TaggingRecords";
 import { TagGraphic } from "@app/components/TagGraphic";
 import { Truncate } from "@app/components/Truncate";
 import { CopyAndPaste } from "@app/components/CopyAndPaste";
 import { Panel } from "@app/components/Panel";
 
+/**
+ * @description Queries the blockchain API for a specific transaction tag and renders
+ * the relevant information from it, including the creator, owner, relayer, protocol,
+ * revenue, and tagging records. It uses React's `useQuery` hook to handle fetching
+ * data from the API.
+ * 
+ * @returns { JSXElement } a layout component that displays various information about
+ * a particular Ethereum tag, including its owner, creator, relayer, and protocol,
+ * as well as the revenue earned by each party.
+ * 
+ * 	1/ `Panel`: This is the component that wraps all other components in the return
+ * output. It sets the layout and styling for the entire output.
+ * 	2/ `title`: This property is a string that sets the title of the panel. It is set
+ * to the value of `t("creator")` by default, which means "Creator" in the translation
+ * file.
+ * 	3/ `section`: This property is a string that sets the section name of the panel.
+ * It is set to "Tagging" by default, but can be modified depending on the use case.
+ * 	4/ `tags`: This property is an array of objects that contain information about
+ * the creator, owner, and relayer of the tag. Each object in the array has properties
+ * such as `id`, `name`, `display`, `relayer`, `owner`, and `creator`.
+ * 	5/ `<div>` components: These are individual components that are wrapped by the
+ * `Panel` component to create a container for all other output. They are used to
+ * display information such as the creator's name, the owner's name, the relayer's
+ * name, and the tag's name and ID.
+ * 	6/ `<Link>` components: These are used to link to detailed pages for each creator,
+ * owner, or relayer. They have a className of "link", which styles them as links.
+ * 	7/ `Truncate` component: This is a custom component that is used to truncate long
+ * text values and display only the first few characters. It is set up with a default
+ * maximum length of 10 characters, but can be modified depending on the use case.
+ * 	8/ `CopyAndPaste` component: This is a custom component that allows users to copy
+ * and paste the value of the creator's ID. It has an MDG-Flow layout and styles
+ * itself as a button.
+ * 	9/ `<TaggingRecords>` component: This is a separate React component that displays
+ * all tagging records for the selected tag. It has its own props and state, but is
+ * imported into the main output function to be displayed within it.
+ * 
+ * 	Overall, the output returned by the `<anonymous>` function is a complex structure
+ * that contains various components and properties, which work together to display
+ * information about a specific tag and its associated creator, owner, relayer, and
+ * protocol.
+ */
 const Tag: NextPage = () => {
   const { query } = useRouter();
   const { ownershipTermLength } = useSystem();
@@ -46,12 +90,25 @@ const Tag: NextPage = () => {
     );
   }
 
+  let auctionBlock;
+  if (tags[0].auctions && tags[0].auctions.length > 0) {
+    const auction = tags[0].auctions[tags[0].auctions.length - 1];
+    auctionBlock = (
+      <AuctionProvider auctionId={Number(auction.id)}>
+        <WithinTagAuctionDisplay />
+      </AuctionProvider>
+    );
+  } else {
+    auctionBlock = <div>NO AUCTION FOUND</div>;
+  }
+
   return (
     <Layout>
-      <section className="col-span-12 xl:col-span-4">
-        <div>
-          <TagGraphic tag={tags[0]} />
-        </div>
+      <section className="col-span-12 xl:col-span-4 flex flex-col gap-y-12  text-sm">
+        <TagGraphic tag={tags[0]} />
+        <Panel title={t("auction")}>
+          <div className="p-6">{auctionBlock}</div>
+        </Panel>
       </section>
       <section className="col-span-12 xl:col-span-8 flex flex-col gap-y-12 text-sm">
         <Panel title={t("overview")}>

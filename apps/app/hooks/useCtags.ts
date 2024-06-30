@@ -7,27 +7,30 @@ type FetchTagsResponse = {
 };
 
 /**
- * @description Provides data and next tags data based on filters applied to the
- * database and performs pagination based on skip and pageSize parameters.
+ * @description Uses SWR to fetch and paginate a GraphQL API for tags, returning the
+ * tags and their meta information along with pagination information and mutation state.
  * 
- * @param { number } .pageSize - number of tags to return per page in the API response.
+ * @param { number } .pageSize - number of tags to retrieve per page and affects the
+ * performance of the query by determining the amount of data to fetch from the API.
  * 
- * @param { number } .skip - number of tags to skip from the start when retrieving
- * tags, allowing users to control the position of the retrieved data.
+ * @param { number } .skip - 0-based index of the next batch of data to retrieve from
+ * the API, and it is used in combination with `pageSize` to control the pagination
+ * of results.
  * 
- * @param { string } .orderBy - name of a field to use as an ascending or descending
- * sort key for the tags, which can be one of `timestamp`, `machineName`, `display`,
- * or any custom value specified by the user.
+ * @param { string } .orderBy - name of the field to use for sorting the results of
+ * the query when there are multiple fields available.
  * 
- * @param { string } .orderDirection - direction of the sort order for the tags, with
- * possible values being `asc` or `desc`.
+ * @param { string } .orderDirection - direction of the tag list order (either "asc"
+ * or "desc").
  * 
- * @param { any } .filter - tag filtering options that can be applied to the tags query.
+ * @param { any } .filter - Tag filter to be applied in the query, allowing users to
+ * customize the retrieved data.
  * 
- * @param { SWRConfiguration } .config - SWRConfiguration object that customizes the
- * configuration for the SWReact hook used to fetch the tags data.
+ * @param { SWRConfiguration } .config - configuration options for the SWR cache,
+ * which are used to customize the cache behavior and handling of errors.
  * 
- * @returns { object } an object containing `tags`, `nextTags`, `isLoading`, and `isError`.
+ * @returns { object } an object with fields for `tags`, `nextTags`, `isLoading`, and
+ * `isError`.
  */
 export function useCtags({
   pageSize = 20,
@@ -81,6 +84,10 @@ export function useCtags({
           ownerRevenue
           protocolRevenue
           creatorRevenue
+          auctions {
+            id
+            settled
+          }
         }
       }`,
       {

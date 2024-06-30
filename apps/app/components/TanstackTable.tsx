@@ -1,9 +1,10 @@
-import React, { useState, ReactNode, useEffect } from "react";
+import React, { ReactNode } from "react";
 import { useReactTable, getCoreRowModel, flexRender } from "@tanstack/react-table";
 import { Button } from "@app/components/Button";
 import useTranslation from "next-translate/useTranslation";
 import { useRouter } from "next/router";
 import { globalSettings } from "@app/config/globalSettings";
+import { useModal } from "@app/hooks/useModalContext";
 
 interface TableProps<TData> {
   columns: any[];
@@ -18,60 +19,43 @@ interface TableProps<TData> {
 }
 
 /**
- * @description Generates high-quality documentation for code given to it, by using
- * ReactTable library and utilizing props provided by user. It creates a table based
- * on given columns and data, implements manual pagination, and provides navigation
- * buttons for next and previous pages.
+ * @description Generates high-quality documentation for given code, using React Table
+ * library and the provided columns, data, loading, rowsPerPage, title, rowLink,
+ * hasNextPage, and pageIndex props.
  * 
- * @param { TableProps<TData> } .columns - 2D array of columns that define the layout
- * of the table, including their names, widths, and other properties.
+ * @param { TableProps<TData> } .columns - array of column metadata that defines the
+ * structure of the table, including the headers and the data to be displayed.
  * 
- * @param { TableProps<TData> } .data - data to be displayed in the table.
+ * @param { TableProps<TData> } .data - 2D array containing the data to be displayed
+ * in the table.
  * 
- * @param { TableProps<TData> } .loading - row model is being generated through loading
- * data and will display an animation pulse loader to indicate that the data is still
- * being loaded.
+ * @param { TableProps<TData> } .loading - loading state of the table, and when it
+ * is true, it will render a placeholder row with a "pulsing" background to indicate
+ * that data is still being loaded.
  * 
- * @param { TableProps<TData> } .rowsPerPage - number of rows to display per page in
- * the table, which affects how much data is shown on each page and influences
- * pagination behavior.
+ * @param { TableProps<TData> } .rowsPerPage - default number of rows to display per
+ * page when manually paginating data, and it is used internally by `useReactTable`
+ * to calculate the current page and limit the amount of data displayed.
  * 
- * @param { TableProps<TData> } .title - header title of the table, and is displayed
- * at the top of the table.
+ * @param { TableProps<TData> } .title - table title that is displayed above the
+ * table, and its value is used to render the corresponding h2 heading in the UI.
  * 
- * @param { TableProps<TData> } .rowLink - Row Link prop, which when present, allows
- * the user to navigate to the row by clicking on it.
+ * @param { TableProps<TData> } .rowLink - `RowLink` component that will be displayed
+ * as an icon next to each row, allowing the user to navigate to the corresponding
+ * record when clicked.
  * 
- * @param { TableProps<TData> } .hasNextPage - availability of next page link, which
- * determines whether the `nextPage()` function is called when clicked or not.
+ * @param { TableProps<TData> } .hasNextPage - flag whether there is another page of
+ * data available or not.
  * 
- * @param { TableProps<TData> } .pageIndex - 0-based index of the currently displayed
- * page in the table, and is used to control the display of navigation buttons for
- * the previous and next pages.
+ * @param { TableProps<TData> } .pageIndex - 0-based index of the current page being
+ * displayed in the table, which is used to calculate the page size and to control
+ * the navigation between pages.
  * 
- * @param { TableProps<TData> } .setPageIndex - page index that is to be updated and
- * controls whether the prev or next button should be enabled.
+ * @param { TableProps<TData> } .setPageIndex - 0-based index of the current page
+ * being displayed and allows the functionality to update the page number when the
+ * user navigates forward or backward through the data using the "prev" and "next" buttons.
  * 
- * @returns { HTMLDivElement } a table component with pagination buttons and loading
- * indicator.
- * 
- * 	* `table`: This is a `ReactTable` component, which is used to render the table content.
- * 	* `loading`: This is a boolean property that indicates whether the data is still
- * loading or not. It is set to `true` when the data is still being fetched, and
- * `false` otherwise.
- * 	* `rowsPerPage`: This is the default number of rows to display per page. It is
- * set to `globalSettings["DEFAULT_PAGESIZE"]` if it is not provided as a prop.
- * 	* `title`: This is a string property that represents the title of the table. It
- * is only present if it was provided in the `TableProps` object.
- * 	* `rowLink`: This is a function that allows the user to navigate to a specific
- * row when clicked. If it is not provided as a prop, then it is set to `() => {}`.
- * 	* `hasNextPage`: This is a boolean property that indicates whether there are more
- * pages of data available. It is set to `true` if there are more pages, and `false`
- * otherwise.
- * 	* `pageIndex`: This is an integer property that represents the current page number.
- * It is only present if it was provided as a prop.
- * 	* `setPageIndex`: This is a function that allows the user to set the page index
- * programmatically. If it is not provided as a prop, then it is set to `() => {}`.
+ * @returns { object } a React component rendering a table with pagination buttons.
  */
 const TanstackTable = <TData extends object>({
   columns,
@@ -85,6 +69,7 @@ const TanstackTable = <TData extends object>({
   setPageIndex,
 }: TableProps<TData>) => {
   const { t } = useTranslation("common");
+  const { isModalOpen } = useModal();
 
   const table = useReactTable({
     data,
@@ -102,15 +87,15 @@ const TanstackTable = <TData extends object>({
   const router = useRouter();
 
   /**
-   * @description Updates the `pageIndex` variable by incrementing it by 1 whenever it
-   * is called.
+   * @description Increments the page index by one and assigns the updated value to the
+   * `pageIndex` variable.
    */
   const nextPage = () => {
     setPageIndex?.(pageIndex + 1);
   };
 
   /**
-   * @description Reduces the page index by 1.
+   * @description Decrements the `pageIndex` variable by 1.
    */
   const prevPage = () => {
     setPageIndex?.(pageIndex - 1);
@@ -122,9 +107,7 @@ const TanstackTable = <TData extends object>({
       <div className="overflow-x-auto border border-gray-200 rounded-lg">
         <table className="table bg-white">
           {/**
-           * @description Generates a table header row based on the provided header groups and
-           * headers. It returns an array of `<th>` elements with each element containing a
-           * header cell rendition.
+           * @description Generates high-quality documentation for given code.
            */}
           <thead>
             {table.getHeaderGroups().map((headerGroup, index) => (
@@ -138,9 +121,8 @@ const TanstackTable = <TData extends object>({
             ))}
           </thead>
           {/**
-           * @description Generates a tbody element based on the provided loading state and
-           * table configuration. It returns an array of tr elements, each containing td elements
-           * representing the cells in the table.
+           * @description Generates a table body component with rows and cells, based on the
+           * provided configuration and data. It returns a JSX element containing the table structure.
            */}
           <tbody>
             {loading
@@ -156,9 +138,8 @@ const TanstackTable = <TData extends object>({
               : table.getRowModel().rows.map((row, rowIndex) => (
                   <tr
                     key={`table-row-${row.id}-${rowIndex}`}
-                    className={`hover:bg-base-200 ${rowLink ? "cursor-pointer" : "cursor-auto"}`}
-                    onClick={() => rowLink && router.push(String(rowLink(row.original)))}
-                    style={{ cursor: rowLink ? "pointer" : "default" }}
+                    className={rowLink && !isModalOpen ? "hover:bg-base-200 cursor-pointer" : ""}
+                    onClick={() => rowLink && !isModalOpen && router.push(String(rowLink(row.original)))}
                   >
                     {row.getVisibleCells().map((cell, cellIndex) => (
                       <td key={`table-cell-${cell.id}-${cellIndex}`}>

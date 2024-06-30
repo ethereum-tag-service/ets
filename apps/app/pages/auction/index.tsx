@@ -1,59 +1,74 @@
+import { useState, useMemo } from "react";
 import type { NextPage } from "next";
+import { TagType } from "@app/types/tag";
 import Layout from "@app/layouts/default";
 import useTranslation from "next-translate/useTranslation";
+import { useSystem } from "@app/hooks/useSystem";
+import { AuctionProvider } from "@app/context/AuctionContext";
 import { useAuctionHouse } from "@app/hooks/useAuctionHouse";
 import { useCtags } from "@app/hooks/useCtags";
 import { toEth } from "@app/utils";
 import { Truncate } from "@app/components/Truncate";
 import { TimeAgo } from "@app/components/TimeAgo";
 import { Tag } from "@app/components/Tag";
-import { Tags } from "@app/components/Tags";
 import AuctionActions from "@app/components/auction/AuctionActions";
 import AuctionTimer from "@app/components/auction/AuctionTimer";
 import { createColumnHelper } from "@tanstack/react-table";
-import { useMemo, useState } from "react";
 import { TanstackTable } from "@app/components/TanstackTable";
 import Link from "next/link";
-import { globalSettings } from "@app/config/globalSettings";
 
 /**
- * @description Generates high-quality documentation for given code by creating and
- * returned a layout with two TanstackTable components, one for active auctions and
- * one for settled auctions, and a third component for displaying upcoming auctions
+ * @description Generates an HOC that displays Tanstack auction data based on the
+ * user's role, showing upcoming, active, and settled auctions with different column
+ * headers for each state. It uses `useMemo` to memoize the columns for each state.
+ * 
+ * @returns { JSXElement } a layout that displays auctions, upcoming tags, and settled
  * tags.
  * 
- * @returns { HTML element } a Tanstack table displaying active and settled auctions,
- * along with their corresponding details.
- * 
- * 	1/ `activeColumns`: An array of column objects that represent the active auctions.
- * Each column object contains information about the auction ID, tag, current bid (in
- * ETH), bidder ID, end time, and an action button.
- * 	2/ `settledColumns`: An array of column objects that represent the settled auctions.
- * Similar to `activeColumns`, each column object contains information about the
- * auction ID, tag, price, winner ID, ended date, and an action button.
- * 	3/ `allAuctions`: An array of auction objects representing all auctions available.
- * Each auction object contains information about the auction ID, start time, end
- * time (or whether it's settled), bid amount (or 0 if it's not started yet), and
- * winner ID.
- * 	4/ `activeAuctions`: An array of auction objects representing the active auctions.
- * This array is filtered from `allAuctions` to only include auctions that have a
- * start time of 0 or are unsettled.
- * 	5/ `settledAuctions`: An array of auction objects representing the settled auctions.
- * This array is also filtered from `allAuctions`, but with a different filter condition
- * (auctions with a settle status of true).
- * 	6/ `<TanstackTable>`: A component that renders a table with the provided columns
- * and data. It takes various props such as `columns`, `data`, `loading`, `title`,
- * and `rowLink` to customize its behavior.
- * 	7/ `<Tags>`: A component that renders a list of tags. It takes various props such
- * as `tags`, `title`, `rowLink`, and `columnsConfig` to customize its behavior.
- * 	8/ `Truncate`: A function used to truncate long strings to a specified length,
- * in this case, 13 characters.
+ * 	1/ `activeAuctions`: An array of auction objects containing information about
+ * each upcoming auction. The object properties include:
+ * 		* `auctionId`: A unique identifier for each auction (number)
+ * 		* `display`: A string representing the tag for each auction (e.g., "Tag 1")
+ * 		* `timestamp`: The creation date and time of each auction in ISO 8601 format (string)
+ * 		* `ownerId`: The ID of the owner of each auction (number)
+ * 		* `relayerId`: The ID of the relayer of each auction (number)
+ * 		* `tagAppliedInTaggingRecord`: The number of tagging records applied to each
+ * auction (integer)
+ * 	2/ `upcomingTags`: An array of tag objects containing information about each
+ * upcoming tag. The object properties include:
+ * 		* `id`: A unique identifier for each tag (number)
+ * 		* `display`: A string representing the tag (e.g., "Tag 1")
+ * 		* `timestamp`: The creation date and time of each tag in ISO 8601 format (string)
+ * 	3/ `settledAuctions`: An array of auction objects containing information about
+ * each settled auction. The object properties include:
+ * 		* `id`: A unique identifier for each auction (number)
+ * 		* `auctionId`: A unique identifier for each auction (number)
+ * 		* `display`: A string representing the tag for each auction (e.g., "Tag 1")
+ * 		* `timestamp`: The creation date and time of each auction in ISO 8601 format (string)
+ * 		* `bidderId`: The ID of the bidder who won each auction (number)
+ * 		* `endTime`: The end time of each auction in ISO 8601 format (string)
+ * 	4/ `loading`: A boolean indicating whether there are any active, upcoming, or
+ * settled auctions (default: `true`)
+ * 	5/ `rowLink`: A function that links to the auction details page for each auction
+ * row (funcion takes a single argument: auction)
+ * 	6/ `t`: An object containing translations for each auction column header (obj
+ * contains keys as column headers and values as their translations in English).
+ * 	7/ `<TanstackTable>`: A React table component that renders the output of the
+ * functions passed to its props (properties) object.
+ * 	8/ `data`: An array of objects containing information about each auction, upcoming
+ * tag, or settled auction. Each object property includes the columns returned by the
+ * TanstackTable component.
  */
 const Auction: NextPage = () => {
   const { t } = useTranslation("common");
+  const { platformAddress } = useSystem();
+  const { allAuctions } = useAuctionHouse();
 
-  const { tags = [] } = useCtags({
+  const [pageIndex, setPageIndex] = useState(0);
+  const { tags = [], nextTags } = useCtags({
+    skip: pageIndex * 20,
     orderBy: "tagAppliedInTaggingRecord",
+    filter: { owner_: { id: platformAddress.toLowerCase() } },
     config: {
       revalidateOnFocus: false,
       revalidateOnMount: true,
@@ -64,39 +79,64 @@ const Auction: NextPage = () => {
     },
   });
 
-  const { allAuctions } = useAuctionHouse();
+  // Function to print debugging information
+  /**
+   * @description Iterates through an array of tags and logs details about each tag,
+   * including its ID and auction status (settled or active).
+   * 
+   * @param { TagType[] } tags - array of tags for which the active and settled statuses
+   * are to be determined, and its contents are iterated over to log the tag ID and
+   * auction information.
+   */
+  const printDebugInfo = (tags: TagType[]) => {
+    tags.forEach((tag) => {
+      console.log(`Tag ID: ${tag.display}`);
+      if (tag.auctions) {
+        tag.auctions.forEach((auction) => {
+          console.log(`  Auction ID: ${auction.display}, Status: ${auction.settled ? "Settled" : "Active"}`);
+        });
+      } else {
+        console.log("  No auctions available for this tag.");
+      }
+    });
+  };
+
+  // Function to filter out tags with active auctions
+  /**
+   * @description Removes any tags that do not have active auctions or have an empty
+   * array of auctions, or all the auctions are settled.
+   * 
+   * @param { TagType[] } tags - array of TagTypes that the function filters to return
+   * only those with zero or no settled auctions.
+   * 
+   * @returns { TagType[] } an array of tags that are eligible for a sale or auction.
+   */
+  const filterEligibleTags = (tags: TagType[]): TagType[] => {
+    //printDebugInfo(tags);
+    return tags.filter(
+      (tag) => !tag.auctions || tag.auctions.length === 0 || tag.auctions.every((auction) => auction.settled),
+    );
+  };
+
+  // Perform secondary sorting by timestamp on the client side and filter eligible tags
+  const upcomingTags = filterEligibleTags(tags as TagType[]).sort((a, b) => {
+    const tagAppliedA = a.tagAppliedInTaggingRecord ?? -Infinity;
+    const tagAppliedB = b.tagAppliedInTaggingRecord ?? -Infinity;
+
+    if (tagAppliedA === tagAppliedB) {
+      return a.timestamp - b.timestamp; // Unix timestamp comparison (ascending order)
+    }
+    return tagAppliedB - tagAppliedA;
+  });
+
+  const settledAuctions = allAuctions.filter((auction) => auction.settled);
+  const activeAuctions = allAuctions
+    .filter((auction) => auction.startTime === 0 || auction.settled === false)
+    .sort((a, b) => b.id - a.id);
 
   const columnHelper = createColumnHelper();
-
   const activeColumns = useMemo(
     () => [
-      columnHelper.accessor("id", {
-        header: "#",
-        /**
-         * @description Generates a link to the auction details page for the specific value
-         * provided.
-         * 
-         * @param { object } info - value of an auction, which is used to generate a link to
-         * the corresponding auction page.
-         * 
-         * @returns { href` value } a clickable Link element with the value of the `info.getValue()`
-         * property as its text content.
-         * 
-         * 	* The `href` property is a string that contains the URL of the auction page for
-         * the item with the given value.
-         * 	* The `className` property is a string that represents the class name of the link
-         * element. In this case, it is set to `"link link-primary"`.
-         * 	* The inner HTML of the link element is set to the value of the `info` object,
-         * which contains the text to display on the link.
-         */
-        cell: (info) => {
-          return (
-            <Link href={`/auction/${info.getValue()}`} className="link link-primary">
-              {info.getValue()}
-            </Link>
-          );
-        },
-      }),
       columnHelper.accessor("tag", {
         header: t("tag"),
         cell: (info) => <Tag tag={info.getValue()} />,
@@ -104,14 +144,27 @@ const Auction: NextPage = () => {
       columnHelper.accessor("amount", {
         header: t("current bid"),
         /**
-         * @description Evaluates the value of an auction, displaying the auction's current
-         * time or the bid price if the time is 0.
+         * @description Takes a `info` argument and returns an auction start time in ETH,
+         * where the value is obtained from the input row and rounded to the nearest fifth
+         * of an ETH unit. If the start time is 0, the return value is a hyphen (-).
          * 
-         * @param { object } info - row object from the dataframe and is used to retrieve the
-         * original value of the "startTime" column.
+         * @param { `row`. } info - row of data containing information about an auction, which
+         * is used to calculate the start time and value of the auction.
          * 
-         * @returns { string } the time value of an auction start time, displayed in a concise
-         * manner as "—" or a currency value in ETH.
+         * 	* `row`: The row number of the auction in the dataset.
+         * 	* `original`: The original value of the auction, which is an object representing
+         * the auction details.
+         * 	* `getValue()`: A function that calculates the current value of the auction in
+         * ETH, based on the auction details and the current timestamp. The function takes
+         * no arguments and returns the calculated value in ETH.
+         * 
+         * 	The `cell` function then checks if the start time of the auction is 0, and if so,
+         * returns a dash (-). Otherwise, it returns the calculated value of the auction in
+         * ETH.
+         * 
+         * @returns { string } the amount of ETH, displayed in the format of `--` if the start
+         * time is 0, or the amount converted to ETH in the format of X ETH where X is the
+         * value and 5 is the precision.
          */
         cell: (info) => {
           const auction = info.row.original as any;
@@ -121,25 +174,14 @@ const Auction: NextPage = () => {
       columnHelper.accessor("bidder.id", {
         header: t("bidder"),
         /**
-         * @description Truncates a date value to a maximum length of 13 characters and inserts
-         * a hyphen if the input is 0.
+         * @description Truncates a value at most 13 characters and adds a hyphen if the input
+         * time is zero.
          * 
-         * @param { `Row`. } info - `auction` object, which is then converted to a string
-         * using the `Truncate()` function with the `value` parameter being the original value
-         * of the `startTime` property, and the `length` parameter set to 13 characters, with
-         * the middle character chopped off if the value exceeds this length.
+         * @param { object } info - row object containing the value to be formatted, which
+         * is then returned after applying the formatting rules.
          * 
-         * 	* `const auction = info.row.original as any;` - This line destructures the `info`
-         * object into its component parts, where `auction` is a specific property of `info`.
-         * The `as any` keyword allows for any type of value to be assigned to this property.
-         * 	* `return auction.startTime === 0 ? "—" : Truncate(info.getValue(), 13, "middle");`
-         * - This line returns the `startTime` property of the `auction` object, and if it
-         * is equal to zero, returns an ellipsis (`"—"`). Otherwise, it truncates the
-         * `getValue()` property of the `auction` object to a maximum of 13 characters in the
-         * middle and returns the result.
-         * 
-         * @returns { string } a truncated date string with a maximum of 13 characters and a
-         * middle padding.
+         * @returns { string } a truncated string representation of the `startTime` value for
+         * each auction, with a maximum length of 13 characters.
          */
         cell: (info) => {
           const auction = info.row.original as any;
@@ -149,20 +191,13 @@ const Auction: NextPage = () => {
       columnHelper.accessor("endTime", {
         header: t("time left"),
         /**
-         * @description Generates high-quality documentation for given code, without repeating
-         * the question, using first-person statements, or making up answers. It returns an
-         * `<AuctionTimer>` component based on the provided `auction` value.
+         * @description Creates an instance of the `AuctionTimer` component for the given
+         * auction object.
          * 
-         * @param { Row. } info - row of data in the database that contains the information
-         * necessary to render the Auction Timer component.
+         * @param { object } info - row object containing details of an auction, which is
+         * then used to create an instance of the `AuctionTimer` component.
          * 
-         * 	* `info`: The input data from Airtable, represented as an object.
-         * 	* `row`: An property of `info`, which contains the original row data from Airtable
-         * as a JSON-like object.
-         * 	* `original`: A property of `info.row`, which represents the raw, original data
-         * from Airtable as a JSON object.
-         * 
-         * @returns { Component } an HTML element of type "AuctionTimer".
+         * @returns { Component } an HTML element representing an Auction Timer component.
          */
         cell: (info) => {
           const auction = info.row.original as any;
@@ -172,30 +207,53 @@ const Auction: NextPage = () => {
       columnHelper.accessor("id", {
         header: "",
         /**
-         * @description Generates high-quality documentation for given code, returning an
-         * AuctionActions component with customizable button classes.
+         * @description Takes an `info` object containing a row item, and returns an HTML
+         * element representing the auction actions for that item.
          * 
-         * @param { object } info - row object of an auction in a table format, providing
-         * access to the `original` property containing information about the auction.
+         * @param { `Row`. } info - Row data from the dataset and is used to fetch the
+         * AuctionActions component with the appropriate auction details.
          * 
-         * @returns { HTMLButtonElement } an AuctionActions component with customizable button
-         * classes.
+         * 	* `const auction = info.row.original as any;`: This line of code extracts the
+         * `auction` property from the `info` object and assigns it a value using the `as
+         * any;` syntax. This is done to ensure that the type of the `auction` property is
+         * assignable to the `Auction` interface.
+         * 	* `return (`: This line of code marks the beginning of a return statement.
+         * 	* `<AuctionProvider key={auction.id} auctionId={auction.id}>`: This line of code
+         * uses the `AuctionProvider` component to wrap the child components with the appropriate
+         * AuctionContext provider. The `key` prop is set to the `auction.id` property, and
+         * the `auctionId` prop is set to the same value.
+         * 	* `<AuctionActions key={info.getValue()} auction={auction} buttonClasses="btn-primary
+         * btn-outline btn-sm">`: This line of code uses the `AuctionActions` component to
+         * render actions for the Auction. The `key` prop is set to the `info.getValue()`
+         * property, and the `auction` prop is set to the same value as the `auction` property
+         * in the previous line. The `buttonClasses` prop is set to a CSS class string
+         * indicating the desired button styles (e.g. "btn-primary", "btn-outline", etc.).
          * 
-         * 	* `auction`: The `auction` property is an instance of the `AuctionActions`
-         * component, which is a functional component that generates high-quality documentation
-         * for code.
-         * 	* `key`: The `key` property is a string value that is used to identify the element
-         * in the React tree. It is passed as a parameter to the `AuctionActions` component
-         * when it is created.
-         * 	* `original`: The `original` property is an instance of the `auction` object,
-         * which contains information about the auction, such as its ID and status. This
-         * information is used by the `AuctionActions` component to generate documentation
-         * for the code.
+         * 	In summary, the `cell` function takes an input `info` object containing a `row`
+         * property that contains an `original` property with the actual Auction data, and
+         * returns a component tree consisting of an `AuctionProvider` wrapping an `AuctionActions`
+         * component.
+         * 
+         * @returns { HTML element, specifically `<AuctionProvider> ... </AuctionProvider }
+         * an AuctionProvider component that renders an AuctionActions component with custom
+         * button classes.
+         * 
+         * 	* `<AuctionProvider>`: This component is a higher-order component (HOC) that wraps
+         * around the `AuctionActions` component and provides an auction ID to its children.
+         * 	* `auctionId`: This prop is set to the value of the `id` property of the `auction`
+         * object passed as a prop to the `AuctionProvider` component.
+         * 	* `<AuctionActions>`: This component is responsible for rendering buttons for
+         * managing the auction.
+         * 	* `buttonClasses`: This prop is a class string that specifies the styles for the
+         * buttons rendered by the `<AuctionActions>` component. The value of this prop is
+         * `"btn-primary btn-outline btn-sm"`.
          */
         cell: (info) => {
           const auction = info.row.original as any;
           return (
-            <AuctionActions key={info.getValue()} auction={auction} buttonClasses="btn-primary btn-outline btn-sm" />
+            <AuctionProvider key={auction.id} auctionId={auction.id}>
+              <AuctionActions key={info.getValue()} auction={auction} buttonClasses="btn-primary btn-outline btn-sm" />
+            </AuctionProvider>
           );
         },
       }),
@@ -203,22 +261,35 @@ const Auction: NextPage = () => {
     [t],
   );
 
+  const upcomingColumns = useMemo(
+    () => [
+      columnHelper.accessor("display", {
+        header: () => t("tag"),
+        cell: (info) => <Tag tag={info.row.original as TagType} />,
+      }),
+      columnHelper.accessor("timestamp", {
+        header: t("created"),
+        cell: (info) => <TimeAgo date={info.getValue() * 1000} />,
+      }),
+      columnHelper.accessor("owner.id", {
+        header: t("owner"),
+        cell: (info) => Truncate(info.getValue(), 13, "middle"),
+      }),
+      columnHelper.accessor("relayer.id", {
+        header: t("relayer"),
+        cell: (info) => Truncate(info.getValue(), 13, "middle"),
+      }),
+      columnHelper.accessor("tagAppliedInTaggingRecord", {
+        header: t("tagging records"),
+      }),
+    ],
+    [t],
+  );
+
   const settledColumns = useMemo(
     () => [
-      columnHelper.accessor("id", {
+      /*       columnHelper.accessor("id", {
         header: "#",
-        /**
-         * @description Generates a hyperlink to an auction with the value of the `info`
-         * object as the link text.
-         * 
-         * @param { string } info - value of an auction, which is linked to a page with the
-         * same value.
-         * 
-         * @returns { hyperlink } a clickable link to the corresponding auction page.
-         * 
-         * 	The return value is `<Link>` element with a href attribute set to
-         * `/auction/{info.getValue()}` and a className attribute set to "link link-primary".
-         */
         cell: (info) => {
           return (
             <Link href={`/auction/${info.getValue()}`} className="link link-primary">
@@ -226,7 +297,7 @@ const Auction: NextPage = () => {
             </Link>
           );
         },
-      }),
+      }), */
       columnHelper.accessor("tag", {
         header: t("tag"),
         cell: (info) => <Tag tag={info.getValue()} />,
@@ -247,99 +318,120 @@ const Auction: NextPage = () => {
     [t],
   );
 
-  if (!allAuctions || allAuctions.length === 0) {
-    return <Layout>Loading auctions...</Layout>;
-  }
-
-  const settledAuctions = allAuctions.filter((auction) => auction.settled);
-  const activeAuctions = allAuctions
-    .filter((auction) => auction.startTime === 0 || auction.settled === false)
-    .sort((a, b) => b.id - a.id);
-
   return (
     <Layout>
-      <TanstackTable
-        columns={activeColumns}
-        data={activeAuctions}
-        loading={!activeAuctions.length}
-        title={t("active")}
-        rowLink={(auction) => `/auction/${auction.id}`}
-      />
-      {/**
-       * @description Displays a table with settled auction data, including auction ID,
-       * title, and link to the corresponding auction page.
-       * 
-       * @param { column. } columns - list of auctions for which the function will generate
-       * documentation, as determined by the value of `data`.
-       * 
-       * 	* `columns`: An array of objects, where each object represents a column in the table.
-       * 	* `loading`: A boolean indicating whether there are still auctions to be loaded
-       * (False by default).
-       * 
-       * @param { array } data - auctions that are settled, and it is passed to the
-       * `TanstackTable` component as an array of objects containing the auction ID, title,
-       * and other relevant information.
-       * 
-       * @param { boolean } loading - state of the data, indicating whether the data has
-       * been settled or not.
-       * 
-       * @param { string } title - displayed text in the top bar of the table, typically
-       * providing a brief label or title for the table.
-       * 
-       * @param { hyperlink. } rowLink - hyperlink for each row in the table, which directs
-       * to the detailed information of the corresponding auction when clicked.
-       * 
-       * 	* `(auction) => `/auction/${auction.id}`: This is a React Hook Function that
-       * renders a link to the auction details page for each auction item. The link is
-       * constructed by concatenating the `auction.id` with the URL path `/auction/`.
-       */}
-      <TanstackTable
-        columns={settledColumns}
-        data={settledAuctions}
-        loading={!settledAuctions.length}
-        title={t("settled")}
-        rowLink={(auction) => `/auction/${auction.id}`}
-      />
-      {/**
-       * @description Provides information about tags and their usage, including the owner
-       * and relayer ID, creation timestamp, and tagging records count.
-       * 
-       * @param { string } title - title of the data column displayed in the grid and sets
-       * the display text for each column in the output.
-       * 
-       * @param { Tag[]. } tags - 0..n tag objects that are being displayed alongside their
-       * respective created timestamps, owner IDs, and relayer IDs, along with the number
-       * of tagging records they have applied to, all in a tabular format.
-       * 
-       * 	* `tag`: Each tag is represented as a Tag component, showing the tag name and the
-       * timestamp when the tag was created.
-       * 	* `timestamp`: The timestamp when each tag was created, presented in the format
-       * of "a few minutes ago" or "x days/hours/minutes ago" using the TimeAgo library.
-       * 	* `owner.id`: The ID of the user who created each tag, truncated to 13 characters
-       * in the middle.
-       * 	* `relayer.id`: The ID of the relayer who applied each tag, truncated to 13
-       * characters in the middle.
-       * 	* `tagging records`: A count of how many tagging records are associated with each
-       * tag.
-       * 
-       * @param { boolean } rowLink - whether or not to display links for rows.
-       * 
-       * @param { object } columnsConfig - 6 column configurations needed to display data
-       * effectively, where each configuration defines a column with specified fields,
-       * formatter functions, and display names for customization purposes.
-       */}
-      <Tags
-        title={t("upcoming")}
-        tags={tags}
-        rowLink={false}
-        columnsConfig={[
-          { title: "tag", field: "tag", formatter: (_: any, tag: any) => <Tag tag={tag} /> },
-          { title: "created", field: "timestamp", formatter: (value: any) => <TimeAgo date={value * 1000} /> },
-          { title: t("owner"), field: "owner.id", formatter: (value: any) => Truncate(value, 13, "middle") },
-          { title: t("relayer"), field: "relayer.id", formatter: (value: any) => Truncate(value, 13, "middle") },
-          { title: "tagging records", field: "tagAppliedInTaggingRecord" },
-        ]}
-      />
+      {/*
+      <div className="dropdown dropdown-hover dropdown-end">
+        <div tabIndex={0} role="button" className="text-info">
+          <svg
+            tabIndex={0}
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            className="h-4 w-4 stroke-current"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path>
+          </svg>
+        </div>
+        <div tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+          <p className="font-semibold">Upcoming Auctions</p>
+          <p>Tags with the most tagging records are released next.</p>
+        </div>
+      </div>
+      */}
+      <div role="tablist" className="tabs tabs-lg col-span-12 auctions">
+        <input type="radio" name="auctions" role="tab" className="tab" aria-label={t("active")} defaultChecked />
+        <div role="tabpanel" className="tab-content">
+          {/**
+           * @description Displays an auction list based on given data and column settings,
+           * with a link to view more information about each auction.
+           * 
+           * @param { array } columns - array of column definitions that are displayed in the
+           * table.
+           * 
+           * @param { object } data - array of active auctions to display in the Tanstack table.
+           * 
+           * @param { boolean } loading - whether the auctions array is empty or not.
+           * 
+           * @param { anchor tag URL link. } rowLink - RowLink component that, when clicked,
+           * navigates to the tag detail page for the auction associated with the current row.
+           * 
+           * 	* `loading`: A boolean indicating whether there are no auctions available or not.
+           * When `loading` is `true`, the table has no data and may display a loading indicator.
+           * 	* `column`: An array of objects containing the properties and attributes of each
+           * column in the table. Each object in the array corresponds to a column and defines
+           * its title, type, and other attributes.
+           * 	* `data`: An array of objects representing the auctions that will be displayed
+           * in the table. Each object in the array contains the details of an individual
+           * auction, including its tag name, machine name, and other relevant information.
+           */}
+          <TanstackTable
+            columns={activeColumns}
+            data={activeAuctions}
+            loading={!activeAuctions.length}
+            rowLink={(auction) => `/tags/${auction.tag.machineName}`}
+          />
+        </div>
+
+        <input type="radio" name="auctions" role="tab" className="tab" aria-label={t("upcoming")} />
+        <div role="tabpanel" className="tab-content">
+          {/**
+           * @description Displays upcoming tags.
+           * 
+           * @param { array } columns - 3 tags that are going to be displayed on the tag page.
+           * 
+           * @param { array } data - Tags object that contains information about upcoming tags,
+           * including their names and other relevant details.
+           * 
+           * @param { boolean } loading - whether there are any tags available for display or
+           * not, and it is passed to the `TanstackTable` component as an argument to control
+           * the loading state of the data.
+           * 
+           * @param { link reference type. } rowLink - URL of the tag machine detail page when
+           * clicking on a row in the table.
+           * 
+           * 	* `loading`: A boolean indicating whether there are no tags available for display.
+           * (Passed in as `!upcomingTags.length`.)
+           * 	* `(tag) => `/tags/${tag.machineName}`: A function that generates a link to the
+           * corresponding tag page when called with a tag object.
+           */}
+          <TanstackTable
+            columns={upcomingColumns}
+            data={upcomingTags}
+            loading={!upcomingTags.length}
+            rowLink={(tag) => `/tags/${tag.machineName}`}
+          />
+        </div>
+
+        <input type="radio" name="auctions" role="tab" className="tab" aria-label={t("settled")} />
+        <div role="tabpanel" className="tab-content">
+          {/**
+           * @description Displays an array of auctions data to the user
+           * 
+           * @param { array } columns - 0 or more fields of a table column configuration to
+           * display within the given auction table component.
+           * 
+           * @param { array } data - settled auctions that are displayed on the table.
+           * 
+           * @param { boolean } loading - existence or non-existence of auctions, and it affects
+           * the display of the auction list in the component.
+           * 
+           * @param { string } rowLink - URL of the auction details page for each settled auction
+           * in the `settledAuctions` data set.
+           */}
+          <TanstackTable
+            columns={settledColumns}
+            data={settledAuctions}
+            loading={!settledAuctions.length}
+            rowLink={(auction) => `/tags/${auction.tag.machineName}`}
+          />
+        </div>
+      </div>
     </Layout>
   );
 };
