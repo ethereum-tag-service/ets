@@ -23,7 +23,7 @@ export class TargetClient {
     this.walletClient = walletClient;
 
     const config = getConfig(chainId);
-    if (!config || config.etsTargetConfig == undefined) throw new Error("Configuration could not be retrieved");
+    if (!config) throw new Error("Configuration could not be retrieved");
 
     validateConfig(chainId, publicClient, walletClient);
 

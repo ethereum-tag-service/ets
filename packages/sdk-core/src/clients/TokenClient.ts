@@ -52,7 +52,7 @@ export class TokenClient {
     validateConfig(chainId, publicClient, walletClient);
 
     const config = getConfig(chainId);
-    if (!config || config.etsTokenConfig == undefined) throw new Error("Configuration could not be retrieved");
+    if (!config) throw new Error("Configuration could not be retrieved");
 
     this.etsTokenConfig = config.etsTokenConfig;
   }

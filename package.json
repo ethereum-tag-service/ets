@@ -14,8 +14,8 @@
     "yarn"
   ],
   "scripts": {
-    "dev": "rm -rf apps/*/.next && dotenv -e .env -- turbo run dev --filter=!@ethereum-tag-service/api",
-    "build": "rm -rf apps/*/.next && dotenv -e .env -- turbo run build --filter=!@ethereum-tag-service/api",
+    "dev": "rm -rf apps/*/.next && dotenv -- turbo run dev --filter=!@ethereum-tag-service/api",
+    "build": "rm -rf apps/*/.next && dotenv -- turbo run build --filter=!@ethereum-tag-service/api",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "api:dev": "cd apps/api && pnpm run dev",

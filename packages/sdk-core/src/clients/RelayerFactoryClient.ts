@@ -25,7 +25,7 @@ export class RelayerFactoryClient {
     validateConfig(chainId, publicClient, walletClient);
 
     const config = getConfig(chainId);
-    if (!config || config.etsRelayerFactoryConfig == undefined) throw new Error("Configuration could not be retrieved");
+    if (!config) throw new Error("Configuration could not be retrieved");
 
     this.etsRelayerFactoryConfig = config.etsRelayerFactoryConfig;
   }

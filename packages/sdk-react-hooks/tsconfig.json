@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2020",
+    "target": "es2018",
     "module": "esnext",
     "outDir": "dist",
     "strict": true,
@@ -8,9 +8,7 @@
     "skipLibCheck": true,
     "moduleResolution": "node",
     "declaration": true,
-    "emitDeclarationOnly": true,
-    "noUncheckedIndexedAccess": true,
-    "noEmit": false,
+    "emitDeclarationOnly": false,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]

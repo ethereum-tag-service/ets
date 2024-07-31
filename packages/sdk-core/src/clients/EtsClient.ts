@@ -28,7 +28,7 @@ export class EtsClient {
     if (!address) throw new Error("Contract address is required");
 
     const config = getConfig(chainId);
-    if (!config || config.etsConfig == undefined) throw new Error("Configuration could not be retrieved");
+    if (!config) throw new Error("Configuration could not be retrieved");
 
     this.etsConfig = config.etsConfig;
   }

@@ -1,27 +1,20 @@
 {
   "name": "@ethereum-tag-service/sdk-core",
-  "author": "Ethereum Tag Service <team@ets.xyz>",
-  "version": "0.0.0",
+  "version": "0.1.2",
   "description": "Core SDK for Ethereum Tag Service",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "main": "dist",
   "exports": {
-    ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
-    }
+    ".": "./dist"
   },
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts --outDir dist",
-    "lint": "tsc"
+    "build": "tsc"
   },
   "keywords": [],
+  "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.12.7",
     "tsc-alias": "^1.8.8",
-    "tsup": "^8.2.3",
     "typescript": "^5.4.5",
     "viem": "~2.4.0"
   },

@@ -13,7 +13,7 @@ export class AccessControlsClient {
     this.validateConfig(chainId, publicClient);
 
     const config = getConfig(chainId);
-    if (!config || config.etsAccessControlsConfig == undefined) throw new Error("Configuration could not be retrieved");
+    if (!config) throw new Error("Configuration could not be retrieved");
 
     this.etsAccessControlsConfig = config.etsAccessControlsConfig;
   }
