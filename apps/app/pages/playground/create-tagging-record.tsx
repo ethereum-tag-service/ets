@@ -142,22 +142,54 @@ const CreateTaggingRecord: NextPage = () => {
     <Layout>
       <div className="col-span-7">
         <div className="bg-white rounded-lg shadow-lg p-6">
-          <div className="flex items-center mb-4">
-            <h2 className="text-lg font-semibold">{t("tag-random-image")}</h2>
-            <button onClick={fetchRandomImage} className="btn btn-primary btn-sm ml-auto">
-              {t("refresh")}
-            </button>
-          </div>
-          {imageUrl && (
-            <div className="flex justify-center">
-              <img
-                src={imageUrl}
-                alt="Random Image"
-                className="object-cover w-full my-4"
-                style={{ maxHeight: "300px" }}
-              />
+          <div role="tablist" className="tabs tabs-bordered mb-4">
+            <input
+              type="radio"
+              name="create_record_tabs"
+              role="tab"
+              className="tab text-lg font-semibold"
+              aria-label="Tag a random image"
+              defaultChecked
+            />
+            <div role="tabpanel" className="tab-content">
+              <div className="flex items-center">
+                <button onClick={fetchRandomImage} className="btn btn-primary btn-sm ml-auto">
+                  {t("refresh")}
+                </button>
+              </div>
+              {imageUrl && (
+                <div className="flex justify-center">
+                  <img
+                    src={imageUrl}
+                    alt="Random Image"
+                    className="object-cover w-full my-4"
+                    style={{ maxHeight: "300px" }}
+                  />
+                </div>
+              )}
             </div>
-          )}
+
+            <input
+              type="radio"
+              name="create_record_tabs"
+              role="tab"
+              className="tab text-lg font-semibold"
+              aria-label="Tag a URL"
+            />
+            <div role="tabpanel" className="tab-content pt-8">
+              <div>
+                <input
+                  type="text"
+                  placeholder="Enter URL (e.g., https://example.com/image.jpg)"
+                  value={recordType}
+                  onChange={(e) => setRecordType(e.target.value)}
+                  className="input input-bordered w-full"
+                  aria-label="Record Type"
+                />
+              </div>
+            </div>
+          </div>
+
           <TagInput tags={tags} handleDeleteTag={handleDeleteTag} handleAddTag={handleAddTag} infoInside />
           <div className="mb-4">
             <input
