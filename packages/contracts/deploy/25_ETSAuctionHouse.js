@@ -1,5 +1,5 @@
 const { ethers, upgrades } = require("hardhat");
-const { setup } = require("./setup.js");
+const { setup } = require("./utils/setup.js");
 const { verify } = require("./utils/verify.js");
 const { saveNetworkConfig } = require("./utils/config.js");
 

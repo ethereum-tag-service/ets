@@ -1,5 +1,5 @@
 const { ethers, network } = require("hardhat");
-const { setup } = require("./setup.js");
+const { setup } = require("./utils/setup.js");
 
 module.exports = async ({ deployments }) => {
   [accounts, factories, initSettings] = await setup();
@@ -80,5 +80,5 @@ module.exports = async ({ deployments }) => {
   }
 };
 
-module.exports.dependencies = ["ETSRelayerFactory"];
-module.exports.tags = ["deployAll"];
+//module.exports.dependencies = ["ETSRelayerFactory"];
+//module.exports.tags = ["deployAll"];

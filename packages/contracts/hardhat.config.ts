@@ -8,8 +8,8 @@ import "hardhat-abi-exporter";
 import "@nomiclabs/hardhat-web3";
 import "@nomiclabs/hardhat-ethers";
 import "@nomiclabs/hardhat-waffle";
+import "@nomicfoundation/hardhat-verify";
 import "@nomiclabs/hardhat-truffle5";
-import "@nomiclabs/hardhat-etherscan";
 import "@openzeppelin/hardhat-upgrades";
 import "@nomicfoundation/hardhat-chai-matchers";
 
@@ -48,17 +48,19 @@ const config: HardhatUserConfig = {
       },
       chainId: 31337,
     },
-    testnet_stage: {
-      url: `https://arb-sepolia.g.alchemy.com/v2/${process.env.ALCHEMY_ARBITRUM_SEPOLIA}`,
-      chainId: 421614, // Arbitrum Sepolia
+    baseSepolia: {
+      // Get chain name from Viem: https://github.com/wevm/viem/blob/main/src/chains/index.ts
+      url: `https://base-sepolia.g.alchemy.com/v2/${process.env.ALCHEMY_TESTNET}`,
+      chainId: 84532,
       accounts: {
         mnemonic: mnemonic.testnet,
       },
       gas: 2100000,
       gasPrice: 8000000000,
     },
-    testnet_production: {
-      url: `https://arb-sepolia.g.alchemy.com/v2/${process.env.ALCHEMY_ARBITRUM_SEPOLIA}`,
+    arbitrumSepolia: {
+      // was testnet_stage
+      url: `https://arb-sepolia.g.alchemy.com/v2/${process.env.ALCHEMY_TESTNET}`,
       chainId: 421614, // Arbitrum Sepolia
       accounts: {
         mnemonic: mnemonic.testnet,
@@ -79,18 +81,9 @@ const config: HardhatUserConfig = {
   },
   etherscan: {
     apiKey: {
-      arbitrum_sepolia: process.env.ARBISCAN_API_KEY ? process.env.ARBISCAN_API_KEY : "",
+      arbitrumSepolia: process.env.ARBISCAN_API_KEY ? process.env.ARBISCAN_API_KEY : "",
+      baseSepolia: process.env.BASESCAN_API_KEY ? process.env.BASESCAN_API_KEY : "",
     },
-    customChains: [
-      {
-        network: "arbitrum_sepolia",
-        chainId: 421614,
-        urls: {
-          apiURL: "https://api-sepolia.arbiscan.io/api",
-          browserURL: "https://sepolia.arbiscan.io/",
-        },
-      },
-    ],
   },
   docgen: {
     outputDir: "docs",

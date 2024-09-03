@@ -1,5 +1,5 @@
 {
-  "name": "testnet_stage",
+  "name": "arbitrumSepolia",
   "chainId": "421614",
   "contracts": {
     "ETS": {

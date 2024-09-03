@@ -1,9 +1,9 @@
 {
-  "name": "mumbai_stage",
-  "chainId": "80001",
+  "name": "baseSepolia",
+  "chainId": "84532",
   "contracts": {
     "ETS": {
-      "address": "0x6b76f4e0E03bF060D75A59886B0649ce071d6e09",
+      "address": "0xE889910350641731de1199991Ab5aA121ad12c41",
       "abi": [
         {
           "inputs": [],
@@ -1297,7 +1297,7 @@
       ]
     },
     "ETSAccessControls": {
-      "address": "0x0359D6A7AB4064EEA89358519a34842eEFf0Fd78",
+      "address": "0x00521E4827C6683043eAAdC519368aCCd609D8A9",
       "abi": [
         {
           "inputs": [],
@@ -2202,7 +2202,7 @@
       ]
     },
     "ETSAuctionHouse": {
-      "address": "0xf5d631DC08211e649FA7B025179De146AfFAEe41",
+      "address": "0x1e49622AfF007569fdc99e5989E267d55218b066",
       "abi": [
         {
           "inputs": [],
@@ -3366,7 +3366,7 @@
       ]
     },
     "ETSEnrichTarget": {
-      "address": "0xfCaCd44f31BD7446E49De06D6BE9952B1394431E",
+      "address": "0x20236Ecfcd2e5D85ec344CD93677d84Ff43ee849",
       "abi": [
         {
           "inputs": [],
@@ -3584,7 +3584,7 @@
       ]
     },
     "ETSRelayerFactory": {
-      "address": "0x8d2cd1B3D223DAa5F2DF27d5dC438eF252b3d71c",
+      "address": "0x42594Ae3479F5EEeDbb2509D7aFCC64bd305490D",
       "abi": [
         {
           "inputs": [
@@ -3730,7 +3730,7 @@
       ]
     },
     "ETSRelayerV1": {
-      "address": "0x5aFbc0d9d7864A2d901e121124679e80b94f384f",
+      "address": "0x2d9Fa220c1537002402CA93E5909Ef9026BB7624",
       "abi": [
         {
           "inputs": [],
@@ -4317,7 +4317,7 @@
       ]
     },
     "ETSTarget": {
-      "address": "0x84d21f164D4fb8591f5F092443575621eBd13Cf3",
+      "address": "0xbFC3A550Fc6c260B5B788755Aecd3c4822b7b52f",
       "abi": [
         {
           "inputs": [],
@@ -4824,7 +4824,7 @@
       ]
     },
     "ETSToken": {
-      "address": "0x46056073E5917Dd5883Ad24d51A20AD6dF5730E9",
+      "address": "0x0300c9f3FE108bf683D03005B6B66EA1db74007A",
       "abi": [
         {
           "inputs": [],

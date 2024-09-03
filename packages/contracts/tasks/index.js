@@ -9,3 +9,4 @@ exports.transferRelayer = require("./transferRelayer");
 exports.miningSettings = require("./miningSettings");
 exports.togglePauseRelayerByOwner = require("./togglePauseRelayerByOwner");
 exports.testdata = require("./createTestData");
+exports.deployAll = require("./deployAll");
