@@ -35,4 +35,4 @@ jobs:
           pattern: "packages/**/dist/**"
           repo-token: ${{ secrets.GITHUB_TOKEN }}
         env:
-          NETWORK: testnet_stage
+          NETWORK: arbitrumSepolia

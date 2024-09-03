@@ -40,7 +40,7 @@ jobs:
       - name: Build
         run: pnpm build
         env:
-          NETWORK: testnet_stage # TODO: Change to mainnet when time is right.
+          NETWORK: arbitrumSepolia # Any valid network option in hardhat.config.ts should work.
 
       - name: Publint
         run: pnpm test:build
