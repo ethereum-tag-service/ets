@@ -1,7 +1,7 @@
 const subgraphEndpoints: Record<string, string> = {
   development: "http://localhost:8000/subgraphs/name/ets/ets-local",
-  stage: "https://api.studio.thegraph.com/query/71717/ets-testnet-stage/v0.0.3",
-  production: "",
+  arbitrumSepolia: "https://api.studio.thegraph.com/query/87165/ets-arbitrum-sepolia/version/latest",
+  baseSepolia: "https://api.studio.thegraph.com/query/87165/ets-base-sepolia/version/latest",
 };
 
 export default subgraphEndpoints;
