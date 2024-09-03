@@ -1,36 +1,41 @@
 import { http, type Config, createConfig, fallback } from "wagmi";
-import { type Chain, arbitrumSepolia, hardhat } from "wagmi/chains";
+import { type Chain, arbitrumSepolia, baseSepolia, hardhat, localhost } from "wagmi/chains";
 import { injected } from "wagmi/connectors";
 
 // Wagmi Config
 export const wagmiConfig: Config = createConfig({
-  chains: [process.env.NEXT_PUBLIC_ETS_ENVIRONMENT === "development" ? hardhat : arbitrumSepolia],
+  chains: [localhost, arbitrumSepolia, baseSepolia],
   connectors: [injected()],
   transports: {
+    [baseSepolia.id]: fallback([http(`https://base-sepolia.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`)]),
     [arbitrumSepolia.id]: fallback([
       http(`https://arb-sepolia.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`),
     ]),
-    [hardhat.id]: http("http://localhost:8545"),
+    [localhost.id]: http("http://localhost:8545"),
   },
 });
 
 export const availableChainIds: SupportedChains[] = [
   421614, // arbitrumSepolia
+  84532, // baseSepolia
   31337, // hardhat
 ];
 
 export const chainsList: { [key in SupportedChains]: Chain } = {
   421614: arbitrumSepolia,
+  84532: baseSepolia,
   31337: hardhat,
 };
 
 export type SupportedChains =
   | 421614 // arbitrumSepolia
+  | 84532 // baseSepolia
   | 31337; // hardhat
 
 export const chainsMap = (chainId?: number) =>
   chainId ? chainsList[chainId as SupportedChains] : (Object.values(chainsList)[0] as Chain);
 
+// TODO: Add more chain explorers
 export const getExplorerUrl = (
   chainId: number,
   type: "tx" | "nft" | "address" | "token" = "tx",
