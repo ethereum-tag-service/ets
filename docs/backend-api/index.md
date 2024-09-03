@@ -1,6 +1,6 @@
 # Backend API (contracts)
 
-Note: The latest testnet contract addresses can also be found [here](../../packages/contracts/export/chainConfig/testnet_stage.json).
+Note: The latest testnet contract addresses can also be found [here](../../packages/contracts/export/chainConfig/arbitrumSepolia.json).
 
 ## Contract API Documentation
 

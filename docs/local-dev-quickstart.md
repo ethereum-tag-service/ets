@@ -82,7 +82,7 @@ If you're lucky and everything fired up, at this point you are ready to begin in
 If you wish run the explorer locally, but have it interact with the ETS testnet contracts & corresponding subgraph, use the following environment variables before running `pnpm run dev`
 
 ```bash
-NETWORK="testnet_stage"
+NETWORK="arbitrumSepolia"
 NEXT_PUBLIC_ETS_ENVIRONMENT="stage"
 ```
 
