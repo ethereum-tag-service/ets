@@ -46,7 +46,7 @@ pnpm run dev
 For front-end testing on ETS testnet, configure:
 
 ```bash
-NETWORK=testnet_stage
+NETWORK= // Select a testnet chain from hardhat.config.ts eg. "arbitrumSepolia"
 NEXT_PUBLIC_ETS_ENVIRONMENT=stage
 ```
 
@@ -83,7 +83,7 @@ pnpm run deploy:defender
 Test Defender Actions locally while using a Defender Relayer for transactions by setting:
 
 ```bash
-NETWORK=testnet_stage
+NETWORK= // Select a testnet chain from hardhat.config.ts eg. "arbitrumSepolia"
 # Api keys for the Defender relayer
 API_KEY=your_api_key_here
 API_SECRET=your_api_secret_here

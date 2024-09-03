@@ -20,7 +20,7 @@ resources:
       paused: false
       path: "./dist/defender/actions/release-next-auction"
       environment-variables:
-        NETWORK: "testnet_stage"
+        NETWORK: "arbitrumSepolia"
         NEXT_PUBLIC_ETS_ENVIRONMENT: "stage"
   policies:
     policy-8d:

@@ -13,9 +13,10 @@
  * transactions on behalf of the user.
  *
  * Local Testing:
- * To test this Defender Action locally, ensure the NETWORK environment variable is set to 'testnet_stage'.
+ * To test this Defender Action locally, ensure the NETWORK environment variable is set to a valid testnet chain
+ * from hardhat.config.ts eg. "arbitrumSepolia".
  * This setup allows developers to simulate the action's behavior in a test environment similar to the
- * production configuration on the Arbitrum Seplolia test network.
+ * environment running on OZ Defender.
  */
 
 import type { RelayerParams } from "@openzeppelin/defender-relay-client/lib/relayer";
@@ -33,9 +34,20 @@ export async function handler(credentials: RelayerParams) {
 if (require.main === module) {
   require("dotenv").config();
 
-  // Enforce the 'testnet_stage' network for local testing
-  if (process.env.NETWORK !== "testnet_stage") {
-    console.error("Local testing requires NETWORK environment variable to be set to 'testnet_stage'.");
+  // Enforce the testnet network for local testing
+  // TODO: turn VALID_NETWORKS into a value imported from the contracts package.
+  const VALID_NETWORKS = ["arbitrumSepolia", "baseSepolia"] as const;
+
+  // Type for valid networks
+  type ValidNetwork = (typeof VALID_NETWORKS)[number];
+
+  // Check if the NETWORK environment variable is set and valid
+  const network = process.env.NETWORK as ValidNetwork | undefined;
+
+  if (!network || !VALID_NETWORKS.includes(network)) {
+    console.error(
+      `Local testing requires NETWORK environment variable to be set to one of the following: ${VALID_NETWORKS.join(", ")}.`,
+    );
     process.exit(1);
   }
 

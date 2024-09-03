@@ -14,32 +14,41 @@ import { ethers } from "ethers";
  *                      set inside the action code. @see /src/defender/actions/release-next-auction/
  *
  * @returns An instance of ethers.Signer, which can either be a Wallet (for local environments)
- *          or a DefenderRelaySigner (for non-local environments like "mumbai_stage").
+ *          or a DefenderRelaySigner (for non-local environments like "arbitrumSepolia").
  *
  * @throws Error - If the NETWORK environment variable is set to an unsupported value
  *                 or if credentials are required but not provided.
  */
 export async function initializeSigner(credentials?: RelayerParams): Promise<ethers.Signer> {
-  let signer: ethers.Signer;
-
   if (process.env.NETWORK === "localhost") {
     // For local development, use a Wallet connected to a local JSON-RPC provider.
     const provider = new ethers.providers.JsonRpcProvider("http://127.0.0.1:8545");
     const privateKey = getRequiredEnv("ETS_ORACLE_LOCALHOST_PK");
-    signer = new ethers.Wallet(privateKey, provider);
-  } else if (process.env.NETWORK === "testnet_stage") {
-    // For the "testnet_stage" environment, use DefenderRelaySigner which requires credentials.
-    if (!credentials) {
-      throw new Error("Defender relayer credentials must be provided for the 'testnet_stage' network.");
-    }
-    const provider = new DefenderRelayProvider(credentials);
-    signer = new DefenderRelaySigner(credentials, provider, { speed: "fast" });
-  } else {
-    // Throw an error if an unsupported NETWORK value is encountered.
-    throw new Error("Unsupported network configuration.");
+    return new ethers.Wallet(privateKey, provider);
   }
 
-  return signer;
+  // Enforce the testnet network for local testing
+  // TODO: turn VALID_NETWORKS into a value imported from the contracts package.
+  const VALID_NETWORKS = ["arbitrumSepolia", "baseSepolia"] as const;
+
+  // Type for valid networks
+  type ValidNetwork = (typeof VALID_NETWORKS)[number];
+
+  // Check if the NETWORK environment variable is set and valid
+  const network = process.env.NETWORK as ValidNetwork | undefined;
+
+  if (network && VALID_NETWORKS.includes(network)) {
+    // using DefenderRelaySigner requires credentials.
+    if (!credentials) {
+      throw new Error(`"Defender relayer credentials must be provided for the ${network} network."`);
+    }
+    const provider = new DefenderRelayProvider(credentials);
+    return new DefenderRelaySigner(credentials, provider, { speed: "fast" });
+  }
+
+  throw new Error(
+    `Unsupported or missing NETWORK configuration. Supported networks are: ${Object.keys(VALID_NETWORKS).join(", ")}.`,
+  );
 }
 
 /**
