@@ -9,22 +9,25 @@
   "scripts": {
     "clean-graph-node": "rm -rf graph-node/data/",
     "codegen": "graph codegen --output-dir src/generated",
-    "graph-deploy-local": "node scripts/deploy.js --deployment localhost",
-    "graph-deploy-testnet-production": "node scripts/deploy.js --deployment testnet_production",
-    "graph-deploy-testnet-stage": "node scripts/deploy.js --deployment testnet_stage",
-    "prepare-local": "node scripts/generate-yaml.js --deployment localhost",
-    "prepare-testnet-production": "node scripts/generate-yaml.js --deployment testnet_production",
-    "prepare-testnet-stage": "node scripts/generate-yaml.js --deployment testnet_stage",
+    "deploy": "ts-node scripts/deploy.ts",
+    "generate-yaml": "ts-node scripts/generate-yaml.ts",
     "start-graph-node": "cd scripts && ./start-graph-node.sh",
     "test:build": "publint --strict"
   },
   "devDependencies": {
     "@graphprotocol/graph-cli": "^0.80.0",
     "@graphprotocol/graph-ts": "^0.35.1",
+    "@types/fs-extra": "^11.0.1",
+    "@types/handlebars": "^4.1.0",
+    "@types/minimist": "^1.2.2",
+    "@types/node": "*",
     "axios": "^1.6.2",
     "fs-extra": "^11.1.1",
     "handlebars": "^4.7.7",
     "minimist": "^1.2.8",
-    "node-fetch": "2"
+    "node-fetch": "2",
+    "npm": "^10.8.3",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
   }
 }
