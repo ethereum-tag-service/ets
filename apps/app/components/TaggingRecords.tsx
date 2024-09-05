@@ -132,19 +132,24 @@ const TaggingRecords: NextPage<Props> = ({ filter, pageSize = globalSettings.DEF
     [t, columnHelper.accessor, chainId],
   );
 
-  return (
-    <TanstackTable
-      columns={columns}
-      data={taggingRecords}
-      loading={!taggingRecords?.length}
-      rowsPerPage={pageSize}
-      title={title}
-      rowLink={(taggingRecord: any) => `/explore/tagging-records/${taggingRecord.id}`}
-      hasNextPage={!!nextTaggingRecords?.length}
-      pageIndex={pageIndex}
-      setPageIndex={setPageIndex}
-    />
+  const memoizedTable = useMemo(
+    () => (
+      <TanstackTable
+        columns={columns}
+        data={taggingRecords}
+        loading={!taggingRecords?.length}
+        rowsPerPage={pageSize}
+        title={title}
+        rowLink={(taggingRecord: any) => `/explore/tagging-records/${taggingRecord.id}`}
+        hasNextPage={!!nextTaggingRecords?.length}
+        pageIndex={pageIndex}
+        setPageIndex={setPageIndex}
+      />
+    ),
+    [columns, taggingRecords, pageSize, title, nextTaggingRecords, pageIndex],
   );
+
+  return memoizedTable;
 };
 
 export { TaggingRecords };
