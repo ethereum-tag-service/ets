@@ -1,5 +1,3 @@
-import { URIIcon } from "@app/components/icons";
-import useTranslation from "next-translate/useTranslation";
 import type React from "react";
 
 interface URIProps {
@@ -8,18 +6,33 @@ interface URIProps {
 }
 
 export const URI: React.FC<URIProps> = ({ value, className = "link link-primary" }) => {
-  const { t } = useTranslation("common");
-
-  const openURI = (event: React.MouseEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
-    window.open(value, "_blank", "noopener,noreferrer");
-  };
-
   return (
-    <button onClick={openURI} className={className}>
-      <URIIcon />
-      <span className="sr-only">{t("Open URI")}</span>
+    <button
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        window.open(value, "_blank", "noopener,noreferrer");
+      }}
+      className={className}
+      aria-label="Open URI"
+    >
+      <svg
+        className="inline-flex w-5 h-5"
+        width="24"
+        height="24"
+        fill="none"
+        viewBox="0 0 24 24"
+        aria-labelledby="openLinkTitle"
+      >
+        <title id="openLinkTitle">Open link</title>
+        <path
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1.5"
+          d="M17.25 15.25V6.75H8.75 M17 7L6.75 17.25"
+        />
+      </svg>
     </button>
   );
 };
