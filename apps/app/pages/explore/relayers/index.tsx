@@ -1,5 +1,5 @@
 import Address from "@app/components/Address";
-import { ConnectButtonETS } from "@app/components/ConnectButtonETS";
+import ConnectButtonETS from "@app/components/ConnectButtonETS";
 import { Modal } from "@app/components/Modal";
 import { TanstackTable } from "@app/components/TanstackTable";
 import { TimeAgo } from "@app/components/TimeAgo";

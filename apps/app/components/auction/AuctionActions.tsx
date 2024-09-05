@@ -1,4 +1,4 @@
-import { ConnectButtonETS } from "@app/components/ConnectButtonETS";
+import ConnectButtonETS from "@app/components/ConnectButtonETS";
 import { Modal } from "@app/components/Modal";
 import TransactionFlowWrapper from "@app/components/transaction/TransactionFlowWrapper";
 import type { Auction } from "@app/types/auction";

@@ -1,4 +1,4 @@
-import { ConnectButtonETS } from "@app/components/ConnectButtonETS";
+import ConnectButtonETS from "@app/components/ConnectButtonETS";
 import { pathToTitle } from "@app/utils/titleUtils";
 import Head from "next/head";
 import Link from "next/link";
