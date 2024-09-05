@@ -15,7 +15,7 @@
 import { useAuctions } from "@app/hooks/useAuctions";
 import type { AuctionHouse } from "@app/types/auction";
 import type React from "react";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useMemo, useState } from "react";
 
 import {
   fetchAuctionPaused,
@@ -131,16 +131,28 @@ export const AuctionHouseProvider: React.FC<AuctionHouseProviderProps> = ({
     setAuctionPaused(auctionPaused);
   };
   // Context value assembled from state and functions.
-  const contextValue: AuctionHouse = {
-    auctionPaused,
-    maxAuctions,
-    minIncrementBidPercentage,
-    duration,
-    timeBuffer,
-    maxAuctionId,
-    allAuctions: allAuctions || [], // Ensure it defaults to []
-    refreshAuctions,
-  };
+  const contextValue = useMemo(
+    () => ({
+      auctionPaused,
+      maxAuctions,
+      minIncrementBidPercentage,
+      duration,
+      timeBuffer,
+      maxAuctionId,
+      allAuctions: allAuctions || [], // Ensure it defaults to []
+      refreshAuctions,
+    }),
+    [
+      auctionPaused,
+      maxAuctions,
+      minIncrementBidPercentage,
+      duration,
+      timeBuffer,
+      maxAuctionId,
+      allAuctions,
+      refreshAuctions,
+    ],
+  );
 
   // Providing the auction house context to child components.
   return <AuctionHouseContext.Provider value={contextValue}>{children}</AuctionHouseContext.Provider>;
