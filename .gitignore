@@ -77,3 +77,6 @@ apps/app/src/contracts.ts
 apps/oracle/.env
 apps/oracle/.defender
 apps/oracle/src/contracts.ts
+
+# Million Lint
+.million
