@@ -1,19 +1,15 @@
 import useTranslation from "next-translate/useTranslation";
-// components/SiteMessage.tsx
-// Sitewide message component that can be dismissed by the user.
 import type React from "react";
 import { useEffect, useState } from "react";
 
 const SiteMessage: React.FC = () => {
   const { t } = useTranslation("common");
-  const [isVisible, setIsVisible] = useState<boolean>(true);
+  const [isVisible, setIsVisible] = useState<boolean | null>(null);
 
   useEffect(() => {
-    // Check localStorage to see if the alert should be hidden
+    // Check localStorage to see if the alert should be shown
     const siteMessageDismissed = localStorage.getItem("siteMessageDismissed");
-    if (siteMessageDismissed) {
-      setIsVisible(false);
-    }
+    setIsVisible(siteMessageDismissed !== "true");
   }, []);
 
   const handleDismiss = () => {
@@ -23,6 +19,10 @@ const SiteMessage: React.FC = () => {
     localStorage.setItem("siteMessageDismissed", "true");
   };
 
+  // Don't render anything until we've checked localStorage
+  if (isVisible === null) return null;
+
+  // If it's not visible, don't render anything
   if (!isVisible) return null;
 
   return (
@@ -33,7 +33,7 @@ const SiteMessage: React.FC = () => {
         fill="none"
         viewBox="0 0 24 24"
       >
-        <title>Info Alter Icon</title>
+        <title>Info Alert Icon</title>
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
