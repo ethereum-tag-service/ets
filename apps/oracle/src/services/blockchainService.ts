@@ -1,4 +1,6 @@
+import { etsAccessControlsConfig, etsAuctionHouseConfig } from "@ethereum-tag-service/contracts/contracts";
 import type { DefenderRelaySigner } from "@openzeppelin/defender-sdk-relay-signer-client/lib/ethers/signer";
+
 /**
  * The BlockchainService class encapsulates interactions with the blockchain, particularly
  * focusing on operations related to the ETS Auction House and Access Controls. It utilizes ethers.js
@@ -6,7 +8,6 @@ import type { DefenderRelaySigner } from "@openzeppelin/defender-sdk-relay-signe
  * OpenZeppelin Defender Autotask.
  */
 import { ethers } from "ethers";
-import { etsAccessControlsConfig, etsAuctionHouseConfig } from "../contracts";
 import { TagService } from "./tagService";
 
 // ABI and contract addresses for the ETS Auction House and Access Controls, assuming these are correctly defined in your contracts configurations.

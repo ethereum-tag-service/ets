@@ -16,7 +16,7 @@ const emptyConfig = {
  * @return {string} Path to the network-specific configuration file.
  */
 function getConfigPath() {
-  return `./export/upgradeConfig/${network.name}.json`;
+  return `./src/upgradeConfig/${network.name}.json`;
 }
 
 /**

@@ -28,7 +28,7 @@ task("deploy-all", "Deploys all contracts")
     // Set export path
     let exportPath = taskArgs.export;
     if (!exportPath) {
-      exportPath = path.join("export", "chainConfig", `${network.name}.json`);
+      exportPath = path.join("src", "chainConfig", `${network.name}.json`);
     }
 
     // Run deployments

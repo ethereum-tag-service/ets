@@ -1,46 +1,44 @@
-import { http, type Config, createConfig, fallback } from "wagmi";
-import { type Chain, arbitrumSepolia, baseSepolia, hardhat, localhost } from "wagmi/chains";
+import {
+  type SupportedChainId,
+  availableChainIds,
+  chains as etsChains,
+} from "@ethereum-tag-service/contracts/chainsConfig";
+import { getAlchemyRpcUrlById, getChainById, getExplorerUrl } from "@ethereum-tag-service/contracts/utils";
+import { type Chain, arbitrumSepolia, baseSepolia } from "viem/chains";
+import { http, createConfig, fallback } from "wagmi";
 import { injected } from "wagmi/connectors";
 
+// Convert etsChains to an array of Chain objects
+const configChains = Object.values(etsChains) as Chain[];
+if (configChains.length === 0) {
+  throw new Error("No chains configured");
+}
+
 // Wagmi Config
-export const wagmiConfig: Config = createConfig({
-  chains: [localhost, arbitrumSepolia, baseSepolia],
+export const wagmiConfig = createConfig({
+  chains: [arbitrumSepolia, baseSepolia],
   connectors: [injected()],
-  transports: {
-    [baseSepolia.id]: fallback([http(`https://base-sepolia.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`)]),
-    [arbitrumSepolia.id]: fallback([
-      http(`https://arb-sepolia.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`),
+  transports: Object.fromEntries(
+    availableChainIds.map((chainId) => [
+      Number(chainId).toString,
+      fallback([
+        http(
+          chainId === "31337"
+            ? "http://localhost:8545"
+            : `${getAlchemyRpcUrlById(chainId, process.env.NEXT_PUBLIC_ALCHEMY_KEY || "")}`,
+        ),
+      ]),
     ]),
-    [localhost.id]: http("http://localhost:8545"),
-  },
+  ),
 });
 
-export const availableChainIds: SupportedChains[] = [
-  421614, // arbitrumSepolia
-  84532, // baseSepolia
-  31337, // hardhat
-];
+// Re-export types and functions
+export { etsChains, availableChainIds, getChainById, getExplorerUrl };
+export type { SupportedChainId };
 
-export const chainsList: { [key in SupportedChains]: Chain } = {
-  421614: arbitrumSepolia,
-  84532: baseSepolia,
-  31337: hardhat,
-};
+// Maintain compatibility with existing chainsMap function
+export const chainsMap = (chainId?: number): Chain =>
+  chainId ? (getChainById(chainId.toString() as SupportedChainId) as Chain) : configChains[0];
 
-export type SupportedChains =
-  | 421614 // arbitrumSepolia
-  | 84532 // baseSepolia
-  | 31337; // hardhat
-
-export const chainsMap = (chainId?: number) =>
-  chainId ? chainsList[chainId as SupportedChains] : (Object.values(chainsList)[0] as Chain);
-
-// TODO: Add more chain explorers
-export const getExplorerUrl = (
-  chainId: number,
-  type: "tx" | "nft" | "address" | "token" = "tx",
-  hash?: string,
-): string => {
-  const baseUrl = chainsList[chainId as SupportedChains]?.blockExplorers?.default.url;
-  return baseUrl ? `${baseUrl}/${type}/${hash}` : `https://etherscan.io/${type}/${hash}`;
-};
+// Type alias for backward compatibility
+export type SupportedChains = SupportedChainId;

@@ -1,0 +1,31 @@
+const nextTranslate = require("next-translate-plugin");
+const withTM = require("next-transpile-modules")(["@ethereum-tag-service/contracts", "wagmi"]);
+
+/**
+ * @type {import('next').NextConfig}
+ **/
+const nextConfig = {
+  reactStrictMode: true,
+  experimental: {
+    esmExternals: true, // Changed from 'loose' to true
+  },
+  i18n: {
+    locales: ["en"], // Add all your supported locales
+    defaultLocale: "en",
+  },
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ["@svgr/webpack"],
+    });
+    // See https://www.rainbowkit.com/docs/installation#additional-build-tooling-setup
+    config.resolve.fallback = { fs: false, net: false, tls: false };
+    config.externals.push("pino-pretty", "lokijs", "encoding");
+
+    return config;
+  },
+};
+
+// Apply plugins
+const config = withTM(nextConfig);
+module.exports = nextTranslate(config);

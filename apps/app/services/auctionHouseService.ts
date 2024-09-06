@@ -1,17 +1,28 @@
 import { wagmiConfig } from "@app/config/wagmiConfig";
-import { etsAuctionHouseConfig } from "@app/src/contracts";
 import type { Auction, AuctionOnChain, AuctionSettings } from "@app/types/auction";
 import { formatEtherWithDecimals } from "@app/utils";
 import { fetcher } from "@app/utils/fetchers";
-import { getBlock, readContract, watchContractEvent } from "wagmi/actions";
+import { etsAuctionHouseConfig } from "@ethereum-tag-service/contracts/contracts";
+import { getBlock, getChainId, readContract, watchContractEvent } from "wagmi/actions";
 
 type FetchAuctionsResponse = {
   auctions: Auction[];
 };
 
+// Simplified helper function to get the correct contract address for the current chain
+const getContractAddress = (): `0x${string}` =>
+  etsAuctionHouseConfig.address[getChainId(wagmiConfig) as keyof typeof etsAuctionHouseConfig.address];
+const address = getContractAddress();
+
+// Create a config object with the shared address and ABI
+const auctionHouseConfig = {
+  address,
+  abi: etsAuctionHouseConfig.abi,
+};
+
 export const fetchAuctionPaused = async (): Promise<boolean> => {
   const data = await readContract(wagmiConfig, {
-    ...etsAuctionHouseConfig,
+    ...auctionHouseConfig,
     functionName: "paused",
   });
   return data;
@@ -19,7 +30,7 @@ export const fetchAuctionPaused = async (): Promise<boolean> => {
 
 export const watchAuctionPaused = (onPaused: () => Promise<void>) => {
   const unwatch = watchContractEvent(wagmiConfig, {
-    ...etsAuctionHouseConfig,
+    ...auctionHouseConfig,
     eventName: "Paused",
     onLogs: async () => {
       await onPaused();
@@ -31,7 +42,7 @@ export const watchAuctionPaused = (onPaused: () => Promise<void>) => {
 
 export const watchAuctionUnpaused = (onUnpaused: () => Promise<void>) => {
   const unwatch = watchContractEvent(wagmiConfig, {
-    ...etsAuctionHouseConfig,
+    ...auctionHouseConfig,
     eventName: "Unpaused",
     onLogs: async () => {
       await onUnpaused();
@@ -43,7 +54,7 @@ export const watchAuctionUnpaused = (onUnpaused: () => Promise<void>) => {
 
 export const watchNewAuctionReleased = (onNewAuction: () => Promise<void>) => {
   const unwatch = watchContractEvent(wagmiConfig, {
-    ...etsAuctionHouseConfig,
+    ...auctionHouseConfig,
     eventName: "AuctionCreated",
     onLogs: async () => {
       await onNewAuction();
@@ -75,7 +86,7 @@ export const fetchBlockchainTime = async (): Promise<number> => {
 
 export const fetchMaxAuctions = async (): Promise<number> => {
   const data = await readContract(wagmiConfig, {
-    ...etsAuctionHouseConfig,
+    ...auctionHouseConfig,
     functionName: "maxAuctions",
   });
   return Number(data);
@@ -83,7 +94,7 @@ export const fetchMaxAuctions = async (): Promise<number> => {
 
 export const fetchCurrentAuctionId = async (): Promise<number> => {
   const data = await readContract(wagmiConfig, {
-    ...etsAuctionHouseConfig,
+    ...auctionHouseConfig,
     functionName: "getTotalCount",
   });
   return Number(data);
@@ -91,7 +102,7 @@ export const fetchCurrentAuctionId = async (): Promise<number> => {
 
 export const fetchAuction = async (auctionId: number): Promise<AuctionOnChain> => {
   const data = await readContract(wagmiConfig, {
-    ...etsAuctionHouseConfig,
+    ...auctionHouseConfig,
     functionName: "getAuction",
     args: [BigInt(auctionId)],
   });
@@ -111,7 +122,7 @@ export const fetchAuction = async (auctionId: number): Promise<AuctionOnChain> =
 
 export const fetchAuctionEnded = async (auctionId: number): Promise<boolean> => {
   const data = await readContract(wagmiConfig, {
-    ...etsAuctionHouseConfig,
+    ...auctionHouseConfig,
     functionName: "auctionEnded",
     args: [BigInt(auctionId)],
   });

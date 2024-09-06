@@ -18,8 +18,8 @@ import { ModalProvider } from "@app/context/ModalContext";
 import { TransactionManagerProvider } from "@app/context/TransactionContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
+import { arbitrumSepolia, hardhat } from "viem/chains";
 import { WagmiProvider } from "wagmi";
-import { arbitrumSepolia, hardhat } from "wagmi/chains";
 
 const SystemProvider = dynamic(() => import("@app/context/SystemContext").then((mod) => mod.SystemProvider), {
   ssr: false,

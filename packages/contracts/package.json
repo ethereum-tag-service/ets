@@ -1,12 +1,13 @@
 {
   "name": "@ethereum-tag-service/contracts",
+  "author": "Ethereum Tag Service <team@ets.xyz>",
   "description": "Composable content tagging service for Web3",
   "license": "MIT",
   "version": "0.0.1",
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "commonjs",
-  "files": ["/dist"],
-  "author": "Ethereum Tag Service <team@ets.xyz>",
-  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ethereum-tag-service/ets.git",
@@ -14,13 +15,52 @@
   },
   "keywords": ["ets", "composable", "nft", "tagging"],
   "bugs": {
-    "url": "https://github.com/ethereum-tag-service/ets/issues"
+    "url": "https://github.com/orgs/ethereum-tag-service/discussions"
   },
   "homepage": "https://ets.xyz",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "exports": {
+    "./version": {
+      "import": "./dist/version.mjs",
+      "require": "./dist/version.js",
+      "types": "./dist/version.d.ts"
+    },
+    "./chainsConfig": {
+      "import": "./dist/chainsConfig.mjs",
+      "require": "./dist/chainsConfig.js",
+      "types": "./dist/chainsConfig.d.ts"
+    },
+    "./utils": {
+      "import": "./dist/utils.mjs",
+      "require": "./dist/utils.js",
+      "types": "./dist/utils.d.ts"
+    },
+    "./contracts": {
+      "import": "./dist/contracts.mjs",
+      "require": "./dist/contracts.js",
+      "types": "./dist/contracts.d.ts"
+    },
+    "./chainConfig/*": {
+      "import": "./dist/chainConfig/*.mjs",
+      "require": "./dist/chainConfig/*.js",
+      "types": "./dist/chainConfig/*.d.ts"
+    },
+    "./upgradeConfig/*": {
+      "import": "./dist/upgradeConfig/*.mjs",
+      "require": "./dist/upgradeConfig/*.js",
+      "types": "./dist/upgradeConfig/*.d.ts"
+    }
+  },
+  "main": "./dist/chainsConfig.js",
+  "module": "./dist/chainsConfig.mjs",
+  "types": "./dist/chainsConfig.d.ts",
+  "files": ["dist", "src"],
   "scripts": {
-    "build": "pnpm build:contracts && pnpm build:package",
+    "build": "pnpm build:package",
     "build:contracts": "pnpm compile",
-    "build:package": "pnpm run clean && cp -R export dist && cp -R artifacts/contracts dist/artifacts && cp -R contracts dist",
+    "build:package": "scripts/build-package.sh",
     "clean": "rm -rf dist",
     "compile": "hardhat clean && hardhat compile",
     "coverage": "hardhat coverage",
@@ -48,12 +88,14 @@
     "@nomiclabs/hardhat-web3": "^2.0.0",
     "@openzeppelin/hardhat-upgrades": "^2.4.1",
     "@openzeppelin/test-helpers": "^0.5.15",
+    "@sunodo/wagmi-plugin-hardhat-deploy": "^0.3.0",
     "@typechain/ethers-v5": "^11.1.2",
     "@typechain/ethers-v6": "^0.5.1",
     "@typechain/hardhat": "^9.1.0",
     "@types/chai": "^4.2.18",
     "@types/mocha": "^10.0.1",
     "@types/node": "^20.12.7",
+    "@wagmi/cli": "^2.1.15",
     "axios": "^1.6.2",
     "chai": "^4.3.4",
     "dotenv": "^16.3.1",
@@ -75,7 +117,8 @@
     "solidity-docgen": "0.6.0-beta.35",
     "ts-node": "^10.9.1",
     "typechain": "^8.1.0",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "viem": "^2.20.0"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.9.2",

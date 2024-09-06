@@ -17,7 +17,7 @@ const AuctionTimer: React.FC<AuctionTimerProps> = ({ auction }) => {
 
   useEffect(() => {
     const interval: number = 1000; // Set interval to 1 second
-    let timer: NodeJS.Timeout; // Declare timer variable for setInterval
+    let timer: Timer; // Declare timer variable for setInterval
 
     const updateTimer = (): void => {
       const currentTime: number = blockchainTime();

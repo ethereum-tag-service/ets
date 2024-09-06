@@ -19,6 +19,8 @@
  * environment running on OZ Defender.
  */
 
+import { availableChainIds, chains } from "@ethereum-tag-service/contracts/chainsConfig";
+
 import type { RelayerParams } from "@openzeppelin/defender-relay-client/lib/relayer";
 import { BlockchainService } from "./../../../services/blockchainService";
 import { initializeSigner } from "./../../../services/initializeSigner";
@@ -34,9 +36,9 @@ export async function handler(credentials: RelayerParams) {
 if (require.main === module) {
   require("dotenv").config();
 
-  // Enforce the testnet network for local testing
   // TODO: turn VALID_NETWORKS into a value imported from the contracts package.
-  const VALID_NETWORKS = ["arbitrumSepolia", "baseSepolia"] as const;
+  // Dynamically calculate valid networks based on the chains configuration
+  const VALID_NETWORKS = availableChainIds.map((id) => chains[id].name);
 
   // Type for valid networks
   type ValidNetwork = (typeof VALID_NETWORKS)[number];
