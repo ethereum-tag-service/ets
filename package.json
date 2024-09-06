@@ -2,9 +2,8 @@
   "name": "@ethereum-tag-service/monorepo",
   "author": "Ethereum Tag Service <team@ets.xyz>",
   "private": true,
-  "packageManager": "pnpm@8.11.0",
-  "keywords": ["ethereum", "react", "ets", "tag", "tagging", "workspaces", "yarn"],
-  "workspaces": ["apps/*", "packages/*", "examples/*"],
+  "packageManager": "pnpm@9.9.0",
+  "keywords": ["ethereum", "react", "ets", "tag", "tagging"],
   "scripts": {
     "build": "pnpm run clean && turbo run build --env-mode=loose",
     "changeset:build": "pnpm run --recursive --filter \"./packages/**\" --filter \"./apps/app\" build",
