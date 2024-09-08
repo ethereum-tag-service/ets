@@ -91,9 +91,6 @@ importers:
       '@iconicicons/react':
         specifier: ^1.5.0
         version: 1.5.0(react@18.2.0)
-      '@million/lint':
-        specifier: 1.0.0-rc.84
-        version: 1.0.0-rc.84(bufferutil@4.0.8)(encoding@0.1.13)(rollup@4.21.0)(utf-8-validate@5.0.10)
       '@rainbow-me/rainbowkit':
         specifier: ^2.1.1
         version: 2.1.1(@tanstack/react-query@5.17.19(react@18.2.0))(@types/react@18.2.12)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(viem@2.20.0(bufferutil@4.0.8)(typescript@5.5.4)(utf-8-validate@5.0.10)(zod@3.23.8))(wagmi@2.12.5(@react-native-async-storage/async-storage@1.24.0(react-native@0.75.2(@babel/core@7.25.2)(@babel/preset-env@7.25.3(@babel/core@7.25.2))(@types/react@18.2.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.2.0)(typescript@5.5.4)(utf-8-validate@5.0.10)))(@tanstack/query-core@5.17.19)(@tanstack/react-query@5.17.19(react@18.2.0))(@types/react@18.2.12)(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.2(@babel/core@7.25.2)(@babel/preset-env@7.25.3(@babel/core@7.25.2))(@types/react@18.2.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.2.0)(typescript@5.5.4)(utf-8-validate@5.0.10))(react@18.2.0)(rollup@4.21.0)(typescript@5.5.4)(utf-8-validate@5.0.10)(viem@2.20.0(bufferutil@4.0.8)(typescript@5.5.4)(utf-8-validate@5.0.10)(zod@3.23.8))(zod@3.23.8))
@@ -17032,40 +17029,6 @@ snapshots:
       xycolors: 0.1.2
     transitivePeerDependencies:
       - supports-color
-
-  '@million/lint@1.0.0-rc.84(bufferutil@4.0.8)(encoding@0.1.13)(rollup@4.21.0)(utf-8-validate@5.0.10)':
-    dependencies:
-      '@axiomhq/js': 1.0.0-rc.3
-      '@babel/core': 7.24.6
-      '@babel/types': 7.24.6
-      '@hono/node-server': 1.12.1
-      '@million/install': 0.0.18
-      '@rollup/pluginutils': 5.1.0(rollup@4.21.0)
-      '@rrweb/types': 2.0.0-alpha.16
-      babel-plugin-syntax-hermes-parser: 0.21.1
-      ci-info: 4.0.0
-      esbuild: 0.20.2
-      hono: 4.5.11
-      isomorphic-fetch: 3.0.0(encoding@0.1.13)
-      nanoid: 5.0.7
-      pako: 2.1.0
-      pathe: 1.1.2
-      piscina: 4.6.1
-      pretty-ms: 8.0.0
-      rrweb: 2.0.0-alpha.4
-      rrweb-player: 1.0.0-alpha.4
-      semver: 7.6.3
-      socket.io-client: 4.7.5(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      tmp: 0.2.3
-      unplugin: 1.13.1
-      update-notifier-cjs: 5.1.6(encoding@0.1.13)
-    transitivePeerDependencies:
-      - bufferutil
-      - encoding
-      - rollup
-      - supports-color
-      - utf-8-validate
-      - webpack-sources
 
   '@million/lint@1.0.0-rc.84(bufferutil@4.0.8)(encoding@0.1.13)(rollup@4.21.0)(utf-8-validate@6.0.4)':
     dependencies:
