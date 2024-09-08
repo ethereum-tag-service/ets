@@ -14,6 +14,5 @@ export { Tag } from "./Tag";
 export { TaggingRecord } from "./TaggingRecord";
 export { Target } from "./Target";
 export { Trophy } from "./Trophy";
-export { URIIcon } from "./URIIcon";
 export { Users } from "./Users";
 export { Wallet } from "./Wallet";

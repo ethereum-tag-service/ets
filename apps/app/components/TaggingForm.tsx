@@ -7,7 +7,7 @@ import useTranslation from "next-translate/useTranslation";
 import { useCallback, useState } from "react";
 import type { Hex } from "viem";
 import { useAccount } from "wagmi";
-import { ConnectButtonETS } from "./ConnectButtonETS";
+import ConnectButtonETS from "./ConnectButtonETS";
 
 interface TaggingFormProps {
   target: string;
