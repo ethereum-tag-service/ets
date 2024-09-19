@@ -6,7 +6,8 @@ module.exports = async ({ deployments }) => {
 
   let accounts;
   try {
-    [accounts, factories, initSettings] = await setup();
+    const setupResult = await setup();
+    accounts = setupResult.accounts;
     console.info("Setup completed successfully");
     console.info("ETSAdmin address:", accounts.ETSAdmin.address);
     console.info("ETSPlatform address:", accounts.ETSPlatform.address);
@@ -21,9 +22,9 @@ module.exports = async ({ deployments }) => {
     console.info("ETSAccessControls address:", etsAccessControls.address);
     const ETSAccessControls = await ethers.getContractAt("ETSAccessControls", etsAccessControls.address);
 
-    const etsToken = await deployments.get("ETSToken");
-    console.info("ETSToken address:", etsToken.address);
-    const ETSToken = await ethers.getContractAt("ETSToken", etsToken.address);
+    const etsTokenDeployment = await deployments.get("ETSToken");
+    console.info("ETSToken address:", etsTokenDeployment.address);
+    const ETSToken = await ethers.getContractAt("ETSToken", etsTokenDeployment.address);
 
     const etsAuctionHouse = await deployments.get("ETSAuctionHouse");
     console.info("ETSAuctionHouse address:", etsAuctionHouse.address);
@@ -70,7 +71,7 @@ module.exports = async ({ deployments }) => {
     await ETSAccessControls.grantRole(await ETSAccessControls.RELAYER_ADMIN_ROLE(), accounts.ETSAdmin.address);
     await ETSAccessControls.grantRole(await ETSAccessControls.RELAYER_ADMIN_ROLE(), accounts.ETSPlatform.address);
     await ETSAccessControls.grantRole(await ETSAccessControls.RELAYER_ADMIN_ROLE(), etsAccessControls.address);
-    await ETSAccessControls.grantRole(await ETSAccessControls.RELAYER_ADMIN_ROLE(), etsToken.address);
+    await ETSAccessControls.grantRole(await ETSAccessControls.RELAYER_ADMIN_ROLE(), etsTokenDeployment.address);
     await ETSAccessControls.grantRole(await ETSAccessControls.AUCTION_ORACLE_ROLE(), accounts.ETSPlatform.address);
     await ETSAccessControls.grantRole(await ETSAccessControls.AUCTION_ORACLE_ROLE(), accounts.ETSOracle.address);
     await ETSAccessControls.grantRole(await ETSAccessControls.SMART_CONTRACT_ROLE(), accounts.ETSAdmin.address);

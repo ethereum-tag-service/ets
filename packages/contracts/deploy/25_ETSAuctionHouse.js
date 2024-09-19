@@ -5,7 +5,7 @@ const { saveNetworkConfig } = require("./utils/config.js");
 
 module.exports = async ({ deployments }) => {
   const { save, log } = deployments;
-  [accounts, factories, initSettings] = await setup();
+  const { factories, initSettings } = await setup();
 
   const wmatic = await factories.WMATIC.deploy();
   await wmatic.waitForDeployment();
@@ -27,7 +27,7 @@ module.exports = async ({ deployments }) => {
       wmaticAddress,
       initSettings.MAX_AUCTIONS,
       initSettings.TIME_BUFFER,
-      ethers.parseUnits(initSettings.RESERVE_PRICE, "ether"),
+      ethers.parseEther(initSettings.RESERVE_PRICE),
       initSettings.MIN_INCREMENT_BID_PERCENTAGE,
       initSettings.DURATION,
       initSettings.RELAYER_PERCENTAGE,

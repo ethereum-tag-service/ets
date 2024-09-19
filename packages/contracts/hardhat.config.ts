@@ -1,14 +1,10 @@
 //import "hardhat-ethernal";
-import "@typechain/hardhat";
 import type { HardhatUserConfig } from "hardhat/types";
 import "hardhat-deploy";
 import "solidity-docgen";
-import "solidity-coverage";
 import "hardhat-abi-exporter";
 import "@nomiclabs/hardhat-web3";
-import "@nomiclabs/hardhat-ethers";
-import "@nomiclabs/hardhat-waffle";
-import "@nomicfoundation/hardhat-verify";
+import "@nomicfoundation/hardhat-toolbox";
 import "@nomiclabs/hardhat-truffle5";
 import "@openzeppelin/hardhat-upgrades";
 import "@nomicfoundation/hardhat-chai-matchers";
@@ -22,13 +18,13 @@ dotenvConfig({ path: resolve(__dirname, "../../.env") });
 
 const mnemonic = {
   local: `${process.env.MNEMONIC_LOCAL}`.replace(/_/g, " "),
-  mumbai: `${process.env.MNEMONIC_MUMBAI}`.replace(/_/g, " "),
   testnet: `${process.env.MNEMONIC_TESTNET}`.replace(/_/g, " "),
 };
 
 const config: HardhatUserConfig = {
   networks: {
     hardhat: {
+      chainId: 31337,
       mining: {
         auto: false,
         interval: 2000,
@@ -39,14 +35,13 @@ const config: HardhatUserConfig = {
       accounts: {
         mnemonic: mnemonic.local,
       },
-      chainId: 31337,
     },
     localhost: {
-      url: "http://localhost:8545",
+      url: "http://127.0.0.1:8545",
+      chainId: 31337,
       accounts: {
         mnemonic: mnemonic.local,
       },
-      chainId: 31337,
     },
     baseSepolia: {
       // Get chain name from Viem: https://github.com/wevm/viem/blob/main/src/chains/index.ts

@@ -4,7 +4,7 @@ const { saveNetworkConfig } = require("./utils/config.js");
 
 module.exports = async ({ deployments }) => {
   const { save, log } = deployments;
-  [accounts, factories, initSettings] = await setup();
+  const { factories } = await setup();
 
   const etsAccessControlsAddress = (await deployments.get("ETSAccessControls")).address;
   const etsTokenAddress = (await deployments.get("ETSToken")).address;

@@ -16,9 +16,6 @@ pnpm run clean
 echo "Compiling TypeScript files..."
 tsup src --format cjs,esm --dts --outDir dist --target es2020
 
-# Copy other necessary files to dist
-#cp -R src/chainConfig dist/chainConfig
-#cp -R src/upgradeConfig dist/upgradeConfig
 cp -R contracts/interfaces dist/interfaces
 cp -R contracts/relayers/interfaces dist/interfaces/relayers
 

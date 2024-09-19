@@ -12,7 +12,7 @@ task(
     const { getAccounts } = require("./utils/getAccounts");
 
     // Load network configuration
-    const networkConfig = require(`../export/chainConfig/${hre.network.name}.json`);
+    const networkConfig = require(`../src/chainConfig/${hre.network.name}.json`);
     const accounts = await getAccounts();
 
     // ABIs and Contract addresses from network configuration

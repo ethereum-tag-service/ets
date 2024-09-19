@@ -3,7 +3,7 @@
   "author": "Ethereum Tag Service <team@ets.xyz>",
   "description": "Composable content tagging service for Web3",
   "license": "MIT",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "publishConfig": {
     "access": "public"
   },
@@ -23,39 +23,39 @@
   },
   "exports": {
     "./version": {
+      "types": "./dist/version.d.ts",
       "import": "./dist/version.mjs",
-      "require": "./dist/version.js",
-      "types": "./dist/version.d.ts"
+      "require": "./dist/version.js"
     },
-    "./chainsConfig": {
-      "import": "./dist/chainsConfig.mjs",
-      "require": "./dist/chainsConfig.js",
-      "types": "./dist/chainsConfig.d.ts"
+    "./multiChainConfig": {
+      "types": "./dist/multiChainConfig.d.ts",
+      "import": "./dist/multiChainConfig.mjs",
+      "require": "./dist/multiChainConfig.js"
     },
     "./utils": {
+      "types": "./dist/utils.d.ts",
       "import": "./dist/utils.mjs",
-      "require": "./dist/utils.js",
-      "types": "./dist/utils.d.ts"
+      "require": "./dist/utils.js"
     },
     "./contracts": {
+      "types": "./dist/contracts.d.ts",
       "import": "./dist/contracts.mjs",
-      "require": "./dist/contracts.js",
-      "types": "./dist/contracts.d.ts"
+      "require": "./dist/contracts.js"
     },
     "./chainConfig/*": {
+      "types": "./dist/chainConfig/*.d.ts",
       "import": "./dist/chainConfig/*.mjs",
-      "require": "./dist/chainConfig/*.js",
-      "types": "./dist/chainConfig/*.d.ts"
+      "require": "./dist/chainConfig/*.js"
     },
     "./upgradeConfig/*": {
+      "types": "./dist/upgradeConfig/*.d.ts",
       "import": "./dist/upgradeConfig/*.mjs",
-      "require": "./dist/upgradeConfig/*.js",
-      "types": "./dist/upgradeConfig/*.d.ts"
+      "require": "./dist/upgradeConfig/*.js"
     }
   },
-  "main": "./dist/chainsConfig.js",
-  "module": "./dist/chainsConfig.mjs",
-  "types": "./dist/chainsConfig.d.ts",
+  "main": "./dist/multiChainConfig.js",
+  "module": "./dist/multiChainConfig.mjs",
+  "types": "./dist/multiChainConfig.d.ts",
   "files": ["dist", "src"],
   "scripts": {
     "build": "pnpm build:package",
@@ -81,10 +81,14 @@
     "@ledgerhq/hw-transport-node-hid": "^6.29.3",
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.2",
     "@nomicfoundation/hardhat-ethers": "^3.0.2",
+    "@nomicfoundation/hardhat-ignition": "^0.15.5",
+    "@nomicfoundation/hardhat-ignition-ethers": "^0.15.5",
+    "@nomicfoundation/hardhat-network-helpers": "^1.0.11",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "@nomicfoundation/hardhat-verify": "^2.0.9",
+    "@nomicfoundation/ignition-core": "^0.15.5",
     "@nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers@^0.4.1",
     "@nomiclabs/hardhat-truffle5": "^2.0.6",
-    "@nomiclabs/hardhat-waffle": "^2.0.1",
     "@nomiclabs/hardhat-web3": "^2.0.0",
     "@openzeppelin/hardhat-upgrades": "^2.4.1",
     "@openzeppelin/test-helpers": "^0.5.15",
@@ -97,15 +101,15 @@
     "@types/node": "^20.12.7",
     "@wagmi/cli": "^2.1.15",
     "axios": "^1.6.2",
-    "chai": "^4.3.4",
+    "chai": "^4.5.0",
     "dotenv": "^16.3.1",
-    "ethereum-waffle": "^4.0.10",
     "ethereumjs-util": "^7.1.4",
     "ethers": "6.8.1",
     "hardhat": "^2.19.0",
     "hardhat-abi-exporter": "^2.4.0",
     "hardhat-deploy": "^0.11.43",
     "hardhat-ethernal": "3.1.0",
+    "hardhat-gas-reporter": "^2.2.1",
     "lodash.merge": "^4.6.2",
     "node-watch": "^0.7.2",
     "prettier": "^3.1.1",

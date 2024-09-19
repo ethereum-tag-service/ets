@@ -13,7 +13,7 @@ task("createTags", "Create CTAGs")
     const accounts = await getAccounts();
 
     // Load network configuration
-    const networkConfig = require(`../export/chainConfig/${hre.network.name}.json`);
+    const networkConfig = require(`../src/chainConfig/${hre.network.name}.json`);
 
     // ABIs and Contract addresses from network configuration
     const ETSTokenABI = networkConfig.contracts.ETSToken.abi;

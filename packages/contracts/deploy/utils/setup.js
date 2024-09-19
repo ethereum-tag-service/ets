@@ -1,12 +1,18 @@
-const { ethers } = require("hardhat");
+const { ethers, getNamedAccounts } = require("hardhat");
 
 async function setup() {
-  const namedAccounts = await ethers.getNamedSigners();
+  // Get the named accounts
+  const { ETSAdmin, ETSPlatform, ETSOracle } = await getNamedAccounts();
+
+  // Get the signers for these accounts
+  const ETSAdminSigner = await ethers.getSigner(ETSAdmin);
+  const ETSPlatformSigner = await ethers.getSigner(ETSPlatform);
+  const ETSOracleSigner = await ethers.getSigner(ETSOracle);
 
   const accounts = {
-    ETSAdmin: namedAccounts.ETSAdmin,
-    ETSPlatform: namedAccounts.ETSPlatform,
-    ETSOracle: namedAccounts.ETSOracle,
+    ETSAdmin: ETSAdminSigner,
+    ETSPlatform: ETSPlatformSigner,
+    ETSOracle: ETSOracleSigner,
   };
 
   const initSettings = {
@@ -41,9 +47,12 @@ async function setup() {
     ETSRelayerFactory: await ethers.getContractFactory("ETSRelayerFactory"),
   };
 
-  // ============ SETUP TEST ACCOUNTS ============
-
-  return [accounts, factories, initSettings];
+  // Return an object instead of an array
+  return {
+    accounts,
+    factories,
+    initSettings,
+  };
 }
 
 module.exports = { setup };

@@ -6,13 +6,13 @@ import { type Chain, arbitrumSepolia, baseSepolia, localhost } from "viem/chains
 
 // Define a type for the chains configuration object, mapping chain IDs (as strings)
 // to the Chain type. Additionally, the type enforces the inclusion of specific chain IDs.
-export type ChainsConfig = { [chainId: string]: Chain } & {
+export type MultiChainConfig = { [chainId: string]: Chain } & {
   readonly [K in "421614" | "84532" | "31337"]: Chain;
 };
 
 // The chains object contains the chain configurations for specific chain IDs.
 // These are imported from viem/chains and mapped to their respective chain IDs.
-export const chains: ChainsConfig = {
+export const chains: MultiChainConfig = {
   "421614": arbitrumSepolia,
   "84532": baseSepolia,
   "31337": localhost,

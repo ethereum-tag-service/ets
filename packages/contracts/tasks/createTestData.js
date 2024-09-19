@@ -146,7 +146,7 @@ subtask("testdata:createAuctions", "Creates, bids on and settles auctions. Assum
     if (auctionSettings.totalAuctions === 0) {
       // kick off the first auction.
       previousAuctionId = 0;
-      console.info("Launching first action");
+      console.info(`Launching first action on ${hre.network.name}`);
       console.info("Note: task will error out if no tags exist.");
       await hre.run("auctionhouse:nextauction", {
         network: hre.network.name,

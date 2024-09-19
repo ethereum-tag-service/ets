@@ -1,7 +1,7 @@
 // utils.ts
 
 // Importing the chainsConfig types and objects to use in utility functions.
-import { type SupportedChain, type SupportedChainId, chains } from "./chainsConfig";
+import { type SupportedChain, type SupportedChainId, chains } from "./multiChainConfig";
 
 // Retrieves a chain configuration by its ID. Takes in a SupportedChainId and returns
 // the corresponding Chain object from the chains configuration.
