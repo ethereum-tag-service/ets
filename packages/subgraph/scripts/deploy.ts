@@ -4,7 +4,7 @@ import * as minimist from "minimist";
 
 import { main as generateYaml } from "./generate-yaml"; // Use import to import the main function
 
-type DeploymentTarget = "localhost" | "testnet_production" | "arbitrumSepolia" | "baseSepolia";
+type DeploymentTarget = "localhost" | "arbitrumSepolia" | "baseSepolia";
 
 interface DeploymentConfig {
   target: DeploymentTarget;
@@ -14,7 +14,6 @@ interface DeploymentConfig {
 
 const deploymentConfigs: Record<DeploymentTarget, DeploymentConfig> = {
   localhost: { target: "localhost", studioName: "ets-local", isLocal: true },
-  testnet_production: { target: "testnet_production", studioName: "ets-testnet-production", isLocal: false },
   arbitrumSepolia: { target: "arbitrumSepolia", studioName: "ets-arbitrum-sepolia", isLocal: false },
   baseSepolia: { target: "baseSepolia", studioName: "ets-base-sepolia", isLocal: false },
 };

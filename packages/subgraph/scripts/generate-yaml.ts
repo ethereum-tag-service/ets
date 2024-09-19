@@ -3,7 +3,7 @@ import * as path from "node:path";
 import * as Handlebars from "handlebars";
 
 // Define types
-type DeploymentTarget = "localhost" | "testnet_production" | "arbitrumSepolia" | "baseSepolia";
+type DeploymentTarget = "localhost" | "arbitrumSepolia" | "baseSepolia";
 
 interface NetworkConfig {
   name: string;
@@ -22,7 +22,7 @@ interface OpenzeppelinAbis {
 }
 
 // Constants
-const VALID_TARGETS: DeploymentTarget[] = ["localhost", "testnet_production", "arbitrumSepolia", "baseSepolia"];
+const VALID_TARGETS: DeploymentTarget[] = ["localhost", "arbitrumSepolia", "baseSepolia"];
 
 const OPENZEPPELIN_ABIS: OpenzeppelinAbis = {
   Ownable: "./../contracts/abi/@openzeppelin/contracts/access/Ownable.sol/Ownable.json",
@@ -36,8 +36,8 @@ const OPENZEPPELIN_ABIS: OpenzeppelinAbis = {
 // Helper functions
 const getNetworkConfig = (target: DeploymentTarget): NetworkConfig => {
   const baseConfig: Omit<NetworkConfig, "name"> = {
-    configPath: `./../contracts/export/chainConfig/${target}.json`,
-    upgradesConfigPath: `./../contracts/export/upgradeConfig/${target}.json`,
+    configPath: `./../contracts/src/chainConfig/${target}.json`,
+    upgradesConfigPath: `./../contracts/src/upgradeConfig/${target}.json`,
     abis: [
       "ETS",
       "ETSAccessControls",
@@ -58,7 +58,6 @@ const getNetworkConfig = (target: DeploymentTarget): NetworkConfig => {
 
   const targetConfigs: Record<DeploymentTarget, { name: string }> = {
     localhost: { name: "mainnet" },
-    testnet_production: { name: "arbitrum-sepolia" },
     arbitrumSepolia: { name: "arbitrum-sepolia" },
     baseSepolia: { name: "base-sepolia" },
   };
