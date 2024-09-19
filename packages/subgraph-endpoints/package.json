@@ -23,6 +23,7 @@
     "dev": "tsup src/index.ts --format cjs,esm --dts --outDir dist --watch",
     "build": "pnpm run clean && tsup src/index.ts --format cjs,esm --dts --outDir dist",
     "lint": "tsc",
+    "test": "ts-node src/test.ts",
     "test:build": "publint --strict"
   },
   "devDependencies": {
