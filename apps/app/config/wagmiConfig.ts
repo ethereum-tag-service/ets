@@ -2,7 +2,7 @@ import {
   type SupportedChainId,
   availableChainIds,
   chains as etsChains,
-} from "@ethereum-tag-service/contracts/chainsConfig";
+} from "@ethereum-tag-service/contracts/multiChainConfig";
 import { getAlchemyRpcUrlById, getChainById, getExplorerUrl } from "@ethereum-tag-service/contracts/utils";
 import { type Chain, arbitrumSepolia, baseSepolia } from "viem/chains";
 import { http, createConfig, fallback } from "wagmi";

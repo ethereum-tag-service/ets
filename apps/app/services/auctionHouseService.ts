@@ -9,7 +9,7 @@ type FetchAuctionsResponse = {
   auctions: Auction[];
 };
 
-// Simplified helper function to get the correct contract address for the current chain
+// Simplified helper function to get the correct contract address for the currently active chain
 const getContractAddress = (): `0x${string}` =>
   etsAuctionHouseConfig.address[getChainId(wagmiConfig) as keyof typeof etsAuctionHouseConfig.address];
 const address = getContractAddress();

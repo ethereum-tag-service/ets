@@ -6,7 +6,7 @@ type Variables = Record<string, any>; // Define your custom variable types here 
 
 export const fetcher = async <T = any>(query: string, variables: Variables): Promise<T> => {
   // Current ETS_ENVIRONMENTS are development/stage/production
-  const environment: string = process.env.NEXT_PUBLIC_ETS_ENVIRONMENT || "development";
+  const environment: string = process.env.NEXT_PUBLIC_ETS_ENVIRONMENT || "localhost";
 
   console.info(`Fetching data from ${environment} environment`);
   // Use the environment to select the appropriate endpoint
