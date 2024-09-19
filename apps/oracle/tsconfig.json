@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "target": "es2022",
-    "module": "Node16",
     "noEmit": true,
-    "moduleResolution": "node16",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
@@ -25,7 +25,18 @@
     },
     "allowSyntheticDefaultImports": true
   },
-  "include": ["./*.ts", "./*.tsx", "./src/**/*.ts", "./src/**/*.mjs", "./src/**/*.tsx"],
-  "exclude": ["node_modules", "**/*.spec.ts"],
-  "type": "module"
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
+  },
+  "include": [
+    "./*.ts",
+    "./*.tsx",
+    "./src/**/*.ts",
+    "./src/**/*.mts",
+    "./src/**/*.mjs",
+    "./src/**/*.tsx",
+    "rollup.defender.config.ts"
+  ],
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }

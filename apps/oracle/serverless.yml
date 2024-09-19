@@ -1,6 +1,6 @@
 service: defender-as-code-test-project
 configValidationMode: error
-frameworkVersion: "3"
+frameworkVersion: '3'
 useDotenv: true
 provider:
   name: defender
@@ -12,35 +12,38 @@ defender:
   secret: "${env:TEAM_API_SECRET}"
 resources:
   actions:
-    release-next-auction:
-      name: ReleaseNextAuction
-      relayer: ${self:resources.relayers.ets-auction-oracle}
+    release-next-auction-multi:
+      name: ReleaseNextAuctionMulti
       trigger:
         type: sentinel
       paused: false
-      path: "./dist/defender/actions/release-next-auction"
-      environment-variables:
-        NETWORK: "arbitrumSepolia"
-        NEXT_PUBLIC_ETS_ENVIRONMENT: "stage"
+      path: "./dist/defender/actions/release-next-auction-multi"
   policies:
-    policy-8d:
+    policy-20:
+      eip1559-pricing: true
+    policy-SO:
       eip1559-pricing: false
       private-transactions: false
   contracts:
-    ets-auction-oracle:
-      name: ETSAuctionOracle
-      address: "0x79A3098b1cc02b5FB675Ce7A97f51d8DdDEeA450"
+    ets-auction-house-arbitrum-sepolia:
+      name: ETSAuctionHouse-ArbitrumSepolia
+      address: '0x79A3098b1cc02b5FB675Ce7A97f51d8DdDEeA450'
       network: arbitrum-sepolia
-    ets-auction-house:
-      name: ETSAuctionHouse
-      address: "0xf5d631DC08211e649FA7B025179De146AfFAEe41"
-      network: arbitrum-sepolia
+    ets-auction-house-base-sepolia:
+      name: ETSAuctionHouse-BaseSepolia
+      address: '0x1e49622AfF007569fdc99e5989E267d55218b066'
+      network: base-sepolia
   relayers:
+    ets-auction-oracle-base-sepolia:
+      name: ETSAuctionOracle-BaseSepolia
+      network: base-sepolia
+      min-balance: '100000000000000000'
+      policy: ${self:resources.policies.policy-20}
     ets-auction-oracle:
-      name: ETSAuctionOracle
+      name: ETSAuctionOracle-arbitrumSepolia
       network: arbitrum-sepolia
-      min-balance: "100000000000000000"
-      policy: ${self:resources.policies.policy-8d}
+      min-balance: '100000000000000000'
+      policy: ${self:resources.policies.policy-SO}
       api-keys:
         - key-1
   notifications:
@@ -52,15 +55,60 @@ resources:
           https://discord.com/api/webhooks/1221279416324460664/4mc9uvUOVpAVyGkd7ZDeOR59ngciOiQFAV9MrwC9S4-76XQ-24EF3eC-cGaYMRddHmv0
       paused: false
   monitors:
-    request-create-auction:
-      name: RequestCreateAuction
+    request-create-auction-base-sepolia:
+      name: RequestCreateAuction-BaseSepolia
+      type: BLOCK
+      network: base-sepolia
+      addresses:
+        - '0x1e49622AfF007569fdc99e5989E267d55218b066'
+      skip-abi-validation: false
+      paused: false
+      action-trigger: ${self:resources.actions.release-next-auction-multi}
+      confirm-level: 1
+      notify-config:
+        timeout: 0
+        message: |-
+          **Defender Monitor {{ sentinel.name }} Triggered**
+
+          **Network**
+
+          {{ sentinel.network }}
+
+          **Block Hash**
+
+          {{ blockHash }}
+
+          **Transaction Hash**
+
+          {{ transaction.transactionHash }}
+
+          **Explorer Link**
+
+          {{ transaction.link }}
+
+          **Match Reasons**
+
+          {{ matchReasonsFormatted }}
+
+          **Metadata**
+
+          {{ metadataFormatted }}
+        message-subject: 'Defender Monitor: RequestCreateAuctionBaseSepolia triggered'
+        channels:
+          - ${self:resources.notifications.discord-actitity-internal}
+      conditions:
+        event:
+          - expression: null
+            signature: RequestCreateAuction()
+    request-create-auction-arbitrum-sepolia:
+      name: RequestCreateAuction-ArbitrumSepolia
       type: BLOCK
       network: arbitrum-sepolia
       addresses:
-        - "0x79A3098b1cc02b5FB675Ce7A97f51d8DdDEeA450"
+        - '0x79A3098b1cc02b5FB675Ce7A97f51d8DdDEeA450'
       skip-abi-validation: false
       paused: false
-      action-trigger: ${self:resources.actions.release-next-auction}
+      action-trigger: ${self:resources.actions.release-next-auction-multi}
       confirm-level: 1
       notify-config:
         timeout: 0
@@ -84,7 +132,7 @@ resources:
           {{ transaction.link }}
 
           {{ matchReasonsFormatted }}
-        message-subject: "Defender Monitor: RequestCreateAuction triggered"
+        message-subject: 'Defender Monitor: RequestCreateAuction triggered'
         channels:
           - ${self:resources.notifications.discord-actitity-internal}
       conditions:
@@ -95,4 +143,4 @@ resources:
   private-networks: {}
   block-explorer-api-keys: {}
 plugins:
-  - "@openzeppelin/defender-as-code"
+  - '@openzeppelin/defender-as-code'
