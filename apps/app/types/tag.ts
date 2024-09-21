@@ -29,6 +29,6 @@ export type TagType = {
 
 export interface TagInput {
   id: string;
-  text: string;
   className: string;
+  [key: string]: string;
 }

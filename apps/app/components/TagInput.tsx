@@ -36,12 +36,17 @@ const TagInput: React.FC<TagInputProps> = ({ tags, handleDeleteTag, handleAddTag
           }}
           inputValue={tagInput}
           classNames={{
+            tags: "flex flex-wrap gap-1",
             tag: "text-sm font-medium inline-block py-1 px-2 rounded link-primary bg-primary-content mt-2 last:mr-0 mr-1",
+            tagInput: "input input-bordered w-full pr-10",
             tagInputField: "input input-bordered w-full pr-10",
             selected: "flex flex-wrap gap-1",
             remove: "btn btn-ghost btn-xs",
             suggestions: "dropdown dropdown-bottom",
             activeSuggestion: "bg-primary text-primary-content cursor-pointer",
+            editTagInput: "input input-bordered w-full pr-10",
+            editTagInputField: "input input-bordered w-full pr-10",
+            clearAll: "btn btn-ghost btn-xs",
           }}
           handleInputChange={setTagInput}
           delimiters={delimiters}

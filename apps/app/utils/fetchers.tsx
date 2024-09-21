@@ -4,11 +4,25 @@ import type { PublicClient } from "viem";
 
 type Variables = Record<string, any>; // Define your custom variable types here if needed
 
+// Define the valid environment types
+type ValidEnvironment = keyof typeof subgraphEndpoints;
+
+// Function to check if a string is a valid environment
+function isValidEnvironment(env: string): env is ValidEnvironment {
+  return env in subgraphEndpoints;
+}
+
 export const fetcher = async <T = any>(query: string, variables: Variables): Promise<T> => {
   // Current ETS_ENVIRONMENTS are development/stage/production
   const environment: string = process.env.NEXT_PUBLIC_ETS_ENVIRONMENT || "localhost";
 
   console.info(`Fetching data from ${environment} environment`);
+
+  // Check if the environment is valid
+  if (!isValidEnvironment(environment)) {
+    throw new Error(`Invalid environment: ${environment}`);
+  }
+
   // Use the environment to select the appropriate endpoint
   const GRAPH_API_ENDPOINT: string = subgraphEndpoints[environment];
 
