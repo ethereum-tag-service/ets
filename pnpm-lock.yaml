@@ -292,7 +292,7 @@ importers:
         version: 1.11.0(encoding@0.1.13)(ethers@5.5.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(web3-core-helpers@1.10.4)(web3-core@1.10.4(encoding@0.1.13))(web3-utils@1.10.4)(web3@1.10.4(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10))
       axios:
         specifier: ^1.6.0
-        version: 1.7.7(debug@4.3.7)
+        version: 1.7.7
       ethers:
         specifier: 5.5.3
         version: 5.5.3(bufferutil@4.0.8)(utf-8-validate@5.0.10)
@@ -434,7 +434,7 @@ importers:
         version: 2.1.15(bufferutil@4.0.8)(typescript@5.5.4)(utf-8-validate@5.0.10)
       axios:
         specifier: ^1.6.2
-        version: 1.7.7(debug@4.3.7)
+        version: 1.7.7
       chai:
         specifier: ^4.5.0
         version: 4.5.0
@@ -544,7 +544,7 @@ importers:
     devDependencies:
       '@graphprotocol/graph-cli':
         specifier: ^0.80.0
-        version: 0.80.1(@types/node@20.16.5)(bufferutil@4.0.8)(encoding@0.1.13)(node-fetch@2.7.0(encoding@0.1.13))(typescript@5.5.4)(utf-8-validate@5.0.10)
+        version: 0.80.1(@types/node@20.16.5)(bufferutil@4.0.8)(encoding@0.1.13)(node-fetch@2.7.0(encoding@0.1.13))(typescript@5.6.2)(utf-8-validate@5.0.10)
       '@graphprotocol/graph-ts':
         specifier: ^0.35.1
         version: 0.35.1
@@ -562,7 +562,7 @@ importers:
         version: 20.16.5
       axios:
         specifier: ^1.6.2
-        version: 1.7.7(debug@4.3.7)
+        version: 1.7.7
       fs-extra:
         specifier: ^11.1.1
         version: 11.2.0
@@ -580,19 +580,16 @@ importers:
         version: 10.8.3
       ts-node:
         specifier: ^10.9.1
-        version: 10.9.2(@types/node@20.16.5)(typescript@5.5.4)
+        version: 10.9.2(@types/node@20.16.5)(typescript@5.6.2)
       typescript:
-        specifier: ^5.0.4
-        version: 5.5.4
+        specifier: ^5.4.5
+        version: 5.6.2
 
   packages/subgraph-endpoints:
     devDependencies:
       '@types/node':
         specifier: ^20.12.7
         version: 20.16.5
-      ts-node:
-        specifier: ^10.9.2
-        version: 10.9.2(@types/node@20.16.5)(typescript@5.5.4)
       tsup:
         specifier: ^8.2.3
         version: 8.2.4(jiti@1.21.6)(postcss@8.4.45)(typescript@5.5.4)(yaml@2.4.5)
@@ -5458,7 +5455,6 @@ packages:
 
   bun@1.1.27:
     resolution: {integrity: sha512-FLnMaOuVVuhjPIfmlRtAE42B2x+oSWO6jW8MZ/Ss179qokN//nzIhuj/07bdA016U6d11HyLvvGb6eaH0HKhBQ==}
-    cpu: [arm64, x64]
     os: [darwin, linux, win32]
     hasBin: true
 
@@ -15313,12 +15309,12 @@ snapshots:
 
   '@fontsource-variable/inter@5.0.20': {}
 
-  '@graphprotocol/graph-cli@0.80.1(@types/node@20.16.5)(bufferutil@4.0.8)(encoding@0.1.13)(node-fetch@2.7.0(encoding@0.1.13))(typescript@5.5.4)(utf-8-validate@5.0.10)':
+  '@graphprotocol/graph-cli@0.80.1(@types/node@20.16.5)(bufferutil@4.0.8)(encoding@0.1.13)(node-fetch@2.7.0(encoding@0.1.13))(typescript@5.6.2)(utf-8-validate@5.0.10)':
     dependencies:
       '@float-capital/float-subgraph-uncrashable': 0.0.0-internal-testing.5
-      '@oclif/core': 2.8.6(@types/node@20.16.5)(typescript@5.5.4)
-      '@oclif/plugin-autocomplete': 2.3.10(@types/node@20.16.5)(typescript@5.5.4)
-      '@oclif/plugin-not-found': 2.4.3(@types/node@20.16.5)(typescript@5.5.4)
+      '@oclif/core': 2.8.6(@types/node@20.16.5)(typescript@5.6.2)
+      '@oclif/plugin-autocomplete': 2.3.10(@types/node@20.16.5)(typescript@5.6.2)
+      '@oclif/plugin-not-found': 2.4.3(@types/node@20.16.5)(typescript@5.6.2)
       '@whatwg-node/fetch': 0.8.8
       assemblyscript: 0.19.23
       binary-install-raw: 0.0.13(debug@4.3.4)
@@ -15468,7 +15464,7 @@ snapshots:
 
   '@ledgerhq/cryptoassets@13.3.0':
     dependencies:
-      axios: 1.7.7(debug@4.3.7)
+      axios: 1.7.7
       bs58check: 2.1.2
       invariant: 2.2.4
     transitivePeerDependencies:
@@ -15486,7 +15482,7 @@ snapshots:
       '@ledgerhq/errors': 6.18.0
       '@ledgerhq/logs': 6.12.0
       '@ledgerhq/types-live': 6.50.0
-      axios: 1.7.7(debug@4.3.7)
+      axios: 1.7.7
       eip55: 2.1.1
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -15499,7 +15495,7 @@ snapshots:
     dependencies:
       '@ledgerhq/cryptoassets': 13.3.0
       '@ledgerhq/live-env': 2.2.0
-      axios: 1.7.7(debug@4.3.7)
+      axios: 1.7.7
       crypto-js: 4.2.0
       ethers: 5.7.2(bufferutil@4.0.8)(utf-8-validate@5.0.10)
     transitivePeerDependencies:
@@ -15519,7 +15515,7 @@ snapshots:
       '@ledgerhq/hw-transport-mocker': 6.29.2
       '@ledgerhq/logs': 6.12.0
       '@ledgerhq/types-live': 6.50.0
-      axios: 1.7.7(debug@4.3.7)
+      axios: 1.7.7
       bignumber.js: 9.1.2
       semver: 7.6.3
     transitivePeerDependencies:
@@ -16262,7 +16258,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@oclif/core@2.16.0(@types/node@20.16.5)(typescript@5.5.4)':
+  '@oclif/core@2.16.0(@types/node@20.16.5)(typescript@5.6.2)':
     dependencies:
       '@types/cli-progress': 3.11.6
       ansi-escapes: 4.3.2
@@ -16287,7 +16283,7 @@ snapshots:
       strip-ansi: 6.0.1
       supports-color: 8.1.1
       supports-hyperlinks: 2.3.0
-      ts-node: 10.9.2(@types/node@20.16.5)(typescript@5.5.4)
+      ts-node: 10.9.2(@types/node@20.16.5)(typescript@5.6.2)
       tslib: 2.7.0
       widest-line: 3.1.0
       wordwrap: 1.0.0
@@ -16298,7 +16294,7 @@ snapshots:
       - '@types/node'
       - typescript
 
-  '@oclif/core@2.8.6(@types/node@20.16.5)(typescript@5.5.4)':
+  '@oclif/core@2.8.6(@types/node@20.16.5)(typescript@5.6.2)':
     dependencies:
       '@types/cli-progress': 3.11.6
       ansi-escapes: 4.3.2
@@ -16324,7 +16320,7 @@ snapshots:
       strip-ansi: 6.0.1
       supports-color: 8.1.1
       supports-hyperlinks: 2.3.0
-      ts-node: 10.9.2(@types/node@20.16.5)(typescript@5.5.4)
+      ts-node: 10.9.2(@types/node@20.16.5)(typescript@5.6.2)
       tslib: 2.7.0
       widest-line: 3.1.0
       wordwrap: 1.0.0
@@ -16335,9 +16331,9 @@ snapshots:
       - '@types/node'
       - typescript
 
-  '@oclif/plugin-autocomplete@2.3.10(@types/node@20.16.5)(typescript@5.5.4)':
+  '@oclif/plugin-autocomplete@2.3.10(@types/node@20.16.5)(typescript@5.6.2)':
     dependencies:
-      '@oclif/core': 2.16.0(@types/node@20.16.5)(typescript@5.5.4)
+      '@oclif/core': 2.16.0(@types/node@20.16.5)(typescript@5.6.2)
       chalk: 4.1.2
       debug: 4.3.7(supports-color@8.1.1)
     transitivePeerDependencies:
@@ -16347,9 +16343,9 @@ snapshots:
       - supports-color
       - typescript
 
-  '@oclif/plugin-not-found@2.4.3(@types/node@20.16.5)(typescript@5.5.4)':
+  '@oclif/plugin-not-found@2.4.3(@types/node@20.16.5)(typescript@5.6.2)':
     dependencies:
-      '@oclif/core': 2.16.0(@types/node@20.16.5)(typescript@5.5.4)
+      '@oclif/core': 2.16.0(@types/node@20.16.5)(typescript@5.6.2)
       chalk: 4.1.2
       fast-levenshtein: 3.0.0
     transitivePeerDependencies:
@@ -16410,7 +16406,7 @@ snapshots:
   '@openzeppelin/defender-sdk-account-client@1.14.3(encoding@0.1.13)':
     dependencies:
       '@openzeppelin/defender-sdk-base-client': 1.14.3(encoding@0.1.13)
-      axios: 1.7.7(debug@4.3.7)
+      axios: 1.7.7
       lodash: 4.17.21
     transitivePeerDependencies:
       - debug
@@ -16419,7 +16415,7 @@ snapshots:
   '@openzeppelin/defender-sdk-action-client@1.14.3(encoding@0.1.13)':
     dependencies:
       '@openzeppelin/defender-sdk-base-client': 1.14.3(encoding@0.1.13)
-      axios: 1.7.7(debug@4.3.7)
+      axios: 1.7.7
       dotenv: 16.4.5
       glob: 7.2.3
       jszip: 3.10.1
@@ -16444,10 +16440,19 @@ snapshots:
       - debug
       - encoding
 
+  '@openzeppelin/defender-sdk-deploy-client@1.14.3(encoding@0.1.13)':
+    dependencies:
+      '@openzeppelin/defender-sdk-base-client': 1.14.3(encoding@0.1.13)
+      axios: 1.7.7
+      lodash: 4.17.21
+    transitivePeerDependencies:
+      - debug
+      - encoding
+
   '@openzeppelin/defender-sdk-monitor-client@1.14.3(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)':
     dependencies:
       '@openzeppelin/defender-sdk-base-client': 1.14.3(encoding@0.1.13)
-      axios: 1.7.7(debug@4.3.7)
+      axios: 1.7.7
       ethers: 6.13.2(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       lodash: 4.17.21
     transitivePeerDependencies:
@@ -16459,7 +16464,7 @@ snapshots:
   '@openzeppelin/defender-sdk-network-client@1.14.3(encoding@0.1.13)':
     dependencies:
       '@openzeppelin/defender-sdk-base-client': 1.14.3(encoding@0.1.13)
-      axios: 1.7.7(debug@4.3.7)
+      axios: 1.7.7
       lodash: 4.17.21
     transitivePeerDependencies:
       - debug
@@ -16468,7 +16473,7 @@ snapshots:
   '@openzeppelin/defender-sdk-notification-channel-client@1.14.3(encoding@0.1.13)':
     dependencies:
       '@openzeppelin/defender-sdk-base-client': 1.14.3(encoding@0.1.13)
-      axios: 1.7.7(debug@4.3.7)
+      axios: 1.7.7
       lodash: 4.17.21
     transitivePeerDependencies:
       - debug
@@ -16477,7 +16482,7 @@ snapshots:
   '@openzeppelin/defender-sdk-proposal-client@1.14.3(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)':
     dependencies:
       '@openzeppelin/defender-sdk-base-client': 1.14.3(encoding@0.1.13)
-      axios: 1.7.7(debug@4.3.7)
+      axios: 1.7.7
       ethers: 6.13.2(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       lodash: 4.17.21
     transitivePeerDependencies:
@@ -16489,7 +16494,7 @@ snapshots:
   '@openzeppelin/defender-sdk-relay-client@1.14.3(encoding@0.1.13)':
     dependencies:
       '@openzeppelin/defender-sdk-base-client': 1.14.3(encoding@0.1.13)
-      axios: 1.7.7(debug@4.3.7)
+      axios: 1.7.7
       lodash: 4.17.21
     transitivePeerDependencies:
       - debug
@@ -16499,7 +16504,7 @@ snapshots:
     dependencies:
       '@openzeppelin/defender-sdk-base-client': 1.14.3(encoding@0.1.13)
       amazon-cognito-identity-js: 6.3.12(encoding@0.1.13)
-      axios: 1.7.7(debug@4.3.7)
+      axios: 1.7.7
       ethers: 5.5.3(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       lodash: 4.17.21
       web3: 1.10.4(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
@@ -16520,7 +16525,7 @@ snapshots:
       '@ethersproject/strings': 5.7.0
       '@openzeppelin/defender-sdk-base-client': 1.14.3(encoding@0.1.13)
       amazon-cognito-identity-js: 6.3.12(encoding@0.1.13)
-      axios: 1.7.7(debug@4.3.7)
+      axios: 1.7.7
       ethers: 6.13.2(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       lodash: 4.17.21
       web3: 1.10.4(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
@@ -16538,7 +16543,7 @@ snapshots:
       '@openzeppelin/defender-sdk-account-client': 1.14.3(encoding@0.1.13)
       '@openzeppelin/defender-sdk-action-client': 1.14.3(encoding@0.1.13)
       '@openzeppelin/defender-sdk-base-client': 1.14.3(encoding@0.1.13)
-      '@openzeppelin/defender-sdk-deploy-client': 1.14.3(debug@4.3.7)(encoding@0.1.13)
+      '@openzeppelin/defender-sdk-deploy-client': 1.14.3(encoding@0.1.13)
       '@openzeppelin/defender-sdk-monitor-client': 1.14.3(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
       '@openzeppelin/defender-sdk-network-client': 1.14.3(encoding@0.1.13)
       '@openzeppelin/defender-sdk-notification-channel-client': 1.14.3(encoding@0.1.13)
@@ -17343,7 +17348,7 @@ snapshots:
     dependencies:
       adm-zip: 0.5.16
       archiver: 5.3.2
-      axios: 1.7.7(debug@4.3.7)
+      axios: 1.7.7
       fast-glob: 3.3.2
       https-proxy-agent: 5.0.1(supports-color@8.1.1)
       ignore: 5.3.2
@@ -19493,8 +19498,16 @@ snapshots:
 
   axios@0.27.2:
     dependencies:
-      follow-redirects: 1.15.9(debug@4.3.7)
+      follow-redirects: 1.15.9(debug@4.3.4)
       form-data: 4.0.0
+    transitivePeerDependencies:
+      - debug
+
+  axios@1.7.7:
+    dependencies:
+      follow-redirects: 1.15.9(debug@4.3.4)
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
 
@@ -22311,7 +22324,7 @@ snapshots:
       '@ethersproject/bytes': 5.7.0
       '@ethersproject/units': 5.7.0
       '@solidity-parser/parser': 0.18.0
-      axios: 1.7.7(debug@4.3.7)
+      axios: 1.7.7
       brotli-wasm: 2.0.1
       chalk: 4.1.2
       cli-table3: 0.6.5
@@ -26814,7 +26827,6 @@ snapshots:
       typescript: 5.6.2
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
-    optional: true
 
   tslib@1.14.1: {}
 

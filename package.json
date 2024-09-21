@@ -30,7 +30,7 @@
     "hardhat:test": "cd packages/contracts && pnpm run hardhat",
     "hardhat:watch": "cd packages/contracts && pnpm run watch",
     "lint": "biome check",
-    "lint:repo": "sherif -i ethers",
+    "lint:repo": "sherif -i ethers -i axios",
     "lint:unused": "pnpm clean && knip",
     "start-graph-node": "cd scripts && ./start-graph-node.sh",
     "test:build": "pnpm run --r --parallel test:build",
