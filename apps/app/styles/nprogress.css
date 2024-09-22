@@ -1,6 +1,5 @@
 /* Make clicks pass-through */
 #nprogress {
-  --primary-color: theme('colors.pink.600');
   @apply pointer-events-none;
 }
 
@@ -13,8 +12,8 @@
   @apply block absolute right-0 w-[100px] h-full opacity-100;
   box-shadow: 0 0 10px var(--primary-color), 0 0 5px var(--primary-color);
   -webkit-transform: rotate(3deg) translate(0px, -4px);
-      -ms-transform: rotate(3deg) translate(0px, -4px);
-          transform: rotate(3deg) translate(0px, -4px);
+  -ms-transform: rotate(3deg) translate(0px, -4px);
+  transform: rotate(3deg) translate(0px, -4px);
 }
 
 /* Remove these to get rid of the spinner */
@@ -25,7 +24,7 @@
 #nprogress .spinner-icon {
   @apply w-[18px] h-[18px] box-border border-2 border-transparent border-t-pink-600 border-l-pink-600 rounded-[50%];
   -webkit-animation: nprogress-spinner 400ms linear infinite;
-          animation: nprogress-spinner 400ms linear infinite;
+  animation: nprogress-spinner 400ms linear infinite;
 }
 
 .nprogress-custom-parent {
@@ -38,10 +37,18 @@
 }
 
 @-webkit-keyframes nprogress-spinner {
-  0%   { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
 }
 @keyframes nprogress-spinner {
-  0%   { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

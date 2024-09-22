@@ -120,6 +120,7 @@
     "solidity-coverage": "^0.8.2",
     "solidity-docgen": "0.6.0-beta.35",
     "ts-node": "^10.9.1",
+    "tsup": "^8.2.3",
     "typechain": "^8.1.0",
     "typescript": "^5.4.5",
     "viem": "^2.20.0"

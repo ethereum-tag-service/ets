@@ -25,7 +25,8 @@
     "rules": {
       "recommended": true,
       "a11y": {
-        "useButtonType": "off"
+        "useButtonType": "off",
+        "useSemanticElements": "off"
       },
       "correctness": {
         "noUnusedVariables": "error",
