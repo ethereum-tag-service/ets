@@ -1,5 +1,11 @@
 # @ethereum-tag-service/sdk-core
 
+## 0.0.9
+
+### Patch Changes
+
+- [#415](https://github.com/ethereum-tag-service/ets/pull/415) [`7299be9`](https://github.com/ethereum-tag-service/ets/commit/7299be9e4203ac122cb69d942639c4d364810305) Thanks [@mhpaler](https://github.com/mhpaler)! - Add README to sdk-core
+
 ## 0.0.8
 
 ### Patch Changes
