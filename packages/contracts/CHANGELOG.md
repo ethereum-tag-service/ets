@@ -1,5 +1,11 @@
 # @ethereum-tag-service/contracts
 
+## 0.0.2
+
+### Patch Changes
+
+-   [#460](https://github.com/ethereum-tag-service/ets/pull/460) [`7df289c`](https://github.com/ethereum-tag-service/ets/commit/7df289c25cadc9cc7cea9a3b56d13d7896f26c67) Thanks [@mhpaler](https://github.com/mhpaler)! - Fix solhint
+
 ## 0.0.1
 
 ### Patch Changes
