@@ -1,3 +1,18 @@
+# Primary orchestrator workflow for pull request validation and testing
+#
+# Key responsibilities:
+# 1. Validates branch rules:
+#    - Changes to apps/* must target stage branch
+#    - Changes to packages/* must target main branch
+# 2. Sets up the development environment:
+#    - Installs Node.js and PNPM
+#    - Caches the workspace for downstream workflows
+# 3. Triggers verify.yml for code quality checks
+# 4. Analyzes size impact for package changes targeting main
+#
+# The workspace cache (keyed by github.sha) is consumed by:
+# - verify.yml
+# - solidity-screener.yml
 name: Pull Request
 on:
   pull_request:
@@ -12,7 +27,8 @@ jobs:
     name: Validate Branch Rules
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Clone repository
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -46,32 +62,60 @@ jobs:
             exit 1
           fi
 
+  setup:
+    name: Setup
+    needs: validate-branch-rules
+    runs-on: ubuntu-latest
+    outputs:
+      pnpm_home: ${{ steps.pnpm-path.outputs.path }}
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.9.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.1.0
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Cache workspace
+        uses: actions/cache@v3
+        with:
+          path: ./*
+          key: ${{ github.sha }}
+
 
   verify:
     name: Verify
-    needs: validate-branch-rules
+    needs: setup
     uses: ./.github/workflows/verify.yml
     secrets: inherit
 
   size:
     name: Size
-    needs: validate-branch-rules
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
+    needs: setup
     if: |
       github.base_ref == 'main' &&
       contains(toJSON(github.event.pull_request.files.*.path), 'packages/')
-
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions:
-      contents: read # Read access to clone the repository and read contents
-      pull-requests: write # Write access to post comments on the pull request
-
+      contents: read
+      pull-requests: write
     steps:
-      - name: Clone repository
-        uses: actions/checkout@v4
-
-      - name: Install dependencies
-        uses: ethereum-tag-service/actions/.github/actions/pnpm@main
+      - name: Restore workspace
+        uses: actions/cache@v3
+        with:
+          path: ./*
+          key: ${{ github.sha }}
 
       - name: Report build size
         uses: preactjs/compressed-size-action@v2
@@ -79,5 +123,4 @@ jobs:
           pattern: "packages/**/dist/**"
           repo-token: ${{ secrets.GITHUB_TOKEN }}
         env:
-          NETWORK: ${{ github.base_ref == 'main' && 'testnet_stage' || 'arbitrumSepolia' }}
-
+          NETWORK: arbitrumSepolia

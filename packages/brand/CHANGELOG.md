@@ -1,5 +1,11 @@
 # @ethereum-tag-service/brand
 
+## 1.0.2
+
+### Patch Changes
+
+- [#453](https://github.com/ethereum-tag-service/ets/pull/453) [`04a20d9c00eb890f18c6d0b14aebbebecebda9d9`](https://github.com/ethereum-tag-service/ets/commit/04a20d9c00eb890f18c6d0b14aebbebecebda9d9) Thanks [@mhpaler](https://github.com/mhpaler)! - Changeset workflow testing.
+
 ## 1.0.1
 
 ### Patch Changes

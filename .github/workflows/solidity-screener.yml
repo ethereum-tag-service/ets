@@ -1,12 +1,26 @@
+# Specialized workflow for Solidity smart contract validation
+#
+# Process flow:
+# 1. Detects changes in packages/contracts/contracts/**
+# 2. When contract changes are found:
+#    - Restores cached workspace from parent workflow
+#    - Runs Solhint for static analysis
+#    - Executes contract test suite
+#
+# Environment setup:
+# - Uses test mnemonic for local testing
+# - Disables Ethernal for CI environment
 name: Solidity screener
-
 env:
   MNEMONIC_LOCAL: test test test test test test test test test test test junk
   ETHERNAL_DISABLED: true
 
 on:
   workflow_call:
-  workflow_dispatch:
+    inputs:
+      cache-key:
+        required: true
+        type: string
 
 jobs:
   changes:
@@ -14,9 +28,13 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       contracts: ${{ steps.filter.outputs.contracts }}
+      tests: ${{ steps.filter.outputs.tests }}
     steps:
-      - name: Checkout source code
-        uses: actions/checkout@v2
+      - name: Restore workspace
+        uses: actions/cache@v3
+        with:
+          path: ./*
+          key: ${{ inputs.cache-key }}
 
       - uses: dorny/paths-filter@v2
         id: filter
@@ -24,62 +42,59 @@ jobs:
           filters: |
             contracts:
               - 'packages/contracts/contracts/**'
+            tests:
+              - 'packages/contracts/**'
 
-  screener:
-    name: Solhint & Tests
+  lint:
+    name: Solhint
     needs: changes
     if: ${{ needs.changes.outputs.contracts == 'true' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Install Node.js
-        uses: actions/setup-node@v3
+      - name: Restore workspace
+        uses: actions/cache@v3
         with:
-          node-version: 16
+          path: ./*
+          key: ${{ inputs.cache-key }}
 
-      - uses: pnpm/action-setup@v2.0.1
-        name: Install pnpm
-        id: pnpm-install
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
         with:
-          version: 7
-          run_install: false
+          version: 9.9.0
 
-      - name: Clear pnpm cache and store
-        run: |
-          pnpm store path | xargs -I {} bash -c 'if [ -d "{}" ]; then pnpm store prune; fi'
-          pnpm store path | xargs -I {} bash -c 'if [ -d "{}" ]; then rm -rf "{}"; fi'
-
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
-      - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
-
-      - name: Debug package.json
-        run: cat package.json
-
-      - name: Debug pnpm-lock.yaml
-        run: cat pnpm-lock.yaml
-
-      - name: Debug installed versions
-        run: pnpm list esbuild
+          node-version: 20.1.0
+          cache: 'pnpm'
 
       - name: Run Solhint
         run: |
           cd packages/contracts/
           pnpm run solhint
+
+  test:
+    name: Contract Tests
+    needs: changes
+    if: ${{ needs.changes.outputs.tests == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restore workspace
+        uses: actions/cache@v3
+        with:
+          path: ./*
+          key: ${{ inputs.cache-key }}
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.9.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.1.0
+          cache: 'pnpm'
 
       - name: Run Tests
         run: |

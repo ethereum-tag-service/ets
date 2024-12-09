@@ -11,7 +11,7 @@
     "changeset:build": "pnpm run --recursive --filter \"./packages/**\" build",
     "changeset:prepublish": "pnpm version:update && pnpm changeset:build && bun ./scripts/formatPackageJson.ts",
     "changeset:publish": "pnpm changeset:prepublish && changeset publish",
-    "changeset:version": "changeset version && pnpm version:update && pnpm format",
+    "changeset:version": "changeset version && pnpm version:update",
     "clean": "pnpm run --r --parallel clean && rm -rf packages/**/*.json.tmp",
     "create-tag:build": "cd examples/create-tag && pnpm run build",
     "create-tag:dev": "cd examples/create-tag && pnpm run dev",
@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
-    "@changesets/changelog-github": "^0.4.8",
+    "@changesets/changelog-github": "^0.5.0",
     "@changesets/cli": "^2.27.7",
     "@types/bun": "^1.1.14",
     "@types/node": "^20.12.7",

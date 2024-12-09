@@ -1,7 +1,7 @@
 {
   "name": "@ethereum-tag-service/brand",
   "description": "Logos for Ethereum Tag Service",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Ethereum Tag Service <team@ets.xyz>",
   "license": "MIT",
   "publishConfig": {

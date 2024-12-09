@@ -3,7 +3,7 @@
   "author": "Ethereum Tag Service <team@ets.xyz>",
   "description": "Composable content tagging service for Web3",
   "license": "MIT",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publishConfig": {
     "access": "public"
   },
@@ -13,7 +13,12 @@
     "url": "git+https://github.com/ethereum-tag-service/ets.git",
     "directory": "packages/contracts"
   },
-  "keywords": ["ets", "composable", "nft", "tagging"],
+  "keywords": [
+    "ets",
+    "composable",
+    "nft",
+    "tagging"
+  ],
   "bugs": {
     "url": "https://github.com/orgs/ethereum-tag-service/discussions"
   },
@@ -57,7 +62,10 @@
   "main": "./dist/multiChainConfig.js",
   "module": "./dist/multiChainConfig.mjs",
   "types": "./dist/multiChainConfig.d.ts",
-  "files": ["dist", "src"],
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
     "build": "pnpm build:package",
     "build:contracts": "pnpm compile",
@@ -113,10 +121,11 @@
     "lodash.merge": "^4.6.2",
     "node-watch": "^0.7.2",
     "prettier": "^3.1.1",
-    "prettier-plugin-solidity": "1.1.3",
+    "prettier-plugin-solidity": "^1.3.1",
     "random-words": "^1.1.1",
-    "solhint": "^3.4.1",
-    "solhint-plugin-prettier": "^0.0.5",
+    "solhint": "^5.0.3",
+    "solhint-community": "^4.0.0",
+    "solhint-plugin-prettier": "^0.1.0",
     "solidity-coverage": "^0.8.2",
     "solidity-docgen": "0.6.0-beta.35",
     "ts-node": "^10.9.1",

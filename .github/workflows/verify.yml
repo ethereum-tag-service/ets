@@ -1,3 +1,16 @@
+# Reusable workflow for code verification, triggered by pull requests or manually
+#
+# Jobs sequence:
+# 1. Lint: Code style and quality checks
+#    - Restores cached workspace
+#    - Runs repository and code linting
+# 2. Build: Package compilation and validation
+#    - Builds all packages
+#    - Validates package exports
+#    - Checks for unused dependencies
+# 3. Test: Triggers solidity-screener.yml for smart contract validation
+#
+# Note: Each job requires proper PNPM setup to access the package manager
 name: Verify
 on:
   workflow_call:
@@ -10,13 +23,23 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     timeout-minutes: 8
-
     steps:
-      - name: Clone repository
-        uses: actions/checkout@v4
+      - name: Restore workspace
+        uses: actions/cache@v3
+        with:
+          path: ./*
+          key: ${{ github.sha }}
 
-      - name: Install dependencies
-        uses: ethereum-tag-service/actions/.github/actions/pnpm@main
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.9.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.1.0
+          cache: 'pnpm'
 
       - name: Lint repo
         run: pnpm lint:repo
@@ -26,21 +49,30 @@ jobs:
 
   build:
     name: Build
-    needs: lint
     runs-on: ubuntu-latest
     timeout-minutes: 5
-
     steps:
-      - name: Clone repository
-        uses: actions/checkout@v4
+      - name: Restore workspace
+        uses: actions/cache@v3
+        with:
+          path: ./*
+          key: ${{ github.sha }}
 
-      - name: Install dependencies
-        uses: ethereum-tag-service/actions/.github/actions/pnpm@main
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.9.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.1.0
+          cache: 'pnpm'
 
       - name: Build
         run: pnpm build
         env:
-          NETWORK: arbitrumSepolia # Any valid network option in hardhat.config.ts should work.
+          NETWORK: arbitrumSepolia
 
       - name: Publint
         run: pnpm test:build
@@ -51,4 +83,6 @@ jobs:
   test:
     name: Smart Contracts
     uses: ./.github/workflows/solidity-screener.yml
+    with:
+      cache-key: ${{ github.sha }}
     secrets: inherit
