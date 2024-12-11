@@ -52,8 +52,8 @@ describe("ETS Auction House Tests", () => {
       const activeAuctions = await contracts.ETSAuctionHouse.getActiveCount();
       const totalAuctions = await contracts.ETSAuctionHouse.getTotalCount();
       assert(maxAuctions === BigInt(1));
-      assert(activeAuctions === 0);
-      assert(totalAuctions === 0);
+      assert(activeAuctions === BigInt(0));
+      assert(totalAuctions === BigInt(0));
     });
 
     it("should revert if a second initialization is attempted", async () => {
@@ -170,8 +170,8 @@ describe("ETS Auction House Tests", () => {
     it("should increment the activeActions and auctionId counter", async () => {
       let activeAuctions = await contracts.ETSAuctionHouse.getActiveCount();
       let totalAuctions = await contracts.ETSAuctionHouse.getTotalCount();
-      assert(activeAuctions === 0);
-      assert(totalAuctions === 0);
+      assert(activeAuctions === BigInt(0));
+      assert(totalAuctions === BigInt(0));
 
       await contracts.ETSAuctionHouse.connect(accounts.ETSPlatform).fulfillRequestCreateAuction(etsOwnedTagId);
 
