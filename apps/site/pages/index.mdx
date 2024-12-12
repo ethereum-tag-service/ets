@@ -1,81 +1,187 @@
 ---
-layout: minimal
-showLogo: false
-showOutline: false
+title: ETS · Universal Tagging System for Ethereum
+content:
+  width: 100%
+layout: landing
 ---
 
+import { HomePage } from 'vocs/components'
 
-<div className="flex items-center justify-center h-screen px-6">
+<div className="absolute max-w-[1120px] mx-auto w-full top-20 bottom-0 max-sm:w-[200%] max-sm:-left-[200px] max-sm:hidden" />
 
-      <main className="max-w-sm py-6 my-auto space-y-6">
-        <div className="flex items-center justify-center mt-10 mb-14">
-          <svg className="w-8 h-8 text-slate-800" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-            <title>ETS Logo</title>
-            <path
-              fill="currentColor"
-              d="M0 50 50 0H0v50zm100 50V50l-50 50h50zM50 0l50 50V0H50zM19.9 84.9c0 2.8-2.2 5-5 5s-5-2.2-5-5 2.2-5 5-5 5 2.3 5 5z"
-            />
-          </svg>
-          <span className="inline-flex ml-2.5 text-xl font-medium text-slate-900">Ethereum Tag Service</span>
+<div className="max-w-[1120px] mx-auto vp-doc relative px-[24px] mb-[96px] mt-[32px] md:px-0 md:mb-[64px]">
+  <div className="pt-[48px] max-sm:pt-0">
+    <div className="max-sm:px-0 flex justify-between z-0 max-md:justify-center">
+      <div className="space-y-8 max-w-[400px] flex flex-col items-start max-md:items-center">
+        <img className="h-[72px] dark:invert-[1] max-sm:h-[60px]" src="/ets-logotype-black.svg" alt="viem logo" />
+        <div className="font-regular text-[21px] max-sm:text-[18px] text-[#919193] max-md:text-center"><span className="text-black dark:text-white">Community-owned tagging infrastructure for the Ethereum Ecosystem and beyond.</span></div>
+        <div className="flex justify-center space-x-2">
+          <HomePage.Button href="/docs/getting-started" variant="accent">Get started</HomePage.Button>
+          <HomePage.Button href="/docs/introduction">Why ETS?</HomePage.Button>
+          <HomePage.Button href="https://github.com/wevm/viem">GitHub</HomePage.Button>
         </div>
-        <h1 className="sr-only">Ethereum Tag Service</h1>
+      </div>
+      <div className="flex flex-col justify-between w-[440px] space-y-10 max-lg:w-[300px] max-md:hidden">
+        <div id="home-install" className="h-full">
 
-        <p className="font-medium">
-          ETS is a permissionless protocol for writing immutable tagging records to an EVM blockchain.
-        </p>
+  :::code-group
 
-        <p>
-          In simpler terms, an ETS tagging record is a record of &ldquo;who tagged what, with what, where, when &amp;
-          why.&rdquo;
-        </p>
+  ```bash [npm]
+  npm install @ethereum-tag-service/sdk-core
+  ```
 
-        <p>
-          Technically, a tagging record is similar to a DNS record, but unlike DNS, ETS allows a name or
-          &ldquo;tag&rdquo; to be used across multiple records. This is possible in part because tags are Non-Fungible
-          Tokens (NFTs), which means that each tag has a unique identification number.
-        </p>
+  ```bash [pnpm]
+  pnpm add @ethereum-tag-service/sdk-core
+  ```
 
-        <p>
-          When a user writes a new tagging record that includes existing tags, the system will reference their unique
-          token IDs. If a new tag is used, the system will create a new token for that tag.
-        </p>
+  ```bash [bun]
+  bun i @ethereum-tag-service/sdk-core
+  ```
 
-        <p>
-          There are no restrictions on the use of tokenized tags, and any client can use any tag at any time.
-          Tokenization is used to track origin attribution and rewards given to participants.
-        </p>
+  :::
 
-        <p>
-          This approach to tagging is unique to ETS and allows for new treatments of tags, including origin attribution,
-          tag ownership, platform-agnostic tag reuse, and tagging cash flows such as sponsorships and rewards.
-        </p>
-
-        <p>
-          All tagging records create a public tag graph that can be queried by any client in any dimension defined by
-          the core ETS tagging record schema.
-        </p>
-
-        <div className="flex justify-center space-x-4 pt-5 pb-20">
-          <a href="https://youtu.be/M7s5fth13uA" target="_blank" rel="noreferrer">
-            <button className="bg-transparent text-sm hover:bg-pink-500 text-pink-700 hover:text-white py-2 px-4 border border-pink-500 hover:border-transparent rounded">
-              Quick Intro
-            </button>
-          </a>
-          <a href="https://app.ets.xyz" target="_blank" rel="noreferrer">
-            <button className="bg-transparent text-sm hover:bg-pink-500 text-pink-700 hover:text-white py-2 px-4 border border-pink-500 hover:border-transparent rounded">
-              Explore
-            </button>
-          </a>
-          <a href="https://github.com/ethereum-tag-service/ets#readme" target="_blank" rel="noreferrer">
-            <button className="bg-transparent text-sm hover:bg-pink-500 text-pink-700 hover:text-white py-2 px-4 border border-pink-500 hover:border-transparent rounded">
-              Github
-            </button>
-          </a>
-          <a href="https://blog.ets.xyz" target="_blank" rel="noreferrer">
-            <button className="bg-transparent text-sm hover:bg-pink-500 text-pink-700 hover:text-white py-2 px-4 border border-pink-500 hover:border-transparent rounded">
-              Blog
-            </button>
-          </a>
-        </div>
-      </main>
     </div>
+
+
+
+    </div>
+    </div>
+    <div className="flex justify-between flex-wrap mt-16 max-sm:hidden">
+      <div className="pr-2 w-1/4 max-lg:pb-3 max-sm:px-0 max-lg:w-1/2 max-sm:w-full z-0">
+        <div className="relative w-full h-[168px] max-lg:h-[142px] overflow-hidden">
+          <div className="border-black dark:border-white border border-solid border-opacity-10 dark:border-opacity-10 rounded-lg h-full px-5 py-6 absolute z-10 flex flex-col justify-between w-full">
+            <div className="text-xl font-medium text-black dark:text-white">Developer Focused</div>
+            <div className="text-[17px] text-[#919193]">Composable Typescript libraries and APIs to build applications with speed</div>
+          </div>
+          <div className="absolute left-0 right-0 top-0 bottom-0 dark:bg-[#313136] opacity-20 z-0" />
+          <div className="absolute left-0 right-0 top-0 bottom-0 backdrop-filter backdrop-blur-[2px] z-0" />
+        </div>
+      </div>
+      <div className="pl-2 pr-2 max-sm:px-0 max-lg:pb-3 max-lg:pr-0 w-1/4 max-lg:w-1/2 max-sm:w-full z-0">
+        <div className="relative w-full h-[168px] max-lg:h-[142px]">
+          <div className="border-black dark:border-white border border-solid border-opacity-10 dark:border-opacity-10 rounded-lg h-full px-5 py-6 absolute z-10 flex flex-col justify-between w-full">
+            <div className="text-xl font-medium text-black dark:text-white">Universal</div>
+            <div>
+            <div className="text-[17px] text-[#919193]">Tags and Tagging Records are composable units shared across the ecosystem</div>
+            </div>
+          </div>
+          <div className="absolute left-0 right-0 top-0 bottom-0 dark:bg-[#313136] opacity-20 z-0" />
+          <div className="absolute left-0 right-0 top-0 bottom-0 backdrop-filter backdrop-blur-[2px] z-0" />
+        </div>
+      </div>
+      <div className="pl-2 pr-2 max-lg:pb-3 max-sm:px-0 max-lg:pl-0 w-1/4 max-lg:w-1/2 max-sm:w-full z-0">
+        <div className="relative w-full h-[168px] max-lg:h-[142px]">
+          <div className="border-black dark:border-white border border-solid border-opacity-10 dark:border-opacity-10 rounded-lg h-full px-5 py-6 absolute z-10 flex flex-col justify-between w-full">
+            <div className="text-xl font-medium text-black dark:text-white">Immutable</div>
+            <div className="text-[17px] text-[#919193]">Provenance and attribution of the tag graph is backed by the blockchain</div>
+          </div>
+          <div className="absolute left-0 right-0 top-0 bottom-0 dark:bg-[#313136] opacity-20 z-0" />
+          <div className="absolute left-0 right-0 top-0 bottom-0 backdrop-filter backdrop-blur-[2px] z-0" />
+        </div>
+      </div>
+      <div className="pl-2 w-1/4 max-sm:px-0 max-lg:w-1/2 max-sm:w-full z-0">
+        <div className="relative w-full h-[168px] max-lg:h-[142px]">
+          <div className="border-black dark:border-white border border-solid border-opacity-10 dark:border-opacity-10 rounded-lg h-full px-5 py-6 absolute z-10 flex flex-col justify-between w-full">
+            <div className="text-xl font-medium text-black dark:text-white">Incentivized</div>
+            <div className="text-[17px] text-[#919193]">Novel crypto-economic design that rewards ecosystem actors</div>
+          </div>
+          <div className="absolute left-0 right-0 top-0 bottom-0 dark:bg-[#313136] opacity-20 z-0" />
+          <div className="absolute left-0 right-0 top-0 bottom-0 backdrop-filter backdrop-blur-[2px] z-0" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<article className="vocs_Content max-w-3xl mt-[-80px] mx-auto">
+
+#
+# Barebones Example
+
+```ts [Create a Tagging Record]
+// 1. Import modules.
+import { createPublicClient, createWalletClient, http } from "viem";
+import { privateKeyToAccount } from "viem/accounts";
+import { arbitrumSepolia } from "viem/chains";
+import { RelayerClient } from "@ethereum-tag-service/sdk-core";
+
+// 2. Initialize Viem clients.
+const account = privateKeyToAccount("0x..."); // Your private key here
+const clients = {
+  public: createPublicClient({ chain: arbitrumSepolia, transport: http() }),
+  wallet: createWalletClient({
+    account,
+    chain: arbitrumSepolia,
+    transport: http(),
+  }),
+};
+
+// 2. Initilize ETS Relayer client.
+const client = new RelayerClient({
+  chainId: arbitrumSepolia.id,
+  publicClient: clients.public,
+  walletClient: clients.wallet,
+  relayerAddress: "0xa01c9cb373c5e29934b92e5afa6a78e3d590340b",
+});
+
+// 3. Create a Tagging Record!
+client
+  .createTaggingRecord(
+    ["#rainbow", "#unicorn", "#og", #uniswap"],
+    "https://uniswap.org",
+    "Demo"
+  )
+  .then((result) => console.log("Tagging record created:", result))
+  .catch((error) => console.error("Error creating tagging record:", error));
+
+// Tagging record created: {
+//  transactionHash: '0x0b36f4d57ff8f2ab6f82e6f1ffc7c9c02ecdc1c5ed8da68c09a79f31b9917e00',
+//  status: 'success',
+//  taggingRecordId: '80903853133999221435814377604232091751415136525898835875800777163543136099110'
+// }
+```
+
+<div className="flex justify-center space-x-4 my-4">
+  <a href="https://stackblitz.com/github/ethereum-tag-service/examples/tree/main/sdk-core/simple_create-tagging-record" target="_blank">
+    <img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" alt="Open in StackBlitz" className="h-8 w-auto object-contain" />
+  </a>
+  <a href="https://github.com/ethereum-tag-service/examples/tree/main/sdk-core/simple_create-tagging-record" target="_blank">
+    <img src="/view-in-github.svg" alt="Open in ETS Github" className="h-8 w-auto object-contain" />
+  </a>
+  <a href="https://app.ets.xyz/explore/tagging-records/80903853133999221435814377604232091751415136525898835875800777163543136099110" target="_blank">
+    <img src="/view-tagging-record.svg" alt="View in ETS Explorer" className="h-8 w-auto object-contain" />
+  </a>
+
+</div>
+
+# Features
+
+ETS is a community-owned tagging infrastructure for the Ethereum Ecosystem and beyond. It provides a set of tools to create, manage, and query tagging records on an EVM blockchain.
+
+## Tagging infrastructure
+- Developer focused architecture with composable modules
+- Typescript SDKs for vanilla javascript and React that leverage [Viem](https://viem.sh/) for interacting with ETS smart contracts
+- Decentralized subgraph API on The Graph
+
+## Community Ownership
+- Tagging records stored on-chain ensuring data tag graph attribution and immutability
+- Tag strings tokenized as [ERC-721](https://ethereum.org/en/glossary/#erc-721) NFTs
+- Per-tag fees for tagging records that is distrubuted to creators, owners and relayers
+- Relayer model for apps to create tagging records and benefit economically
+- Fully on-chain tag auction modeled after [Nouns DAO](https://nouns.wtf/) to ensure fair and limited tag distribution
+
+# Community
+Check out the following places for more ETS-related content:
+
+- Follow [@etsxyz](https://x.com/etsxyz), [@mhpaler](https://x.com/mhpaler), [@viiiiiiiiiiiid](https://x.com/viiiiiiiiiiiid), [@0x_Sero](https://x.com/@0x_Sero), [@0xZach](https://x.com/@0xZach) on X
+- Read and subscribe to the [ETS blog](https://blog.ets.xyz)
+- Join the [discussion on GitHub](https://github.com/orgs/ethereum-tag-service/discussions)
+
+# Support
+
+Help support future development and make ETS a sustainable open-source project:
+
+- [Giveth](https://giveth.io/project/ethereum-tag-service)
+- [ets.eth](https://etherscan.io/enslookup-search?search=ets.eth)
+
+</article>

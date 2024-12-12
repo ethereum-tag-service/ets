@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="175px" height="32px" viewBox="0 0 175 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Small@1x</title>
+    <g id="Small" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect fill="#FFFFFF" x="0" y="0" width="175" height="32"></rect>
+        <rect id="Rectangle" fill="#DB2777" x="0" y="0" width="175" height="32" rx="5"></rect>
+        <g id="ets-symbol-white" transform="translate(7, 6)" fill="#FFFFFF" fill-rule="nonzero">
+            <path d="M0,9.5 L9.5,0 L0,0 L0,9.5 Z M19,19 L19,9.5 L9.5,19 L19,19 Z M9.5,0 L19,9.5 L19,0 L9.5,0 Z M3.781,16.131 C3.781,16.663 3.363,17.081 2.831,17.081 C2.299,17.081 1.881,16.663 1.881,16.131 C1.881,15.599 2.299,15.181 2.831,15.181 C3.363,15.181 3.781,15.618 3.781,16.131 Z" id="Shape"></path>
+        </g>
+        <line x1="32.5" y1="0.5" x2="32.5" y2="31.5" id="Line" stroke="#D12270" stroke-linecap="square"></line>
+        <text id="Open-in-ETS-Explorer" font-family="InterDisplay-Medium, Inter Display" font-size="13" font-weight="400" fill="#FFFFFF">
+            <tspan x="41" y="21">Open in ETS Explorer</tspan>
+        </text>
+    </g>
+</svg>

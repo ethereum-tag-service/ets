@@ -5,11 +5,9 @@
 @tailwind components;
 @tailwind utilities;
 
-.vocs_DocsLayout_gutterTop {
-  display: none;
+:root {
+
 }
 
-.vocs_DocsLayout_content_withTopNav {
-  margin-top: 0;
-  padding-top: 0;
+:root.dark {
 }

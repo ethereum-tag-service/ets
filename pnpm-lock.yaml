@@ -323,6 +323,10 @@ importers:
         version: 5.6.2
 
   apps/site:
+    dependencies:
+      '@ethereum-tag-service/brand':
+        specifier: workspace:*
+        version: link:../../packages/brand
     devDependencies:
       '@types/react':
         specifier: 18.2.12
