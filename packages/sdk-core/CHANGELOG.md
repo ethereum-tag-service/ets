@@ -1,5 +1,16 @@
 # @ethereum-tag-service/sdk-core
 
+## 0.0.11
+
+### Patch Changes
+
+- [#473](https://github.com/ethereum-tag-service/ets/pull/473) [`dd527ea`](https://github.com/ethereum-tag-service/ets/commit/dd527ea061686107510492dcedf7ea2a2555a18c) Thanks [@mhpaler](https://github.com/mhpaler)! - Modify sdks to support local accounts.
+
+- [#473](https://github.com/ethereum-tag-service/ets/pull/473) [`dd527ea`](https://github.com/ethereum-tag-service/ets/commit/dd527ea061686107510492dcedf7ea2a2555a18c) Thanks [@mhpaler](https://github.com/mhpaler)! - Update typescript and viem.
+
+- Updated dependencies [[`dd527ea`](https://github.com/ethereum-tag-service/ets/commit/dd527ea061686107510492dcedf7ea2a2555a18c)]:
+  - @ethereum-tag-service/contracts@0.0.3
+
 ## 0.0.10
 
 ### Patch Changes

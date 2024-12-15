@@ -1,5 +1,11 @@
 # @ethereum-tag-service/subgraph
 
+## 0.0.5
+
+### Patch Changes
+
+- [#473](https://github.com/ethereum-tag-service/ets/pull/473) [`dd527ea`](https://github.com/ethereum-tag-service/ets/commit/dd527ea061686107510492dcedf7ea2a2555a18c) Thanks [@mhpaler](https://github.com/mhpaler)! - Update typescript and viem.
+
 ## 0.0.4
 
 ### Patch Changes

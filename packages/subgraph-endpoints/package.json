@@ -1,7 +1,7 @@
 {
   "name": "@ethereum-tag-service/subgraph-endpoints",
   "author": "Ethereum Tag Service <team@ets.xyz>",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "GraphQL endpoints for ETS on The Graph.",
   "license": "MIT",
   "publishConfig": {

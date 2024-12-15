@@ -1,15 +1,24 @@
 {
   "name": "@ethereum-tag-service/sdk-react-hooks",
   "author": "Ethereum Tag Service <team@ets.xyz>",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "React Hooks for Ethereum Tag Service",
-  "keywords": ["ethereum", "blockchain", "tagging", "sdk", "typescript"],
+  "keywords": [
+    "ethereum",
+    "blockchain",
+    "tagging",
+    "sdk",
+    "typescript"
+  ],
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
   "type": "commonjs",
-  "files": ["dist/**", "src/**"],
+  "files": [
+    "dist/**",
+    "src/**"
+  ],
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",

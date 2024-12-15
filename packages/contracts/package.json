@@ -3,7 +3,7 @@
   "author": "Ethereum Tag Service <team@ets.xyz>",
   "description": "Composable content tagging service for Web3",
   "license": "MIT",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publishConfig": {
     "access": "public"
   },
@@ -13,7 +13,12 @@
     "url": "git+https://github.com/ethereum-tag-service/ets.git",
     "directory": "packages/contracts"
   },
-  "keywords": ["ets", "composable", "nft", "tagging"],
+  "keywords": [
+    "ets",
+    "composable",
+    "nft",
+    "tagging"
+  ],
   "bugs": {
     "url": "https://github.com/orgs/ethereum-tag-service/discussions"
   },
@@ -57,7 +62,10 @@
   "main": "./dist/multiChainConfig.js",
   "module": "./dist/multiChainConfig.mjs",
   "types": "./dist/multiChainConfig.d.ts",
-  "files": ["dist", "src"],
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
     "build": "pnpm build:package",
     "build:contracts": "pnpm compile",
