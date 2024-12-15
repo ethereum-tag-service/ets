@@ -3,6 +3,7 @@ import { pathToTitle } from "@app/utils/titleUtils";
 import Head from "next/head";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { Search } from "./search/Search";
 
 export default function Header() {
   const title = `${pathToTitle()} | Ethereum Tag Service`;
@@ -49,7 +50,7 @@ export default function Header() {
 
         {/* Center aligned element */}
         <div className="flex-grow justify-center hidden lg:flex">
-          <label className="bg-slate-100 hover:border-slate-400 input w-full max-w-xs flex items-center gap-2">
+          <div className="bg-slate-100 hover:border-slate-400 input w-full max-w-xs flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
@@ -63,8 +64,8 @@ export default function Header() {
                 clipRule="evenodd"
               />
             </svg>
-            <input type="text" className="grow" placeholder="Search" />
-          </label>
+            <Search />
+          </div>
         </div>
 
         {/* Right aligned elements */}
