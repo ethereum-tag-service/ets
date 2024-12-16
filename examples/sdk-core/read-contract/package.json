@@ -1,0 +1,15 @@
+{
+  "name": "@ethereum-tag-service/examples-sdk-core-read-contract",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite"
+  },
+  "dependencies": {
+    "@ethereum-tag-service/sdk-core": "^0.0.7"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.4",
+    "vite": "^4.4.5"
+  }
+}

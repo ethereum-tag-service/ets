@@ -1,24 +1,15 @@
 {
   "name": "@ethereum-tag-service/sdk-core",
   "author": "Ethereum Tag Service <team@ets.xyz>",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Core SDK for Ethereum Tag Service",
-  "keywords": [
-    "ethereum",
-    "blockchain",
-    "tagging",
-    "sdk",
-    "typescript"
-  ],
+  "keywords": ["ethereum", "blockchain", "tagging", "sdk", "typescript"],
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
   "type": "commonjs",
-  "files": [
-    "dist/**",
-    "src/**"
-  ],
+  "files": ["dist/**", "src/**"],
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -35,12 +26,12 @@
     "test:build": "publint --strict"
   },
   "dependencies": {
-    "viem": "^2.20.0",
-    "@ethereum-tag-service/contracts": "workspace:*"
+    "@ethereum-tag-service/contracts": "workspace:*",
+    "viem": "^2.21.11"
   },
   "devDependencies": {
     "@types/node": "^20.12.7",
     "tsup": "^8.2.3",
-    "typescript": "^5.4.5"
+    "typescript": "^5.7.2"
   }
 }

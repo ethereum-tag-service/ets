@@ -19,7 +19,7 @@ type ClientConfig = {
 };
 
 function initializeClients(config: ClientConfig) {
-  const { chainId, account, customTransport = true } = config;
+  const { chainId, account } = config;
 
   const chain = chainsMap(chainId);
   if (!chain) {
@@ -27,7 +27,6 @@ function initializeClients(config: ClientConfig) {
   }
 
   let transportUrl = chain.rpcUrls?.default?.http?.[0];
-
   if (typeof process !== "undefined" && process.env.NEXT_PUBLIC_ALCHEMY_KEY && chainId !== 31337) {
     transportUrl = getAlchemyRpcUrlById(chainId.toString(), process.env.NEXT_PUBLIC_ALCHEMY_KEY);
   }
@@ -37,13 +36,16 @@ function initializeClients(config: ClientConfig) {
     transport: http(transportUrl, { batch: true }),
   });
 
-  const walletClient = customTransport
-    ? createWalletClient({
-        chain,
-        account,
-        transport: custom((window as any).ethereum),
-      })
-    : undefined;
+  // If account is a Hex string, it's a JSON-RPC account (window.ethereum)
+  // If account is an Account object, it's a local account
+  const useJsonRpcTransport = typeof account === "string";
+
+  if (useJsonRpcTransport && (typeof window === "undefined" || !(window as any).ethereum)) {
+    throw new Error("[@ethereum-tag-service/sdk-core] Window.ethereum is required for JSON-RPC accounts");
+  }
+
+  const transport = useJsonRpcTransport ? custom((window as any).ethereum) : http(transportUrl);
+  const walletClient = createWalletClient({ chain, account, transport });
 
   return { publicClient, walletClient };
 }

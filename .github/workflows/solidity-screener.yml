@@ -41,7 +41,7 @@ jobs:
         with:
           filters: |
             contracts:
-              - 'packages/contracts/contracts/**'
+              - 'packages/contracts/**'
             tests:
               - 'packages/contracts/**'
 

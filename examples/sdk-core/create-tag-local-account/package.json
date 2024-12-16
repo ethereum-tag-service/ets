@@ -1,0 +1,17 @@
+{
+  "name": "@ethereum-tag-service/examples-sdk-core-create-tag-local-account",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite"
+  },
+  "dependencies": {
+    "@ethereum-tag-service/sdk-core": "workspace:*",
+    "viem": "^2.20.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.0.4",
+    "vite": "^4.4.5"
+  }
+}

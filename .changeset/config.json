@@ -7,5 +7,10 @@
   "access": "restricted",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["@ethereum-tag-service/app", "@ethereum-tag-service/site", "@ethereum-tag-service/oracle"]
+  "ignore": [
+    "@ethereum-tag-service/app",
+    "@ethereum-tag-service/site",
+    "@ethereum-tag-service/oracle",
+    "@ethereum-tag-service/examples-*"
+  ]
 }

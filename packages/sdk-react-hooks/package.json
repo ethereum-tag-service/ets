@@ -1,24 +1,15 @@
 {
   "name": "@ethereum-tag-service/sdk-react-hooks",
   "author": "Ethereum Tag Service <team@ets.xyz>",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "React Hooks for Ethereum Tag Service",
-  "keywords": [
-    "ethereum",
-    "blockchain",
-    "tagging",
-    "sdk",
-    "typescript"
-  ],
+  "keywords": ["ethereum", "blockchain", "tagging", "sdk", "typescript"],
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
   "type": "commonjs",
-  "files": [
-    "dist/**",
-    "src/**"
-  ],
+  "files": ["dist/**", "src/**"],
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -36,7 +27,7 @@
   },
   "peerDependencies": {
     "react": "^17.0.0 || ^18.0.0",
-    "viem": "^2.4.0 || ^2.20.0"
+    "viem": "^2.21.11"
   },
   "peerDependenciesMeta": {
     "viem": {
@@ -50,7 +41,7 @@
     "@types/node": "^20.12.7",
     "@types/react": "18.2.41",
     "tsup": "^8.2.3",
-    "typescript": "^5.4.5",
+    "typescript": "^5.7.2",
     "react": "18.2.0"
   }
 }

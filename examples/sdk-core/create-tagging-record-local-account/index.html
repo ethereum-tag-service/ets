@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ETS Examples: sdk-core create tagging record</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    #app {
+      background-color: white;
+      border-radius: 5px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>ETS Examples: sdk-core create tagging record</h1>
+
+  <h2>Instructions</h2>
+  <ol>
+    <li>Click "Run Demo" to generate a new wallet address</li>
+    <li>Fund that address with a small amount (0.00001) of Arbitrum Sepolia ETH</li>
+    <li>Click "Run Demo" again to create your tagging record</li>
+    <li>View your new tagging record in the ETS Explorer</li>
+  </ol>
+
+  <h2>What is Happening</h2>
+  <p>This demo shows how to create an ETS tagging record programmatically using the SDK core package.</p>
+  <p>When you run the demo:</p>
+  <ol>
+    <li>A local wallet account is generated using Viem's privateKeyToAccount</li>
+    <li>The SDK creates a RelayerClient configured with this local account</li>
+    <li>The RelayerClient calls createTaggingRecord with these parameters:</li>
+  </ol>
+  <pre>
+  const taggingRecord = await relayerClient.createTaggingRecord(
+    ["#rainbow", "#unicorn"],
+    "https://app.uniswap.org",
+    "example"
+  );</pre>
+
+  <button id="runDemoBtn">Run Demo</button>
+
+
+  <div id="app">Click 'Run Demo' to start</div>
+  <script type="module">
+    import { runDemo } from './index.ts';
+
+    async function updateResult() {
+      const { result, link } = await runDemo();
+      const appDiv = document.querySelector('#app');
+
+      appDiv.innerHTML = `<pre>${result}</pre>`;
+      if (link) {
+        appDiv.innerHTML += `<p>View the tagging record: <a href="${link}" target="_blank">${link}</a></p>`;
+      }
+    }
+
+    document.getElementById('runDemoBtn').addEventListener('click', updateResult);
+  </script>
+</body>
+
+</html>
