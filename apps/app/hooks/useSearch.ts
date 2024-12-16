@@ -1,4 +1,4 @@
-import { SearchResult, type SearchResultType } from "@app/types/search";
+import type { SearchResultType } from "@app/types/search";
 import { useMemo } from "react";
 import { useAddressEntities } from "./useAddressEntities";
 import { useCtags } from "./useCtags";
@@ -17,6 +17,7 @@ export function useSearch(searchTerm: string) {
     relayers,
     creators,
     owners,
+    taggers,
     isLoading: isLoadingEntities,
   } = useAddressEntities(isAddress ? searchTerm : null, commonConfig);
 
@@ -36,6 +37,7 @@ export function useSearch(searchTerm: string) {
     return [
       ...(tags?.map((tag) => ({
         type: "tags" as SearchResultType,
+        name: tag.display?.replace(/#/g, "") || "",
         id: tag.id,
         display: tag.display,
         ens: tag.creator.ens,
@@ -58,8 +60,14 @@ export function useSearch(searchTerm: string) {
         display: owner.id,
         ens: owner.ens,
       })) || []),
+      ...(taggers?.map((owner) => ({
+        type: "taggers" as SearchResultType,
+        id: owner.id,
+        display: owner.id,
+        ens: owner.ens,
+      })) || []),
     ];
-  }, [searchTerm, tags, relayers, creators, owners]);
+  }, [searchTerm, tags, relayers, creators, owners, taggers]);
 
   const effectiveEntityLoading = isAddress ? isLoadingEntities : false;
 

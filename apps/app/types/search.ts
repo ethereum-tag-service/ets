@@ -5,6 +5,7 @@ export interface SearchResult {
   id: string;
   display?: string;
   ens?: string | null;
+  name?: string;
 }
 
 export interface TagResult extends SearchResult {
