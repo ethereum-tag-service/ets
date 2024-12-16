@@ -1,5 +1,12 @@
 import { useSearch } from "@app/hooks/useSearch";
-import type { CreatorResult, OwnerResult, RelayerResult, SearchResult, TagResult } from "@app/types/search";
+import type {
+  CreatorResult,
+  OwnerResult,
+  RelayerResult,
+  SearchResult,
+  TagResult,
+  TaggerResult,
+} from "@app/types/search";
 import { type FC, useEffect, useState } from "react";
 import CategorySection from "./CategorySection";
 
@@ -12,6 +19,8 @@ const isOwnerResult = (result: SearchResult): result is OwnerResult => result.ty
 const isCreatorResult = (result: SearchResult): result is CreatorResult => result.type === "creators";
 
 const isRelayerResult = (result: SearchResult): result is RelayerResult => result.type === "relayers";
+
+const isTaggerResult = (result: SearchResult): result is TaggerResult => result.type === "taggers";
 
 export const Search: FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -32,6 +41,7 @@ export const Search: FC = () => {
     owners: results.filter(isOwnerResult),
     creators: results.filter(isCreatorResult),
     relayers: results.filter(isRelayerResult),
+    taggers: results.filter(isTaggerResult),
   };
 
   const showResults = debouncedTerm.length > 0;
@@ -64,6 +74,9 @@ export const Search: FC = () => {
               )}
               {categorizedResults.relayers.length > 0 && (
                 <CategorySection title="Relayers" results={categorizedResults.relayers} />
+              )}
+              {categorizedResults.taggers.length > 0 && (
+                <CategorySection title="Taggers" results={categorizedResults.taggers} />
               )}
             </>
           )}

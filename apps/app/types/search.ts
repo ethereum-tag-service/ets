@@ -1,4 +1,4 @@
-export type SearchResultType = "tags" | "owners" | "creators" | "relayers";
+export type SearchResultType = "tags" | "owners" | "creators" | "relayers" | "taggers";
 
 export interface SearchResult {
   type: SearchResultType;
@@ -22,5 +22,8 @@ export interface CreatorResult extends SearchResult {
 
 export interface RelayerResult extends SearchResult {
   type: "relayers";
-  display?: string;
+}
+
+export interface TaggerResult extends SearchResult {
+  type: "taggers";
 }

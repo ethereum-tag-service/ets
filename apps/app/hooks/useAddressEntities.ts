@@ -1,6 +1,7 @@
 import type { CreatorType } from "@app/types/creator";
 import type { OwnerType } from "@app/types/owners";
 import type { RelayerType } from "@app/types/relayer";
+import type { TaggerType } from "@app/types/tagger";
 import useSWR from "swr";
 import type { SWRConfiguration } from "swr";
 import { useEnsNames } from "./useEnsNames";
@@ -47,6 +48,14 @@ export function useAddressEntities(address: string | null, config: SWRConfigurat
           ownedTagsRemovedFromTaggingRecords
           ownedTagsTaggingFeeRevenue
         }
+        taggers: taggers(where: { id: $address }, first: 1) {
+          id
+          firstSeen
+          taggingRecordsCreated
+          tagsApplied
+          tagsRemoved
+          feesPaid
+        }
       }`,
           { address: address?.toLowerCase() },
         ]
@@ -58,6 +67,7 @@ export function useAddressEntities(address: string | null, config: SWRConfigurat
     ...(data?.relayers || []).flatMap((r: { owner: string; creator: string }) => [r.owner, r.creator]),
     ...(data?.creators || []).map((c: { id: string }) => c.id),
     ...(data?.owners || []).map((o: { id: string }) => o.id),
+    ...(data?.taggers || []).map((t: { id: string }) => t.id),
   ];
 
   const { ensNames } = useEnsNames(allAddresses);
@@ -87,13 +97,19 @@ export function useAddressEntities(address: string | null, config: SWRConfigurat
       ens: ensNames[owner.id] || null,
     })) || [];
 
-  // Only consider it loading if we have an address and are waiting for data
+  const taggersWithEns: TaggerType[] =
+    data?.taggers?.map((tagger: { id: string }) => ({
+      ...tagger,
+      ens: ensNames[tagger.id] || null,
+    })) || [];
+
   const isLoading = address ? !error && !data : false;
 
   return {
     relayers: relayersWithEns,
     creators: creatorsWithEns,
     owners: ownersWithEns,
+    taggers: taggersWithEns,
     isLoading,
     isError: error?.statusText,
   };
