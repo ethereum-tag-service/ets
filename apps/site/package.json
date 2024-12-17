@@ -7,6 +7,9 @@
     "build": "vocs build",
     "preview": "vocs preview"
   },
+  "dependencies": {
+    "@ethereum-tag-service/brand": "workspace:*"
+  },
   "devDependencies": {
     "react": "18.2.0",
     "react-dom": "18.2.0",
