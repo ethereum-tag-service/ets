@@ -17,25 +17,10 @@ function getUpstreamOf(branch: string): string | null {
   }
 }
 
-function getChangedFiles(): string[] {
-  try {
-    return execSync("git diff --cached --name-only", { encoding: "utf-8" })
-      .trim()
-      .split("\n")
-      .filter((file) => file.length > 0);
-  } catch {
-    console.error("❌ Error: Unable to retrieve changed files.");
-    process.exit(1);
-  }
-}
-
 function notifyCheckoutRules(): void {
   console.log(`
 🔔 **IMPORTANT: ETS PR RULES**
-- Changes to files in '/apps/*' must be PR'ed at 'stage'.
-- Changes to files in '/packages/*' must be PR'ed at 'main'.
-
-If you violate these rules, your commits will fail. Please ensure your branch upstream matches these requirements.
+- All changes must be PR'ed to 'stage' branch first
   `);
 }
 
@@ -51,39 +36,25 @@ function setUpstream(branch: string, upstreamBranch: string): void {
 function validateCommitRestrictions(): void {
   const branch = getCurrentBranch();
   const upstream = getUpstreamOf(branch);
-  const changedFiles = getChangedFiles();
 
   if (!upstream) {
     console.error(
       `❌ Error: The branch "${branch}" does not have an upstream set. Please set the upstream before committing.
 To set an upstream branch, use:
 
-  git branch --set-upstream-to <remote-branch>
-
-For example, if "main" is the intended upstream:
-
-  git branch --set-upstream-to origin/main
+  git branch --set-upstream-to origin/stage
       `,
     );
     process.exit(1);
   }
 
-  const errors: string[] = [];
-
-  for (const file of changedFiles) {
-    if (file.startsWith("apps/") && upstream !== "origin/stage") {
-      errors.push(`- File "${file}" in '/apps/*' requires upstream to be 'origin/stage'.`);
-    } else if (file.startsWith("packages/") && upstream !== "origin/main") {
-      errors.push(`- File "${file}" in '/packages/*' requires upstream to be 'origin/main'.`);
-    }
-  }
-
-  if (errors.length > 0) {
+  if (upstream !== "origin/stage") {
     console.error(`
-❌ Commit blocked due to rule violations:
-${errors.join("\n")}
+❌ Commit blocked: All branches must target 'stage' as upstream.
+Current upstream: ${upstream}
 
-Please adjust your branch upstream or commit only valid changes.
+Please adjust your branch upstream:
+  git branch --set-upstream-to origin/stage
     `);
     process.exit(1);
   }
@@ -94,22 +65,7 @@ function handlePostCheckout(): void {
   const upstream = getUpstreamOf(branch);
 
   if (!upstream) {
-    const sourceRef = execSync("git rev-parse --symbolic-full-name @{-1}", { encoding: "utf8" }).trim();
-    const sourceBranch = sourceRef.replace("refs/heads/", "");
-
-    if (sourceBranch === "stage") {
-      setUpstream(branch, "stage");
-    } else if (sourceBranch === "main") {
-      setUpstream(branch, "main");
-    } else {
-      console.warn(`
-⚠️ Warning: The branch "${branch}" does not have an upstream set.
-You will not be able to commit until the upstream is configured.
-To set the upstream manually, use:
-
-  git branch --set-upstream-to origin/<desired-upstream-branch>
-      `);
-    }
+    setUpstream(branch, "stage");
   }
 
   notifyCheckoutRules();

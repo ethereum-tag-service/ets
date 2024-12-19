@@ -27,40 +27,13 @@ jobs:
     name: Validate Branch Rules
     runs-on: ubuntu-latest
     steps:
-      - name: Clone repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Check branch rules
-        id: check-changes
+      - name: Check target branch
+        if: github.base_ref != 'stage' && !(github.base_ref == 'main' && github.head_ref == 'stage')
         run: |
-          CHANGED_FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }})
-
-          echo "Changed files:"
-          echo "$CHANGED_FILES"
-
-          HAS_APP_CHANGES=$(echo "$CHANGED_FILES" | grep '^apps/' || true)
-          HAS_PACKAGE_CHANGES=$(echo "$CHANGED_FILES" | grep '^packages/' || true)
-
-          echo "App changes: '$HAS_APP_CHANGES'"
-          echo "Package changes: '$HAS_PACKAGE_CHANGES'"
-
-          if [[ -n "$HAS_APP_CHANGES" ]] && [[ "${{ github.base_ref }}" != "stage" ]]; then
-            echo "Error: Changes detected in /apps/* directory"
-            echo "Current target branch: ${{ github.base_ref }}"
-            echo "Required target branch: stage"
-            echo "Please update your PR to target the stage branch for all changes to /apps/*"
-            exit 1
-          fi
-
-          if [[ -n "$HAS_PACKAGE_CHANGES" ]] && [[ "${{ github.base_ref }}" != "main" ]]; then
-            echo "Error: Changes detected in /packages/* directory"
-            echo "Current target branch: ${{ github.base_ref }}"
-            echo "Required target branch: main"
-            echo "Please update your PR to target the main branch for all changes to /packages/*"
-            exit 1
-          fi
+          echo "Error: All pull requests must target the 'stage' branch"
+          echo "Current target branch: ${{ github.base_ref }}"
+          echo "Please update your PR to target the stage branch"
+          exit 1
 
   setup:
     name: Setup
