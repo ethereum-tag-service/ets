@@ -2,6 +2,7 @@ import type { SearchResultType } from "@app/types/search";
 import { useMemo } from "react";
 import { useAddressEntities } from "./useAddressEntities";
 import { useCtags } from "./useCtags";
+import { useRelayers } from "./useRelayers";
 
 export function useSearch(searchTerm: string) {
   const isAddress = searchTerm?.startsWith("0x") && searchTerm?.length === 42;
@@ -14,7 +15,7 @@ export function useSearch(searchTerm: string) {
   };
 
   const {
-    relayers,
+    relayers: addressRelayers,
     creators,
     owners,
     taggers,
@@ -31,8 +32,16 @@ export function useSearch(searchTerm: string) {
     config: commonConfig,
   });
 
+  const { relayers: nameRelayers, isLoading: isLoadingNameRelayers } = useRelayers({
+    pageSize: 5,
+    filter: searchTerm && !isAddress ? { name_contains_nocase: searchTerm } : undefined,
+    config: commonConfig,
+  });
+
   const results = useMemo(() => {
     if (!searchTerm) return [];
+
+    const relayerResults = isAddress ? addressRelayers : nameRelayers;
 
     return [
       ...(tags?.map((tag) => ({
@@ -42,7 +51,7 @@ export function useSearch(searchTerm: string) {
         display: tag.display,
         ens: tag.creator.ens,
       })) || []),
-      ...(relayers?.map((relayer) => ({
+      ...(relayerResults?.map((relayer) => ({
         type: "relayers" as SearchResultType,
         id: relayer.id,
         display: relayer.name || relayer.id,
@@ -67,9 +76,9 @@ export function useSearch(searchTerm: string) {
         ens: owner.ens,
       })) || []),
     ];
-  }, [searchTerm, tags, relayers, creators, owners, taggers]);
+  }, [searchTerm, tags, addressRelayers, nameRelayers, creators, owners, taggers, isAddress]);
 
-  const effectiveEntityLoading = isAddress ? isLoadingEntities : false;
+  const effectiveEntityLoading = isAddress ? isLoadingEntities : isLoadingNameRelayers;
 
   return {
     results,

@@ -3,6 +3,7 @@ import type { SearchResult, TagResult } from "@app/types/search";
 import { type FC, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import AddressSection from "./AddressSection";
+import RelayerSection from "./RelayerSection";
 import TagSection from "./TagSection";
 
 const isTagResult = (result: SearchResult): result is TagResult =>
@@ -107,8 +108,9 @@ export const Search: FC = () => {
 
   const { results, isSearching } = useSearch(debouncedTerm);
   const isAddressSearch = debouncedTerm?.startsWith("0x") && debouncedTerm?.length === 42;
-  const addressResults = results.filter((result) => result.type !== "tags");
+  const addressResults = results.filter((result) => result.type !== "tags" && result.type !== "relayers");
   const tagResults = results.filter(isTagResult);
+  const relayerResults = results.filter((result) => result.type === "relayers");
   const hasAnyResults = results.length > 0;
 
   const renderResults = () => (
@@ -129,6 +131,7 @@ export const Search: FC = () => {
       ) : (
         <>
           {tagResults.length > 0 && <TagSection results={tagResults} />}
+          {relayerResults.length > 0 && <RelayerSection results={relayerResults} />}
           {addressResults.length > 0 && isAddressSearch && <AddressSection results={addressResults} />}
         </>
       )}

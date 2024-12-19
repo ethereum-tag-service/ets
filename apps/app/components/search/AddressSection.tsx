@@ -4,15 +4,12 @@ import Link from "next/link";
 import type { FC } from "react";
 
 const RoleBadge: FC<{ role: string; address: string }> = ({ role, address }) => {
-  // Remove trailing 's' and capitalize first letter
   const displayRole = role.charAt(0).toUpperCase() + role.slice(1, -1);
 
-  // Map roles to their respective paths
   const rolePaths: Record<string, string> = {
     creators: `/explore/creators/${address}`,
     owners: `/explore/owners/${address}`,
     taggers: `/explore/taggers/${address}`,
-    relayers: `/explore/relayers/${address}`,
   };
 
   return (
@@ -25,7 +22,9 @@ const RoleBadge: FC<{ role: string; address: string }> = ({ role, address }) => 
 };
 
 const AddressSection: FC<{ results: SearchResult[] }> = ({ results }) => {
-  const addressGroups = results.reduce(
+  const addressResults = results.filter((result) => result.type !== "relayers");
+
+  const addressGroups = addressResults.reduce(
     (groups, result) => {
       if (!groups[result.id]) {
         groups[result.id] = {
