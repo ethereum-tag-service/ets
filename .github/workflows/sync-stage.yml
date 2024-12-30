@@ -28,7 +28,7 @@ jobs:
 
       - name: Sync main to stage
         run: |
-          git fetch origin stage:stage
+          git fetch origin main:main stage:stage
           git checkout stage
           git merge origin/main
           git push origin stage
