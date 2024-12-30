@@ -1,5 +1,11 @@
 # @ethereum-tag-service/contracts
 
+## 0.0.4
+
+### Patch Changes
+
+- [#485](https://github.com/ethereum-tag-service/ets/pull/485) [`f491609`](https://github.com/ethereum-tag-service/ets/commit/f491609cb03e756eb4d5b567f30e1d98f11fc64c) Thanks [@mhpaler](https://github.com/mhpaler)! - Remove /src, include /contracts in package
+
 ## 0.0.3
 
 ### Patch Changes

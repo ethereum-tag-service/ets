@@ -1,5 +1,12 @@
 # @ethereum-tag-service/sdk-core
 
+## 0.0.12
+
+### Patch Changes
+
+- Updated dependencies [[`f491609`](https://github.com/ethereum-tag-service/ets/commit/f491609cb03e756eb4d5b567f30e1d98f11fc64c)]:
+  - @ethereum-tag-service/contracts@0.0.4
+
 ## 0.0.11
 
 ### Patch Changes
