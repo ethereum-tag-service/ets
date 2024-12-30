@@ -1,5 +1,11 @@
 # @ethereum-tag-service/contracts
 
+## 0.0.5
+
+### Patch Changes
+
+- [#491](https://github.com/ethereum-tag-service/ets/pull/491) [`392f4d9`](https://github.com/ethereum-tag-service/ets/commit/392f4d9dca1b7f6d191c6051d20ca8c2ff29f324) Thanks [@mhpaler](https://github.com/mhpaler)! - Update README
+
 ## 0.0.4
 
 ### Patch Changes
