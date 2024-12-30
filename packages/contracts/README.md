@@ -1,42 +1,71 @@
 # Ethereum Tag Service Contracts
 
-Ethereum Tag Service (ETS) is an experimental EVM based content tagging service, aimed at Web3 developers, running in alpha/testnet phase on the Polygon Blockchain.
+Ethereum Tag Service (ETS) is an EVM-based content tagging service running on the Polygon Blockchain. ETS provides composable tagging infrastructure through smart contract interactions.
 
-In ETS, tags, content tagging & tagging data are fully composable units & services. Tagging can be performed via a JavaScript front-end client such as Ethers or Wagmi, or contract-to-contract interaction.
+## Core Features
 
-The quickest way to get started with contract-to-contract interaction is by [getting a Publisher ID](../../docs/get-publisher-id.md) and implementing the [ETSPublisherV1](../contracts/contracts/publishers/interfaces/IETSPublisherV1.sol) interface with it inside your own contract.
+- Fully composable tags and tagging data
+- Contract-to-contract interaction support
+- Publisher and Relayer interfaces for custom implementations
 
-## Quickstart
+## Installation
 
-To install with [**Hardhat**](https://github.com/nomiclabs/hardhat) or [**Truffle**](https://github.com/trufflesuite/truffle) using `npm`:
+With Hardhat or Truffle:
 
-```sh
+```bash
 npm install @ethereum-tag-service/contracts
 ```
 
-or pnpm
+or with pnpm:
 
 ```sh
 pnpm install @ethereum-tag-service/contracts
 ```
 
-## Usage
+## Implementing a Relayer
 
-Import the `ETSPublisherV1` interface and instantiate it with a valid Publisher ID.
+The IETSRelayer interface provides core tagging functionality:
 
 ```solidity
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.10;
 
-import {IETSPublisherV1} from "@ethereum-tag-service/contracts/publishers/interfaces/IETSPublisherV1.sol";
+import {IETSRelayer} from "@ethereum-tag-service/contracts/relayers/interfaces/IETSRelayer.sol";
+
+contract MyRelayer is IETSRelayer {
+    // Implement required interface methods
+}
+```
+
+Key Relayer capabilities:
+
+- Apply, replace, and remove tags
+- Create new tags
+- Compute tagging fees
+- Ownership and pause controls
+
+## Usage Example
+
+This implementation allows your contract to leverage an existing Relayer's functionality to apply tags through the ETS protocol. The msg.value is forwarded to cover any tagging fees.
+
+```solidity
+pragma solidity ^0.8.10;
+
+import {IETSRelayer} from "@ethereum-tag-service/contracts/relayers/interfaces/IETSRelayer.sol";
+import {IETS} from "@ethereum-tag-service/contracts/interfaces/IETS.sol";
 
 contract MyContract {
-    IETSPublisherV1 public etsPublisher =
-        IETSPublisherV1(0xd2499cf4a47a959217efeacefb7edbd524661f59);
+    // Initialize with specific deployed relayer address
+    IETSRelayer public relayer = IETSRelayer(0xd2499cf4a47a959217efeacefb7edbd524661f59);
+
+    // Or set via constructor
+    constructor(address _relayerAddress) {
+        relayer = IETSRelayer(_relayerAddress);
+    }
+
+    function applyTags(IETS.TaggingRecordRawInput[] calldata _rawInput) external payable {
+        // Forward the tagging request to the relayer
+        relayer.applyTags{value: msg.value}(_rawInput);
+    }
 }
 
 ```
-
-> NOTE:
-> You can use any Publisher ID you like (for example we used the ETS Publisher ID `0xd2499cf4a47a959217efeacefb7edbd524661f59`), however, all publisher attribution will go the ID you supply.
->
-> To attribute your application as the publisher, you'll need to [get a Publisher ID](../../docs/get-publisher-id.md) using the ETS Publisher Factory. It's free, so give it a try.

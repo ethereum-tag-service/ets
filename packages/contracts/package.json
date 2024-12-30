@@ -57,7 +57,7 @@
   "main": "./dist/multiChainConfig.js",
   "module": "./dist/multiChainConfig.mjs",
   "types": "./dist/multiChainConfig.d.ts",
-  "files": ["dist", "src"],
+  "files": ["dist", "contracts"],
   "scripts": {
     "build": "pnpm build:package",
     "build:contracts": "pnpm compile",
