@@ -1,3 +1,0 @@
-# ETS Development Stack
-
-Todo...

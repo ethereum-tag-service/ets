@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+  <h1>ETS Examples: GraphQL API Query using fetch()</h1>
+  <div id="app">Loading...(takes a few seconds)</div>
+  <script type="module">
+    import { tags } from './index.ts';
+    const tagsHtml = tags.map(tag => `
+      <div style="margin-bottom: 16px;">
+        <strong>${tag.display}</strong><br/>
+        Created: ${new Date(tag.timestamp * 1000).toLocaleDateString()}<br/>
+        Creator: ${tag.creator.id}<br/>
+        Owner: ${tag.owner.id}
+      </div>
+    `).join('');
+
+    document.querySelector('#app').innerHTML = tagsHtml;
+  </script>
+</body>
+
+</html>

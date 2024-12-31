@@ -1,0 +1,51 @@
+import { Callout } from 'vocs/components';
+
+# ETS API Example Queries
+
+The examples below demonstrate how to use the ETS API to query data from ETS smart contracts.
+
+## CTAGs
+
+<Callout type="tip">
+Copy and paste the following queries into the GraphQL playgrounds provided in the [Overview](/docs/api/intro#api-endpoints) section.
+</Callout>
+
+### Get the last 10 CTAGs
+```graphql
+
+{
+  tags(first: 10, orderBy: timestamp, orderDirection: desc) {
+    display
+    timestamp
+  }
+}
+
+```
+
+### Get the last 10 CTAGs created by a specific address
+```graphql
+
+{
+  tags(
+    first: 10,
+    orderBy: timestamp,
+    orderDirection: desc,
+    where: { creator: "0x0394f2afba072bfb020ba057bcc1e91e39ce05c1" }
+  ) {
+    display
+    timestamp
+  }
+}
+```
+
+### Get the revenue summary for #rainbow
+```graphql
+{
+  tags(where: {machineName: "rainbow"}) {
+    creatorRevenue
+    ownerRevenue
+    relayerRevenue
+    protocolRevenue
+  }
+}
+```

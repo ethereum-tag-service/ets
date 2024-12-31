@@ -9,3 +9,7 @@ Each example has it's own isolated StackBlitz project, so you can see the exampl
 - SDK Core
   - [Simple sdk-core read](./sdk-core/read-contract/README.md)
   - [Create tagging record with local account](./sdk-core/create-tagging-record-local-account/README.md)
+
+- API
+  - [Fetch](./api/fetch/README.md)
+  - [Apollo Client](./api/apollo-client/README.md)

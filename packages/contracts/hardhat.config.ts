@@ -2,6 +2,7 @@
 import type { HardhatUserConfig } from "hardhat/types";
 import "hardhat-deploy";
 import "solidity-docgen";
+import "@solarity/hardhat-markup";
 import "hardhat-abi-exporter";
 import "@nomiclabs/hardhat-web3";
 import "@nomicfoundation/hardhat-toolbox";
@@ -80,9 +81,16 @@ const config: HardhatUserConfig = {
       baseSepolia: process.env.BASESCAN_API_KEY ? process.env.BASESCAN_API_KEY : "",
     },
   },
+  markup: {
+    outdir: "./docs",
+    onlyFiles: [],
+    skipFiles: ["./contracts/openzeppelin", "./contracts/mocks", "./contracts/test", "./contracts/utils"],
+    noCompile: false,
+    verbose: false,
+  },
   docgen: {
     outputDir: "docs",
-    pages: "files",
+    pages: "items",
     templates: "./templates",
     exclude: ["mocks", "test", "utils"],
   },

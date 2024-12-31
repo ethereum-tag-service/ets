@@ -1,0 +1,139 @@
+import { Callout } from 'vocs/components';
+
+# The ETS API [Learn how to rapidly query the ETS tag graph]
+
+The **ETS API** is a [GraphQL](https://graphql.org/) interface built on [The Graph protocol](https://thegraph.com/) that indexes and provides structured access to all ETS protocol data. It enables developers to efficiently query historical and real-time data from ETS smart contracts across supported networks.
+
+## API Endpoints
+The links below provide ETS API endpoints as well as playgrounds for testing queries for different networks:
+
+Network | URL
+--- | ---
+Arbitrum&nbsp;Sepolia | https://api.studio.thegraph.com/query/87165/ets-arbitrum-sepolia/version/latest
+Base Sepolia | https://api.studio.thegraph.com/query/87165/ets-base-sepolia/version/latest
+localhost | http://localhost:8000/subgraphs/name/ets-local
+
+<Callout type="tip">Easily access the most up-to-date subgraph endpoints in your app with the [`@ethereum-tag-service/subgraph-endpoints`](/docs/api/subgraph-endpoints/installation) package.</Callout>
+
+## Usage (GraphQL Clients)
+
+<Callout type="tip">
+Visit the [examples section](https://github.com/ethereum-tag-service/ets/tree/main/examples) of our repository for practical demonstrations of the ETS API.
+</Callout>
+
+:::code-group
+
+  ```typescript [Fetch]
+import { getSubgraphEndpoint } from "@ethereum-tag-service/subgraph-endpoints";
+
+// Arbitrum Sepolia testnet
+const endpoint = getSubgraphEndpoint(421614);
+
+const graphqlQuery = {
+  query: `
+    query tags(
+      $first: Int!,
+      $skip: Int!,
+      $orderBy: Tag_orderBy!,
+      $orderDirection: OrderDirection
+    ) {
+      tags(
+        first: $first
+        skip: $skip
+        orderBy: $orderBy
+        orderDirection: $orderDirection
+      ) {
+        id
+        display
+        machineName
+        timestamp
+        creator {
+          id
+        }
+        owner {
+          id
+        }
+      }
+    }
+  `,
+  variables: {
+    first: 5,
+    skip: 0,
+    orderBy: "timestamp",
+    orderDirection: "desc",
+  },
+};
+
+const response = await fetch(endpoint, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify(graphqlQuery),
+});
+
+const { data } = await response.json();
+console.log(data);
+
+  ```
+
+  ```typescript [Apollo Client]
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { getSubgraphEndpoint } from "@ethereum-tag-service/subgraph-endpoints";
+
+// Arbitrum Sepolia testnet
+const endpoint = getSubgraphEndpoint(421614);
+
+// Initialize Apollo Client
+const client = new ApolloClient({
+  uri: endpoint,
+  cache: new InMemoryCache(),
+});
+
+// Query for tags
+const TAGS_QUERY = gql`
+  query tags(
+    $first: Int!,
+    $skip: Int!,
+    $orderBy: Tag_orderBy!,
+    $orderDirection: OrderDirection
+  ) {
+    tags(
+      first: $first
+      skip: $skip
+      orderBy: $orderBy
+      orderDirection: $orderDirection
+    ) {
+      id
+      display
+      machineName
+      timestamp
+      creator {
+        id
+      }
+      owner {
+        id
+      }
+    }
+  }
+`;
+
+// Fetch tags
+const { data } = await client.query({
+  query: TAGS_QUERY,
+  variables: {
+    first: 5,
+    skip: 0,
+    orderBy: "timestamp",
+    orderDirection: "desc",
+  },
+});
+
+console.log(data);
+  ```
+
+  :::
+
+## Developing the API
+If you're interested in developing the ETS API, check out the [ETS API repository](https://github.com/ethereum-tag-service/api) for more information.
+

@@ -1,0 +1,15 @@
+{
+  "name": "@ethereum-tag-service/examples-api-fetch",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite"
+  },
+  "dependencies": {
+    "@ethereum-tag-service/subgraph-endpoints": "^0.0.5"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.4",
+    "vite": "^4.4.5"
+  }
+}

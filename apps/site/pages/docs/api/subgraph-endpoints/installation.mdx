@@ -1,0 +1,29 @@
+import { Callout } from 'vocs/components';
+
+# @ethereum-tag-service/subgraph-endpoints
+
+The subgraph-endpoints package provides a mapping system for ETS API endpoints across different networks. It handles the resolution of chain IDs to their corresponding API endpoints.
+
+## Installation
+
+  :::code-group
+
+  ```bash [npm]
+  npm install @ethereum-tag-service/subgraph-endpoints
+  ```
+
+  ```bash [pnpm]
+  pnpm add @ethereum-tag-service/subgraph-endpoints
+  ```
+
+  ```bash [bun]
+  bun i @ethereum-tag-service/subgraph-endpoints
+  ```
+
+  :::
+
+## Functions
+- [`getSubgraphEndpoint(chainId: number): string`](/docs/api/subgraph-endpoints/getSubgraphEndpoint)
+Returns the subgraph endpoint for the given chain ID.
+- [`subgraphEndpoints`](/docs/api/subgraph-endpoints/subgraphEndpoints)
+A constant object containing the mapping of chain IDs to their corresponding subgraph endpoints.
