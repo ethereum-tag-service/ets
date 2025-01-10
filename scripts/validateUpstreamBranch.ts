@@ -35,6 +35,12 @@ function setUpstream(branch: string, upstreamBranch: string): void {
 
 function validateCommitRestrictions(): void {
   const branch = getCurrentBranch();
+
+  // Skip validation for changeset release branch
+  if (branch === "changeset-release/main") {
+    return;
+  }
+
   const upstream = getUpstreamOf(branch);
 
   if (!upstream) {

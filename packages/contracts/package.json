@@ -3,7 +3,7 @@
   "author": "Ethereum Tag Service <team@ets.xyz>",
   "description": "Composable content tagging service for Web3",
   "license": "MIT",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "publishConfig": {
     "access": "public"
   },
@@ -57,7 +57,7 @@
   "main": "./dist/multiChainConfig.js",
   "module": "./dist/multiChainConfig.mjs",
   "types": "./dist/multiChainConfig.d.ts",
-  "files": ["dist", "src"],
+  "files": ["dist", "contracts"],
   "scripts": {
     "build": "pnpm build:package",
     "build:contracts": "pnpm compile",
