@@ -49,7 +49,7 @@ export default function Header() {
         </div>
 
         {/* Center aligned element */}
-        <div className="flex-grow justify-center hidden lg:flex">
+        <div className="flex flex-grow justify-center">
           <div className="w-full max-w-xs flex items-center gap-2">
             <Search />
           </div>

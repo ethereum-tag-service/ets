@@ -3,18 +3,23 @@ import type { SearchResult, TagResult } from "@app/types/search";
 import { type FC, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import AddressSection from "./AddressSection";
+import { MobileSearchModal } from "./MobileSearchModal";
 import RelayerSection from "./RelayerSection";
 import TagSection from "./TagSection";
 
 const isTagResult = (result: SearchResult): result is TagResult =>
   result.type === "tags" && typeof result.display === "string";
 
-const SearchIcon = () => (
+const SearchIcon = ({
+  size = 4,
+}: {
+  size?: number;
+}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 16 16"
     fill="currentColor"
-    className="h-4 w-4 text-slate-400"
+    className={`w-${size} h-${size}`}
     aria-hidden="true"
   >
     <path
@@ -29,6 +34,8 @@ export const Search: FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedTerm, setDebouncedTerm] = useState("");
   const [showResults, setShowResults] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [portalElement, setPortalElement] = useState<HTMLElement | null>(null);
@@ -37,6 +44,16 @@ export const Search: FC = () => {
     left: 0,
     width: 0,
   });
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   useEffect(() => {
     const element =
@@ -137,6 +154,23 @@ export const Search: FC = () => {
       )}
     </div>
   );
+
+  if (isMobile) {
+    return (
+      <>
+        <div className="flex justify-end w-full">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="btn btn-ghost btn-circle ml-auto"
+            aria-label="Open search"
+          >
+            <SearchIcon size={6} />
+          </button>
+        </div>
+        <MobileSearchModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      </>
+    );
+  }
 
   return (
     <div ref={searchRef} className="relative w-full">
