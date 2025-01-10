@@ -11,52 +11,22 @@ export function useAddressEntities(address: string | null, config: SWRConfigurat
     address
       ? [
           `query searchAddress($address: String!) {
-        relayers: relayers(where: { id: $address }, first: 1) {
-          id
-          name
-          firstSeen
-          creator
-          owner
-          pausedByOwner
-          lockedByProtocol
-          publishedTagsAddedToTaggingRecords
-          publishedTagsAuctioned
-          publishedTagsAuctionRevenue
-          publishedTagsRemovedFromTaggingRecords
-          publishedTagsTaggingFeeRevenue
-          taggingRecordTxns
-          taggingRecordsPublished
-          tagsApplied
-          tagsPublished
-          tagsRemoved
-        }
-        creators: creators(where: { id: $address }, first: 1) {
-          id
-          firstSeen
-          tagsCreated
-          createdTagsAddedToTaggingRecords
-          createdTagsRemovedFromTaggingRecords
-          createdTagsAuctionRevenue
-          createdTagsTaggingFeeRevenue
-        }
-        owners: owners(where: { id: $address }, first: 1) {
-          id
-          firstSeen
-          tagsOwned
-          tagsOwnedLifeTime
-          ownedTagsAddedToTaggingRecords
-          ownedTagsRemovedFromTaggingRecords
-          ownedTagsTaggingFeeRevenue
-        }
-        taggers: taggers(where: { id: $address }, first: 1) {
-          id
-          firstSeen
-          taggingRecordsCreated
-          tagsApplied
-          tagsRemoved
-          feesPaid
-        }
-      }`,
+            relayers: relayers(where: { id: $address }, first: 1) {
+              id
+              name
+              creator
+              owner
+            }
+            creators: creators(where: { id: $address }, first: 1) {
+              id
+            }
+            owners: owners(where: { id: $address }, first: 1) {
+              id
+            }
+            taggers: taggers(where: { id: $address }, first: 1) {
+              id
+            }
+          }`,
           { address: address?.toLowerCase() },
         ]
       : null,

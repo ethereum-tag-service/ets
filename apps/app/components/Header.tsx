@@ -1,9 +1,9 @@
 import { ConnectButtonETS } from "@app/components/ConnectButtonETS";
+import { Search } from "@app/components/search/Search";
 import { pathToTitle } from "@app/utils/titleUtils";
 import Head from "next/head";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Search } from "./search/Search";
 
 export default function Header() {
   const title = `${pathToTitle()} | Ethereum Tag Service`;
@@ -50,7 +50,7 @@ export default function Header() {
 
         {/* Center aligned element */}
         <div className="flex flex-grow justify-center">
-          <div className="w-full max-w-xs flex items-center gap-2">
+          <div className="w-full max-w-sm flex items-center gap-2">
             <Search />
           </div>
         </div>

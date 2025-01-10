@@ -181,7 +181,7 @@ export const Search: FC = () => {
         <input
           type="text"
           className="w-full pl-10 pr-4 py-2 rounded-lg bg-slate-100 border-transparent focus:border-slate-300 focus:bg-white focus:ring-2 focus:ring-slate-400 transition-colors"
-          placeholder="Search by address or name..."
+          placeholder="Search by tag or address..."
           value={searchTerm}
           onChange={(e) => {
             setSearchTerm(e.target.value);

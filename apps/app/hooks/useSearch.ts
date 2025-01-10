@@ -1,8 +1,8 @@
+import { useAddressEntities } from "@app/hooks/useAddressEntities";
+import { useCtags } from "@app/hooks/useCtags";
+import { useRelayers } from "@app/hooks/useRelayers";
 import type { SearchResultType } from "@app/types/search";
 import { useMemo } from "react";
-import { useAddressEntities } from "./useAddressEntities";
-import { useCtags } from "./useCtags";
-import { useRelayers } from "./useRelayers";
 
 export function useSearch(searchTerm: string) {
   const isAddress = searchTerm?.startsWith("0x") && searchTerm?.length === 42;
