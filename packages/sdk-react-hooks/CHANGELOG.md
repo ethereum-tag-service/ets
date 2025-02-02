@@ -1,5 +1,12 @@
 # @ethereum-tag-service/sdk-react-hooks
 
+## 0.0.14
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @ethereum-tag-service/sdk-core@0.0.14
+
 ## 0.0.13
 
 ### Patch Changes
