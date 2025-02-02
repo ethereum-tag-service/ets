@@ -6,7 +6,7 @@
     "dev": "vite"
   },
   "dependencies": {
-    "@ethereum-tag-service/subgraph-endpoints": "^0.0.5"
+    "@ethereum-tag-service/subgraph-endpoints": "latest"
   },
   "devDependencies": {
     "typescript": "^5.0.4",

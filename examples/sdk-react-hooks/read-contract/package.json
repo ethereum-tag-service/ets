@@ -1,13 +1,13 @@
 {
   "name": "read-contract",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite"
   },
   "dependencies": {
-    "@ethereum-tag-service/sdk-react-hooks": "^0.0.13",
+    "@ethereum-tag-service/sdk-react-hooks": "latest",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

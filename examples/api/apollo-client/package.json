@@ -8,7 +8,7 @@
   "dependencies": {
     "@apollo/client": "^3.8.0",
     "graphql": "^16.8.0",
-    "@ethereum-tag-service/subgraph-endpoints": "^0.0.5"
+    "@ethereum-tag-service/subgraph-endpoints": "latest"
   },
   "devDependencies": {
     "typescript": "^5.0.4",

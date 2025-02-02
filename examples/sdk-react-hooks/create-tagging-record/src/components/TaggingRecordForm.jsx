@@ -114,7 +114,7 @@ function TaggingRecordForm() {
         <p>
           Your tagging record will be soon viewable at this link:{" "}
           <a
-            href={`https://stage.app.ets.xyz/explore/tagging-records/${createdRecordId}`}
+            href={`https://arbitrumsepolia.app.ets.xyz/explore/tagging-records/${createdRecordId}`}
             target="_blank"
             rel="noopener noreferrer"
           >

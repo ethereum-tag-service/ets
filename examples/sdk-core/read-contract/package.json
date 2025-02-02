@@ -6,7 +6,7 @@
     "dev": "vite"
   },
   "dependencies": {
-    "@ethereum-tag-service/sdk-core": "^0.0.13"
+    "@ethereum-tag-service/sdk-core": "latest"
   },
   "devDependencies": {
     "typescript": "^5.0.4",

@@ -16,6 +16,7 @@ function App() {
     <div>
       <h1>ETS Tag Checker</h1>
       <button onClick={checkTags}>Check Tags</button>
+      <p>Check the developer console for the results.</p>
     </div>
   );
 }

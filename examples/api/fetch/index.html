@@ -10,17 +10,19 @@
   <h1>ETS Examples: GraphQL API Query using fetch()</h1>
   <div id="app">Loading...(takes a few seconds)</div>
   <script type="module">
-    import { tags } from './index.ts';
-    const tagsHtml = tags.map(tag => `
-      <div style="margin-bottom: 16px;">
-        <strong>${tag.display}</strong><br/>
-        Created: ${new Date(tag.timestamp * 1000).toLocaleDateString()}<br/>
-        Creator: ${tag.creator.id}<br/>
-        Owner: ${tag.owner.id}
-      </div>
-    `).join('');
+    import { taggingInfo } from './index.ts';
 
-    document.querySelector('#app').innerHTML = tagsHtml;
+    const content = `
+      <h2>Tags in tagging record ID: ${taggingInfo.recordId}</h2>
+      ${taggingInfo.tags.map(tag => `
+        <div style="margin-bottom: 16px;">
+          <strong>${tag.display}</strong><br/>
+          Machine Name: ${tag.machineName}
+        </div>
+      `).join('')}
+    `;
+
+    document.querySelector('#app').innerHTML = content;
   </script>
 </body>
 

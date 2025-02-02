@@ -124,7 +124,7 @@ function CreateTagForm() {
             {createdTags.map((tag, index) => (
               <li key={index}>
                 <a
-                  href={`https://stage.app.ets.xyz/explore/tags/${tag.text.slice(1)}`}
+                  href={`https://arbitrumsepolia.app.ets.xyz/explore/tags/${tag.text.slice(1)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

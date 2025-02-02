@@ -1,3 +1,4 @@
+import { getSubgraphEndpoint } from "@ethereum-tag-service/subgraph-endpoints";
 import { QueryClient } from "@tanstack/react-query";
 import { http, createConfig } from "wagmi";
 import { arbitrumSepolia } from "wagmi/chains";
@@ -10,5 +11,5 @@ export const wagmiConfig = createConfig({
 });
 
 export const queryClient = new QueryClient();
-
-export const graphqlEndpoint = "https://api.studio.thegraph.com/query/71717/ets-testnet-stage/v0.0.2";
+// Get the correct endpoint for Arbitrum Sepolia testnet
+export const graphqlEndpoint = getSubgraphEndpoint(421614);
