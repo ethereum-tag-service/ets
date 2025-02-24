@@ -1,5 +1,14 @@
 # @ethereum-tag-service/sdk-core
 
+## 0.0.15
+
+### Patch Changes
+
+- [#508](https://github.com/ethereum-tag-service/ets/pull/508) [`f896c72`](https://github.com/ethereum-tag-service/ets/commit/f896c72eb60e3df072829a20f732fb1c0ed2bf0e) Thanks [@mhpaler](https://github.com/mhpaler)! - Update contracts to support cross-relayer tagging record editing. Update subgraph and sdk-core to align.
+
+- Updated dependencies [[`f896c72`](https://github.com/ethereum-tag-service/ets/commit/f896c72eb60e3df072829a20f732fb1c0ed2bf0e), [`f896c72`](https://github.com/ethereum-tag-service/ets/commit/f896c72eb60e3df072829a20f732fb1c0ed2bf0e)]:
+  - @ethereum-tag-service/contracts@0.0.7
+
 ## 0.0.14
 
 ### Patch Changes

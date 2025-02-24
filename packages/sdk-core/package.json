@@ -1,7 +1,7 @@
 {
   "name": "@ethereum-tag-service/sdk-core",
   "author": "Ethereum Tag Service <team@ets.xyz>",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "Core SDK for Ethereum Tag Service",
   "keywords": ["ethereum", "blockchain", "tagging", "sdk", "typescript"],
   "license": "MIT",

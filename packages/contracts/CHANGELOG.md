@@ -1,5 +1,13 @@
 # @ethereum-tag-service/contracts
 
+## 0.0.7
+
+### Patch Changes
+
+- [#508](https://github.com/ethereum-tag-service/ets/pull/508) [`f896c72`](https://github.com/ethereum-tag-service/ets/commit/f896c72eb60e3df072829a20f732fb1c0ed2bf0e) Thanks [@mhpaler](https://github.com/mhpaler)! - Add onlyRelayer Modifier to applyTagsWithRawInput() for Early Validation. Add VERSION constant to upgradeable contracts.
+
+- [#508](https://github.com/ethereum-tag-service/ets/pull/508) [`f896c72`](https://github.com/ethereum-tag-service/ets/commit/f896c72eb60e3df072829a20f732fb1c0ed2bf0e) Thanks [@mhpaler](https://github.com/mhpaler)! - Update contracts to support cross-relayer tagging record editing. Update subgraph and sdk-core to align.
+
 ## 0.0.6
 
 ### Patch Changes
