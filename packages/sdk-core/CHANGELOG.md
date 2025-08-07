@@ -1,5 +1,40 @@
 # @ethereum-tag-service/sdk-core
 
+## 1.0.0
+
+### Major Changes
+
+- [#523](https://github.com/ethereum-tag-service/ets/pull/523) [`daf499b`](https://github.com/ethereum-tag-service/ets/commit/daf499b6ed9378e3c313a7d6c9ad389e0eaada89) Thanks [@mhpaler](https://github.com/mhpaler)! - BREAKING: Refactor ETS to Base-only architecture
+
+  This release removes all Arbitrum support and refactors ETS to run exclusively on Base blockchain. This is a breaking change for all applications using ETS on Arbitrum.
+
+  **Breaking Changes:**
+  - Removed all Arbitrum Sepolia (chainId: 421614) contract deployments and configurations
+  - Removed Arbitrum network support from multichain configuration
+  - Removed arbitrumSepolia subgraph endpoints
+  - SDK clients now only support Base Sepolia (chainId: 84532) and localhost (chainId: 31337)
+  - Environment-aware contract address resolution now properly supports localhost development
+
+  **Migration Guide:**
+  - Update all chainId references from 421614 (Arbitrum Sepolia) to 84532 (Base Sepolia)
+  - Update wagmi chain imports from `arbitrumSepolia` to `baseSepolia`
+  - Update subgraph endpoint calls to use Base Sepolia instead of Arbitrum
+  - Update testnet ETH faucet links to Base Sepolia faucets
+  - No code changes needed for environment-aware deployments (staging/production)
+
+  **Technical Improvements:**
+  - Fixed localhost contract address resolution for development environments
+  - Simplified architecture with single blockchain support
+  - Updated Wagmi CLI plugin to generate backward-compatible contract addresses
+  - Preserved environment-specific contract resolution (staging/production)
+
+### Patch Changes
+
+- [#523](https://github.com/ethereum-tag-service/ets/pull/523) [`daf499b`](https://github.com/ethereum-tag-service/ets/commit/daf499b6ed9378e3c313a7d6c9ad389e0eaada89) Thanks [@mhpaler](https://github.com/mhpaler)! - Scaffold API3 Airnode integration with environment-specific contract deployments and parametrized oracle setup
+
+- Updated dependencies [[`daf499b`](https://github.com/ethereum-tag-service/ets/commit/daf499b6ed9378e3c313a7d6c9ad389e0eaada89), [`daf499b`](https://github.com/ethereum-tag-service/ets/commit/daf499b6ed9378e3c313a7d6c9ad389e0eaada89)]:
+  - @ethereum-tag-service/contracts@1.0.0
+
 ## 0.0.15
 
 ### Patch Changes
@@ -85,7 +120,6 @@
   development while maintaining Alchemy RPC usage for testnet and mainnet environments.
 
   @ethereum-tag-service/subgraph feat(subgraph): upgrade and optimize subgraph implementation
-
   - Upgrade specVersion to 0.0.4 and enable nonFatalErrors
   - Improve address comparison using equals() instead of string conversion
   - Update docker compose syntax for newer versions
